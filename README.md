@@ -1,24 +1,24 @@
 # Go Springfield Bank
 
 ## TODO
-1. [x] create account use case
-1. [ ] move http handlers from cmd/main to pkg
-1. [ ] logs
-1. [ ] sql repository
-1. [ ] unit test
-1. [ ] integration test
-1. [ ] error handling
-1. [ ] config/env
-1. [ ] docker
-1. [ ] README
-1. [ ] swagger/openapi
-1. [ ] fetch accounts use case
-1. [ ] login use case (jwt)
-1. [ ] create transfer use case
-1. [ ] fetch transfers use case
+- [x] create account use case
+- [x] move http handlers from cmd/main to pkg
+- [ ] logs
+- [ ] sql repository
+- [ ] unit test
+- [ ] integration test
+- [ ] error handling
+- [ ] config/env
+- [ ] docker
+- [ ] README
+- [ ] swagger/openapi
+- [ ] fetch accounts use case
+- [ ] login use case (jwt)
+- [ ] create transfer use case
+- [ ] fetch transfers use case
 
 ## References
-### Standard Go Project Layout
+### Project layout
 - https://github.com/golang-standards/project-layout
 
 ### Architecture
@@ -31,4 +31,7 @@
 
 ### Best practices and tips
 - https://github.com/golang/go/wiki/CodeReviewComments
-  https://github.com/uber-go/guide/blob/master/style.md
+- https://github.com/uber-go/guide/blob/master/style.md
+
+### Git
+- https://www.conventionalcommits.org/en/v1.0.0/
