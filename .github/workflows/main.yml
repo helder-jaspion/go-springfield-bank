@@ -20,4 +20,12 @@ jobs:
       run: go build -v ./...
 
     - name: Test
-      run: go test -v ./...
+      run: go test -v ./... -coverprofile=coverage.txt -covermode=atomic
+
+    - name: Upload coverage report
+      uses: codecov/codecov-action@v1.0.2
+      with:
+        token: 858ecab4-91ce-423b-a372-f6752e3e74d2
+        file: ./coverage.txt
+        flags: unittests
+        name: codecov-umbrella
