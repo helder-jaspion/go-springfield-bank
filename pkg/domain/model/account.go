@@ -13,7 +13,7 @@ type Account struct {
 	Name      string
 	CPF       string
 	Secret    string
-	Balance   int64
+	Balance   Money
 	CreatedAt time.Time
 }
 
@@ -24,7 +24,7 @@ func NewAccount(name string, cpf string, secret string, balance float64) *Accoun
 		Name:      strings.TrimSpace(name),
 		CPF:       cpf,
 		Secret:    secret,
-		Balance:   int64(balance * 100),
+		Balance:   Float64ToMoney(balance),
 		CreatedAt: time.Now(),
 	}
 }

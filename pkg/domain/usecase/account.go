@@ -18,9 +18,18 @@ type AccountCreateInput struct {
 	Balance float64 `json:"balance"`
 }
 
+// AccountCreateOutput represents the output data of the create method.
+type AccountCreateOutput struct {
+	ID        string    `json:"id"`
+	Name      string    `json:"name"`
+	CPF       string    `json:"cpf"`
+	Balance   float64   `json:"balance"`
+	CreatedAt time.Time `json:"created_at"`
+}
+
 // AccountUseCase is the interface that wraps all business logic methods related to accounts.
 type AccountUseCase interface {
-	Create(ctx context.Context, accountInput AccountCreateInput) (*model.Account, error)
+	Create(ctx context.Context, accountInput AccountCreateInput) (*AccountCreateOutput, error)
 }
 
 type accountUseCase struct {
@@ -35,7 +44,7 @@ func NewAccountUseCase(accountRepo repository.AccountRepository) AccountUseCase 
 }
 
 // Create receives an AccountCreateInput, validates and save it sending to the repository.AccountRepository.
-func (accountUC accountUseCase) Create(ctx context.Context, accountInput AccountCreateInput) (*model.Account, error) {
+func (accountUC accountUseCase) Create(ctx context.Context, accountInput AccountCreateInput) (*AccountCreateOutput, error) {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
@@ -68,5 +77,15 @@ func (accountUC accountUseCase) Create(ctx context.Context, accountInput Account
 		return nil, err
 	}
 
-	return account, nil
+	return newAccountCreateOutput(account), nil
+}
+
+func newAccountCreateOutput(account *model.Account) *AccountCreateOutput {
+	return &AccountCreateOutput{
+		ID:        account.ID,
+		Name:      account.Name,
+		CPF:       account.CPF,
+		Balance:   account.Balance.Float64(),
+		CreatedAt: account.CreatedAt,
+	}
 }

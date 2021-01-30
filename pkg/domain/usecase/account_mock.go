@@ -2,17 +2,16 @@ package usecase
 
 import (
 	"context"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 )
 
 // AccountUseCaseMock mocks an AccountUseCase
 type AccountUseCaseMock struct {
-	OnCreate func(ctx context.Context, accountInput AccountCreateInput) (*model.Account, error)
+	OnCreate func(ctx context.Context, accountInput AccountCreateInput) (*AccountCreateOutput, error)
 }
 
 var _ AccountUseCase = (*AccountUseCaseMock)(nil)
 
 // Create returns the result of OnCreate
-func (m AccountUseCaseMock) Create(ctx context.Context, accountInput AccountCreateInput) (*model.Account, error) {
+func (m AccountUseCaseMock) Create(ctx context.Context, accountInput AccountCreateInput) (*AccountCreateOutput, error) {
 	return m.OnCreate(ctx, accountInput)
 }

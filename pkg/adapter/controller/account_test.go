@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"errors"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
 	"github.com/kinbiko/jsonassert"
 	"net/http"
@@ -37,8 +36,8 @@ func Test_accountController_Create(t *testing.T) {
 			name: "successful minimum input",
 			fields: fields{
 				accountUC: usecase.AccountUseCaseMock{
-					OnCreate: func(ctx context.Context, accountInput usecase.AccountCreateInput) (*model.Account, error) {
-						ret := model.Account{
+					OnCreate: func(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error) {
+						ret := usecase.AccountCreateOutput{
 							ID:        "uuid-1",
 							Name:      "Bart Simpson",
 							CPF:       "123.456.789-11",
@@ -53,7 +52,7 @@ func Test_accountController_Create(t *testing.T) {
 			args: args{
 				w: httptest.NewRecorder(),
 				r: func() *http.Request {
-					return httptest.NewRequest(http.MethodPost, "/accounts", bytes.NewReader([]byte(`{"name":"Bart Simpson", "cpf":"12345611"}`)))
+					return httptest.NewRequest(http.MethodPost, "/accounts", bytes.NewReader([]byte(`{"name":"Bart Simpson", "cpf":"12345611", "secret":"secret"}`)))
 				}(),
 			},
 			wantStatus: 201,
@@ -63,12 +62,12 @@ func Test_accountController_Create(t *testing.T) {
 			name: "successful maximum input",
 			fields: fields{
 				accountUC: usecase.AccountUseCaseMock{
-					OnCreate: func(ctx context.Context, accountInput usecase.AccountCreateInput) (*model.Account, error) {
-						ret := model.Account{
+					OnCreate: func(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error) {
+						ret := usecase.AccountCreateOutput{
 							ID:        "uuid-1",
 							Name:      "Bart Simpson",
 							CPF:       "123.456.789-11",
-							Balance:   596,
+							Balance:   5.96,
 							CreatedAt: time.Time{},
 						}
 
@@ -79,7 +78,7 @@ func Test_accountController_Create(t *testing.T) {
 			args: args{
 				w: httptest.NewRecorder(),
 				r: func() *http.Request {
-					return httptest.NewRequest(http.MethodPost, "/accounts", bytes.NewReader([]byte(`{"name":"Bart Simpson", "cpf":"12345611", "balance":596}`)))
+					return httptest.NewRequest(http.MethodPost, "/accounts", bytes.NewReader([]byte(`{"name":"Bart Simpson", "cpf":"12345611", "balance":5.96, "secret": "secret"}`)))
 				}(),
 			},
 			wantStatus: 201,
@@ -89,7 +88,7 @@ func Test_accountController_Create(t *testing.T) {
 			name: "should return 500 when usecase error",
 			fields: fields{
 				accountUC: usecase.AccountUseCaseMock{
-					OnCreate: func(ctx context.Context, accountInput usecase.AccountCreateInput) (*model.Account, error) {
+					OnCreate: func(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error) {
 						return nil, errors.New("any error")
 					},
 				},
@@ -97,7 +96,7 @@ func Test_accountController_Create(t *testing.T) {
 			args: args{
 				w: httptest.NewRecorder(),
 				r: func() *http.Request {
-					return httptest.NewRequest(http.MethodPost, "/accounts", bytes.NewReader([]byte(`{"name":"Bart Simpson", "cpf":"12345611", "balance":5.96}`)))
+					return httptest.NewRequest(http.MethodPost, "/accounts", bytes.NewReader([]byte(`{"name":"Bart Simpson", "cpf":"12345611", "balance":5.96, "secret": "secret"}`)))
 				}(),
 			},
 			wantStatus: 500,
