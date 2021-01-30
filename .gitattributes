@@ -1,0 +1,8 @@
+* text=auto
+
+.github export-ignore
+.gitattributes export-ignore
+.gitignore export-ignore
+.idea export-ignore
+go-springfield-bank.iml export-ignore
+.vscode export-ignore
