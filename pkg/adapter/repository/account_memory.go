@@ -8,33 +8,41 @@ import (
 	"sync"
 )
 
-// AccountMemoryRepository represents an in-memory database to hold accounts.
+// AccountMemoryRepository represents an in-memory database to hold accountsMap.
 // As it keeps the data in-memory, the data is lost when the application is shutdown.
 type AccountMemoryRepository struct {
-	accounts map[string]model.Account
-	lock     *sync.RWMutex
+	accountsMap map[string]model.Account
+	lock        *sync.RWMutex
 }
 
+var _ repository.AccountRepository = (*AccountMemoryRepository)(nil)
+
 // NewAccountMemoryRepository instantiates a new account in-memory repository.
-func NewAccountMemoryRepository() repository.AccountRepository {
+func NewAccountMemoryRepository(accounts ...model.Account) *AccountMemoryRepository {
+	accountsMap := make(map[string]model.Account, len(accounts))
+
+	for _, v := range accounts {
+		accountsMap[v.ID] = v
+	}
+
 	return &AccountMemoryRepository{
-		accounts: map[string]model.Account{},
-		lock:     &sync.RWMutex{},
+		accountsMap: accountsMap,
+		lock:        &sync.RWMutex{},
 	}
 }
 
-// Create adds the account to the accounts map.
+// Create adds the account to the accountsMap map.
 // It returns an error if an account with the same id already exists.
 func (repo AccountMemoryRepository) Create(_ context.Context, account *model.Account) error {
 	repo.lock.RLock()
 	defer repo.lock.RUnlock()
 
-	_, ok := repo.accounts[account.ID]
+	_, ok := repo.accountsMap[account.ID]
 	if ok {
 		return errors.New("account id already exists")
 	}
 
-	repo.accounts[account.ID] = *account
+	repo.accountsMap[account.ID] = *account
 
 	return nil
 }

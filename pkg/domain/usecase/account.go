@@ -10,12 +10,45 @@ import (
 	"time"
 )
 
+var (
+	// ErrAccountNameWrongLength happens when the Account Name is not between 2-100 chars long.
+	ErrAccountNameWrongLength = errors.New("'name' must be between 2 and 100 characters in length")
+	// ErrAccountSecretWrongLength happens when the Account Secret is not between 6-100 chars long.
+	ErrAccountSecretWrongLength = errors.New("'secret' must be between 6 and 100 characters in length")
+	// ErrAccountBalanceNegative happens when the Account Balance is less than zero.
+	ErrAccountBalanceNegative = errors.New("'balance' must be greater than or equal to zero")
+	// ErrAccountCPFInvalid happens when the Account CPF is not valid.
+	ErrAccountCPFInvalid = errors.New("'cpf' is invalid")
+)
+
 // AccountCreateInput represents the expected input data when creating an account.
 type AccountCreateInput struct {
 	Name    string  `json:"name"`
 	CPF     string  `json:"cpf"`
 	Secret  string  `json:"secret"`
 	Balance float64 `json:"balance"`
+}
+
+// Validate validates the AccountCreateInput fields
+func (input *AccountCreateInput) Validate() error {
+	input.Name = strings.TrimSpace(input.Name)
+	if nameLen := len(input.Name); nameLen < 2 || nameLen > 100 {
+		return ErrAccountNameWrongLength
+	}
+
+	if !cpfutil.IsValid(input.CPF) {
+		return ErrAccountCPFInvalid
+	}
+
+	if secretLen := len(input.Secret); secretLen < 6 || secretLen > 100 {
+		return ErrAccountSecretWrongLength
+	}
+
+	if input.Balance < 0 {
+		return ErrAccountBalanceNegative
+	}
+
+	return nil
 }
 
 // AccountCreateOutput represents the output data of the create method.
@@ -48,26 +81,14 @@ func (accountUC accountUseCase) Create(ctx context.Context, accountInput Account
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
-	accountInput.Name = strings.TrimSpace(accountInput.Name)
-	if nameLen := len(accountInput.Name); nameLen < 2 || nameLen > 100 {
-		return nil, errors.New("'name' must be between 2 and 100 characters in length")
-	}
-
-	if !cpfutil.IsValid(accountInput.CPF) {
-		return nil, errors.New("'cpf' is invalid")
-	}
-
-	if secretLen := len(accountInput.Secret); secretLen < 6 || secretLen > 100 {
-		return nil, errors.New("'secret' must be between 6 and 100 characters in length")
-	}
-
-	if accountInput.Balance < 0 {
-		return nil, errors.New("'balance' must be greater than or equal to zero")
+	err := accountInput.Validate()
+	if err != nil {
+		return nil, err
 	}
 
 	account := model.NewAccount(accountInput.Name, accountInput.CPF, accountInput.Secret, accountInput.Balance)
 
-	err := account.HashSecret()
+	err = account.HashSecret()
 	if err != nil {
 		return nil, err
 	}
@@ -84,7 +105,7 @@ func newAccountCreateOutput(account *model.Account) *AccountCreateOutput {
 	return &AccountCreateOutput{
 		ID:        account.ID,
 		Name:      account.Name,
-		CPF:       account.CPF,
+		CPF:       cpfutil.Format(account.CPF),
 		Balance:   account.Balance.Float64(),
 		CreatedAt: account.CreatedAt,
 	}

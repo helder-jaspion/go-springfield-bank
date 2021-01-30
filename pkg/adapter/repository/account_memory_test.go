@@ -4,7 +4,6 @@ import (
 	"context"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 	"reflect"
-	"sync"
 	"testing"
 	"time"
 )
@@ -15,9 +14,7 @@ func TestAccountMemoryRepository_Create(t *testing.T) {
 	backgroundCtx := context.Background()
 
 	type fields struct {
-		accounts      map[string]model.Account
-		accountsByCPF map[string]model.Account
-		lock          *sync.RWMutex
+		accounts []model.Account
 	}
 	type args struct {
 		ctx     context.Context
@@ -33,9 +30,7 @@ func TestAccountMemoryRepository_Create(t *testing.T) {
 		{
 			name: "empty db success",
 			fields: fields{
-				accounts:      map[string]model.Account{},
-				accountsByCPF: map[string]model.Account{},
-				lock:          &sync.RWMutex{},
+				accounts: []model.Account{},
 			},
 			args: args{
 				ctx: backgroundCtx,
@@ -54,8 +49,8 @@ func TestAccountMemoryRepository_Create(t *testing.T) {
 		{
 			name: "success with existing account",
 			fields: fields{
-				accounts: map[string]model.Account{
-					"uuid-1": {
+				accounts: []model.Account{
+					{
 						ID:        "uuid-1",
 						Name:      "Name 1",
 						CPF:       "12345678911",
@@ -64,17 +59,6 @@ func TestAccountMemoryRepository_Create(t *testing.T) {
 						CreatedAt: time.Time{},
 					},
 				},
-				accountsByCPF: map[string]model.Account{
-					"12345678911": {
-						ID:        "uuid-1",
-						Name:      "Name 1",
-						CPF:       "12345678911",
-						Secret:    "whatever",
-						Balance:   10,
-						CreatedAt: time.Time{},
-					},
-				},
-				lock: &sync.RWMutex{},
 			},
 			args: args{
 				account: &model.Account{
@@ -92,8 +76,8 @@ func TestAccountMemoryRepository_Create(t *testing.T) {
 		{
 			name: "existing account id error",
 			fields: fields{
-				accounts: map[string]model.Account{
-					"uuid-1": {
+				accounts: []model.Account{
+					{
 						ID:        "uuid-1",
 						Name:      "Name 1",
 						CPF:       "12345678911",
@@ -102,17 +86,6 @@ func TestAccountMemoryRepository_Create(t *testing.T) {
 						CreatedAt: time.Time{},
 					},
 				},
-				accountsByCPF: map[string]model.Account{
-					"12345678911": {
-						ID:        "uuid-1",
-						Name:      "Name 1",
-						CPF:       "12345678911",
-						Secret:    "whatever",
-						Balance:   10,
-						CreatedAt: time.Time{},
-					},
-				},
-				lock: &sync.RWMutex{},
 			},
 			args: args{
 				account: &model.Account{
@@ -130,20 +103,17 @@ func TestAccountMemoryRepository_Create(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			repo := AccountMemoryRepository{
-				accounts: tt.fields.accounts,
-				lock:     tt.fields.lock,
-			}
+			repo := NewAccountMemoryRepository(tt.fields.accounts...)
 			if err := repo.Create(tt.args.ctx, tt.args.account); (err != nil) != tt.wantErr {
 				t.Errorf("Create() error = %v, wantErr %v", err, tt.wantErr)
 			}
 
-			if len(repo.accounts) != tt.wantRowsCount {
-				t.Errorf("Create() accounts.count = %v, wantRowsCount %v", len(repo.accounts), tt.wantRowsCount)
+			if len(repo.accountsMap) != tt.wantRowsCount {
+				t.Errorf("Create() accountsMap.count = %v, wantRowsCount %v", len(repo.accountsMap), tt.wantRowsCount)
 			}
 
-			if !tt.wantErr && !reflect.DeepEqual(repo.accounts[tt.args.account.ID], *tt.args.account) {
-				t.Errorf("Create() accounts.saved = %v, want %v", repo.accounts[tt.args.account.ID], tt.args.account)
+			if !tt.wantErr && !reflect.DeepEqual(repo.accountsMap[tt.args.account.ID], *tt.args.account) {
+				t.Errorf("Create() accountsMap.saved = %v, want %v", repo.accountsMap[tt.args.account.ID], tt.args.account)
 			}
 		})
 	}
