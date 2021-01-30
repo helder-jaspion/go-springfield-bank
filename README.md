@@ -1,4 +1,6 @@
 # Go Springfield Bank
+![Main](https://github.com/helder-jaspion/go-springfield-bank/workflows/Main/badge.svg)
+[![codecov](https://codecov.io/gh/helder-jaspion/go-springfield-bank/branch/main/graph/badge.svg?token=D1Y8HWP4OB)](https://codecov.io/gh/helder-jaspion/go-springfield-bank)
 
 ## TODO
 - [x] create account use case
