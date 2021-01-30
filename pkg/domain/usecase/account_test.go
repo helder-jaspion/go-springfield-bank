@@ -5,6 +5,7 @@ import (
 	"errors"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository/mock"
 	"reflect"
 	"strings"
 	"testing"
@@ -182,7 +183,7 @@ func Test_accountUseCase_Create(t *testing.T) {
 		{
 			name: "repo create error should return error",
 			fields: fields{
-				accountRepo: repository.AccountRepositoryMock{
+				accountRepo: mock.AccountRepositoryMock{
 					OnCreate: func(ctx context.Context, account *model.Account) error {
 						return errors.New("any database error")
 					},
@@ -203,7 +204,7 @@ func Test_accountUseCase_Create(t *testing.T) {
 		{
 			name: "input name empty should return error",
 			fields: fields{
-				accountRepo: repository.AccountRepositoryMock{},
+				accountRepo: mock.AccountRepositoryMock{},
 			},
 			args: args{
 				ctx: backgroundCtx,
@@ -220,7 +221,7 @@ func Test_accountUseCase_Create(t *testing.T) {
 		{
 			name: "unformatted CPF should return formatted",
 			fields: fields{
-				accountRepo: repository.AccountRepositoryMock{
+				accountRepo: mock.AccountRepositoryMock{
 					OnCreate: func(ctx context.Context, account *model.Account) error {
 						return nil
 					},

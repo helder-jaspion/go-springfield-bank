@@ -5,6 +5,7 @@ import (
 	"context"
 	"errors"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase/mock"
 	"github.com/kinbiko/jsonassert"
 	"net/http"
 	"net/http/httptest"
@@ -35,7 +36,7 @@ func Test_accountController_Create(t *testing.T) {
 		{
 			name: "successful minimum input",
 			fields: fields{
-				accountUC: usecase.AccountUseCaseMock{
+				accountUC: mock.AccountUseCaseMock{
 					OnCreate: func(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error) {
 						ret := usecase.AccountCreateOutput{
 							ID:        "uuid-1",
@@ -61,7 +62,7 @@ func Test_accountController_Create(t *testing.T) {
 		{
 			name: "successful maximum input",
 			fields: fields{
-				accountUC: usecase.AccountUseCaseMock{
+				accountUC: mock.AccountUseCaseMock{
 					OnCreate: func(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error) {
 						ret := usecase.AccountCreateOutput{
 							ID:        "uuid-1",
@@ -87,7 +88,7 @@ func Test_accountController_Create(t *testing.T) {
 		{
 			name: "should return 500 when usecase error",
 			fields: fields{
-				accountUC: usecase.AccountUseCaseMock{
+				accountUC: mock.AccountUseCaseMock{
 					OnCreate: func(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error) {
 						return nil, errors.New("any error")
 					},
@@ -105,7 +106,7 @@ func Test_accountController_Create(t *testing.T) {
 		{
 			name: "should return 400 with error msg when request body is missing",
 			fields: fields{
-				accountUC: usecase.AccountUseCaseMock{
+				accountUC: mock.AccountUseCaseMock{
 					OnCreate: nil,
 				},
 			},
