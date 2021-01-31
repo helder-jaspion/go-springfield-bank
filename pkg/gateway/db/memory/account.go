@@ -52,6 +52,7 @@ func (repo AccountRepository) Create(_ context.Context, account *model.Account) 
 	}
 
 	repo.accountsByIDMap[account.ID] = *account
+	repo.accountsByCPFMap[account.CPF] = *account
 
 	return nil
 }
