@@ -6,14 +6,20 @@ import (
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
 )
 
-// AccountRepositoryMock mocks an AccountRepository
-type AccountRepositoryMock struct {
-	OnCreate func(ctx context.Context, account *model.Account) error
+// AccountRepository mocks an AccountRepository
+type AccountRepository struct {
+	OnCreate      func(ctx context.Context, account *model.Account) error
+	OnExistsByCPF func(ctx context.Context, cpf model.CPF) (bool, error)
 }
 
-var _ repository.AccountRepository = (*AccountRepositoryMock)(nil)
+var _ repository.AccountRepository = (*AccountRepository)(nil)
 
 // Create returns the result of OnCreate
-func (a AccountRepositoryMock) Create(ctx context.Context, account *model.Account) error {
+func (a AccountRepository) Create(ctx context.Context, account *model.Account) error {
 	return a.OnCreate(ctx, account)
+}
+
+// ExistsByCPF returns the result of OnExistsByCPF
+func (a AccountRepository) ExistsByCPF(ctx context.Context, cpf model.CPF) (bool, error) {
+	return a.OnExistsByCPF(ctx, cpf)
 }

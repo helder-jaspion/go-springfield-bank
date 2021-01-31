@@ -20,6 +20,8 @@ var (
 	ErrAccountBalanceNegative = errors.New("'balance' must be greater than or equal to zero")
 	// ErrAccountCPFInvalid happens when the Account CPF is not valid.
 	ErrAccountCPFInvalid = errors.New("'cpf' is invalid")
+	// ErrAccountCPFAlreadyExists happens when one tries to create an account with a CPF that is already in use by another account.
+	ErrAccountCPFAlreadyExists = errors.New("an account with this CPF already exists")
 	// ErrAccountCreate happens when an error occurred and the account was not created.
 	ErrAccountCreate = errors.New("could not create account")
 )
@@ -100,6 +102,14 @@ func (accountUC accountUseCase) Create(ctx context.Context, accountInput Account
 		return nil, ErrAccountCreate
 	}
 
+	accountExists, err := accountUC.accountRepo.ExistsByCPF(ctx, account.CPF)
+	if err != nil {
+		return nil, ErrAccountCreate
+	}
+	if accountExists {
+		return nil, ErrAccountCPFAlreadyExists
+	}
+
 	err = accountUC.accountRepo.Create(ctx, account)
 	if err != nil {
 		log.Ctx(ctx).Error().Err(err).Interface("account", account).Msg("error persisting new account")
@@ -111,9 +121,9 @@ func (accountUC accountUseCase) Create(ctx context.Context, accountInput Account
 
 func newAccountCreateOutput(account *model.Account) *AccountCreateOutput {
 	return &AccountCreateOutput{
-		ID:        account.ID,
+		ID:        string(account.ID),
 		Name:      account.Name,
-		CPF:       cpfutil.Format(account.CPF),
+		CPF:       account.CPF.String(),
 		Balance:   account.Balance.Float64(),
 		CreatedAt: account.CreatedAt,
 	}

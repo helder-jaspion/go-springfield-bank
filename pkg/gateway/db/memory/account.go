@@ -11,8 +11,8 @@ import (
 // AccountRepository represents an in-memory database to hold accountsByIDMap.
 // As it keeps the data in-memory, the data is lost when the application is shutdown.
 type AccountRepository struct {
-	accountsByIDMap  map[string]model.Account
-	accountsByCPFMap map[string]model.Account
+	accountsByIDMap  map[model.AccountID]model.Account
+	accountsByCPFMap map[model.CPF]model.Account
 	lock             *sync.RWMutex
 }
 
@@ -20,8 +20,8 @@ var _ repository.AccountRepository = (*AccountRepository)(nil)
 
 // NewAccountRepository instantiates a new account in-memory repository.
 func NewAccountRepository(accounts ...model.Account) *AccountRepository {
-	accountsByIDMap := make(map[string]model.Account, len(accounts))
-	accountsByCPFMap := make(map[string]model.Account, len(accounts))
+	accountsByIDMap := make(map[model.AccountID]model.Account, len(accounts))
+	accountsByCPFMap := make(map[model.CPF]model.Account, len(accounts))
 
 	for _, v := range accounts {
 		accountsByIDMap[v.ID] = v
@@ -54,4 +54,13 @@ func (repo AccountRepository) Create(_ context.Context, account *model.Account) 
 	repo.accountsByIDMap[account.ID] = *account
 
 	return nil
+}
+
+// ExistsByCPF verifies if there is an account with the same cpf.
+func (repo AccountRepository) ExistsByCPF(_ context.Context, cpf model.CPF) (bool, error) {
+	repo.lock.RLock()
+	defer repo.lock.RUnlock()
+
+	_, ok := repo.accountsByCPFMap[cpf]
+	return ok, nil
 }

@@ -183,7 +183,10 @@ func Test_accountUseCase_Create(t *testing.T) {
 		{
 			name: "repo create error should return error",
 			fields: fields{
-				accountRepo: mock.AccountRepositoryMock{
+				accountRepo: mock.AccountRepository{
+					OnExistsByCPF: func(ctx context.Context, cpf model.CPF) (bool, error) {
+						return false, nil
+					},
 					OnCreate: func(ctx context.Context, account *model.Account) error {
 						return errors.New("any database error")
 					},
@@ -204,7 +207,7 @@ func Test_accountUseCase_Create(t *testing.T) {
 		{
 			name: "input name empty should return error",
 			fields: fields{
-				accountRepo: mock.AccountRepositoryMock{},
+				accountRepo: mock.AccountRepository{},
 			},
 			args: args{
 				ctx: backgroundCtx,
@@ -221,7 +224,10 @@ func Test_accountUseCase_Create(t *testing.T) {
 		{
 			name: "unformatted CPF should return formatted",
 			fields: fields{
-				accountRepo: mock.AccountRepositoryMock{
+				accountRepo: mock.AccountRepository{
+					OnExistsByCPF: func(ctx context.Context, cpf model.CPF) (bool, error) {
+						return false, nil
+					},
 					OnCreate: func(ctx context.Context, account *model.Account) error {
 						return nil
 					},
@@ -242,6 +248,48 @@ func Test_accountUseCase_Create(t *testing.T) {
 				Balance: 0,
 			},
 			wantErr: false,
+		},
+		{
+			name: "repo existsByCPF error should return error",
+			fields: fields{
+				accountRepo: mock.AccountRepository{
+					OnExistsByCPF: func(ctx context.Context, cpf model.CPF) (bool, error) {
+						return false, errors.New("any database error")
+					},
+				},
+			},
+			args: args{
+				ctx: backgroundCtx,
+				accountInput: AccountCreateInput{
+					Name:    "Jon Snow",
+					CPF:     "599.513.320-99",
+					Secret:  "IAmNotSnow",
+					Balance: 0,
+				},
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "existsByCPF true should return error",
+			fields: fields{
+				accountRepo: mock.AccountRepository{
+					OnExistsByCPF: func(ctx context.Context, cpf model.CPF) (bool, error) {
+						return true, nil
+					},
+				},
+			},
+			args: args{
+				ctx: backgroundCtx,
+				accountInput: AccountCreateInput{
+					Name:    "Jon Snow",
+					CPF:     "599.513.320-99",
+					Secret:  "IAmNotSnow",
+					Balance: 0,
+				},
+			},
+			want:    nil,
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {

@@ -5,14 +5,14 @@ import (
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
 )
 
-// AccountUseCaseMock mocks an AccountUseCase
-type AccountUseCaseMock struct {
+// AccountUseCase mocks an AccountUseCase
+type AccountUseCase struct {
 	OnCreate func(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error)
 }
 
-var _ usecase.AccountUseCase = (*AccountUseCaseMock)(nil)
+var _ usecase.AccountUseCase = (*AccountUseCase)(nil)
 
 // Create returns the result of OnCreate
-func (m AccountUseCaseMock) Create(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error) {
+func (m AccountUseCase) Create(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error) {
 	return m.OnCreate(ctx, accountInput)
 }

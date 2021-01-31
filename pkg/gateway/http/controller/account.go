@@ -34,8 +34,7 @@ func (a accountController) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ctx := logger.WithContext(r.Context())
-	result, err := a.accountUC.Create(ctx, input)
+	result, err := a.accountUC.Create(logger.WithContext(r.Context()), input)
 	if err != nil {
 		io.WriteError(w, logger, http.StatusInternalServerError, err.Error())
 		return
