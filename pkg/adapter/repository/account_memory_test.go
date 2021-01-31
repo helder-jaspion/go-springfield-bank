@@ -108,12 +108,12 @@ func TestAccountMemoryRepository_Create(t *testing.T) {
 				t.Errorf("Create() error = %v, wantErr %v", err, tt.wantErr)
 			}
 
-			if len(repo.accountsMap) != tt.wantRowsCount {
-				t.Errorf("Create() accountsMap.count = %v, wantRowsCount %v", len(repo.accountsMap), tt.wantRowsCount)
+			if len(repo.accountsByIDMap) != tt.wantRowsCount {
+				t.Errorf("Create() accountsByIDMap.count = %v, wantRowsCount %v", len(repo.accountsByIDMap), tt.wantRowsCount)
 			}
 
-			if !tt.wantErr && !reflect.DeepEqual(repo.accountsMap[tt.args.account.ID], *tt.args.account) {
-				t.Errorf("Create() accountsMap.saved = %v, want %v", repo.accountsMap[tt.args.account.ID], tt.args.account)
+			if !tt.wantErr && !reflect.DeepEqual(repo.accountsByIDMap[tt.args.account.ID], *tt.args.account) {
+				t.Errorf("Create() accountsByIDMap.saved = %v, want %v", repo.accountsByIDMap[tt.args.account.ID], tt.args.account)
 			}
 		})
 	}
