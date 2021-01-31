@@ -101,7 +101,7 @@ func Test_accountController_Create(t *testing.T) {
 				}(),
 			},
 			wantStatus: 500,
-			want:       `{"code": 500, "message": "error creating account"}`,
+			want:       `{"code": 500, "message": "any error"}`,
 		},
 		{
 			name: "should return 400 with error msg when request body is missing",

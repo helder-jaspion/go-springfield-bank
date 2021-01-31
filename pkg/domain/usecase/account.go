@@ -6,6 +6,7 @@ import (
 	"github.com/helder-jaspion/go-springfield-bank/pkg/cpfutil"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
+	"github.com/rs/zerolog/log"
 	"strings"
 	"time"
 )
@@ -19,6 +20,8 @@ var (
 	ErrAccountBalanceNegative = errors.New("'balance' must be greater than or equal to zero")
 	// ErrAccountCPFInvalid happens when the Account CPF is not valid.
 	ErrAccountCPFInvalid = errors.New("'cpf' is invalid")
+	// ErrAccountCreate happens when an error occurred and the account was not created.
+	ErrAccountCreate = errors.New("could not create account")
 )
 
 // AccountCreateInput represents the expected input data when creating an account.
@@ -83,6 +86,8 @@ func (accountUC accountUseCase) Create(ctx context.Context, accountInput Account
 
 	err := accountInput.Validate()
 	if err != nil {
+		accountInput.Secret = "[MASKED]" // removes secret to prevent logging it
+		log.Ctx(ctx).Warn().Err(err).Interface("input", accountInput).Msg("account create input is not valid")
 		return nil, err
 	}
 
@@ -90,12 +95,15 @@ func (accountUC accountUseCase) Create(ctx context.Context, accountInput Account
 
 	err = account.HashSecret()
 	if err != nil {
-		return nil, err
+		account.Secret = "[MASKED]" // removes secret to prevent logging it
+		log.Ctx(ctx).Error().Err(err).Interface("account", account).Msg("error hashing account secret")
+		return nil, ErrAccountCreate
 	}
 
 	err = accountUC.accountRepo.Create(ctx, account)
 	if err != nil {
-		return nil, err
+		log.Ctx(ctx).Error().Err(err).Interface("account", account).Msg("error persisting new account")
+		return nil, ErrAccountCreate
 	}
 
 	return newAccountCreateOutput(account), nil

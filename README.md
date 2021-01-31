@@ -26,12 +26,17 @@
 
 ### Architecture
 - https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
+- https://pusher.com/tutorials/clean-architecture-introduction
 - https://dave.cheney.net/2016/08/20/solid-go-design
 - https://medium.com/@jfeng45/go-micro-service-with-clean-architecture-application-layout-e6216dbb835a
 - https://developpaper.com/go-microservices-with-clean-architecture-program-structure/
 - https://medium.com/gdg-vit/clean-architecture-the-right-way-d83b81ecac6
 - https://threedots.tech/post/ddd-cqrs-clean-architecture-combined/
 - https://hackernoon.com/golang-clean-archithecture-efd6d7c43047
+
+### Web server
+- https://marcofranssen.nl/go-webserver-with-graceful-shutdown/
+- https://getgophish.com/blog/post/2018-12-02-building-web-servers-in-go/
 
 ### Best practices and tips
 - https://github.com/golang/go/wiki/CodeReviewComments
