@@ -29,8 +29,3 @@ jobs:
         file: ./coverage.txt
         flags: unittests
         name: codecov-umbrella
-
-    - name: Gosec Security Scanner
-      uses: securego/gosec@master
-      with:
-        args: ./...
