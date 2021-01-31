@@ -1,8 +1,8 @@
 package http
 
 import (
-	"github.com/helder-jaspion/go-springfield-bank/pkg/adapter/controller"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/infraestructure/delivery/http/middleware"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http/controller"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http/middleware"
 	"github.com/julienschmidt/httprouter"
 	"github.com/justinas/alice"
 	"net/http"

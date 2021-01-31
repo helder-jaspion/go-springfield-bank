@@ -1,4 +1,4 @@
-package repository
+package memory
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func TestAccountMemoryRepository_Create(t *testing.T) {
+func TestAccountRepository_Create(t *testing.T) {
 	t.Parallel()
 
 	backgroundCtx := context.Background()
@@ -103,7 +103,7 @@ func TestAccountMemoryRepository_Create(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			repo := NewAccountMemoryRepository(tt.fields.accounts...)
+			repo := NewAccountRepository(tt.fields.accounts...)
 			if err := repo.Create(tt.args.ctx, tt.args.account); (err != nil) != tt.wantErr {
 				t.Errorf("Create() error = %v, wantErr %v", err, tt.wantErr)
 			}
