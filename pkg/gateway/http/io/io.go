@@ -6,6 +6,11 @@ import (
 	"net/http"
 )
 
+const (
+	contentType     = "Content-Type"
+	jsonContentType = "application/json"
+)
+
 // ReadInput reads the JSON-encoded value from request and stores it in the value pointed to by value.
 func ReadInput(r *http.Request, logger *zerolog.Logger, value interface{}) error {
 	if err := json.NewDecoder(r.Body).Decode(value); err != nil {
@@ -22,6 +27,7 @@ func ReadInput(r *http.Request, logger *zerolog.Logger, value interface{}) error
 
 // WriteError writes an error message to the http.ResponseWriter
 func WriteError(w http.ResponseWriter, logger *zerolog.Logger, statusCode int, message string) {
+	w.Header().Set(contentType, jsonContentType)
 	w.WriteHeader(statusCode)
 
 	// TODO formato do retorno {code, message}
@@ -36,6 +42,7 @@ func WriteError(w http.ResponseWriter, logger *zerolog.Logger, statusCode int, m
 
 // WriteSuccess writes a success result to the http.ResponseWriter
 func WriteSuccess(w http.ResponseWriter, logger *zerolog.Logger, statusCode int, result interface{}) {
+	w.Header().Set(contentType, jsonContentType)
 	w.WriteHeader(statusCode)
 
 	if err := json.NewEncoder(w).Encode(result); err != nil {

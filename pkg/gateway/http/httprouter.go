@@ -16,6 +16,7 @@ func NewHTTPRouterServer(listenAddr string, accountController controller.Account
 	router.GlobalOPTIONS = http.HandlerFunc(handleOPTIONS)
 
 	router.HandlerFunc("POST", "/accounts", accountController.Create)
+	router.HandlerFunc("GET", "/accounts", accountController.Fetch)
 
 	c := alice.New()
 	c = c.Append(middleware.NewLoggerHandlerFunc())

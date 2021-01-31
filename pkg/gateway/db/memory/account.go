@@ -64,3 +64,17 @@ func (repo AccountRepository) ExistsByCPF(_ context.Context, cpf model.CPF) (boo
 	_, ok := repo.accountsByCPFMap[cpf]
 	return ok, nil
 }
+
+// Fetch returns all the accounts saved.
+func (repo AccountRepository) Fetch(_ context.Context) ([]model.Account, error) {
+	repo.lock.RLock()
+	defer repo.lock.RUnlock()
+
+	values := make([]model.Account, 0, len(repo.accountsByIDMap))
+
+	for _, v := range repo.accountsByIDMap {
+		values = append(values, v)
+	}
+
+	return values, nil
+}

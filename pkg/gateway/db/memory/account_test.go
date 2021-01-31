@@ -217,7 +217,7 @@ func TestAccountRepository_ExistsByCPF(t *testing.T) {
 				cpf: "12345678911",
 			},
 			want:    true,
-			wantErr: true,
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
@@ -230,6 +230,95 @@ func TestAccountRepository_ExistsByCPF(t *testing.T) {
 			}
 			if got != tt.want {
 				t.Errorf("ExistsByCPF() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestAccountRepository_Fetch(t *testing.T) {
+	t.Parallel()
+
+	backgroundCtx := context.Background()
+
+	type fields struct {
+		accounts []model.Account
+	}
+	type args struct {
+		ctx context.Context
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "success empty db",
+			fields: fields{
+				accounts: []model.Account{},
+			},
+			args: args{
+				ctx: backgroundCtx,
+			},
+			wantErr: false,
+		},
+		{
+			name: "success one row db",
+			fields: fields{
+				accounts: []model.Account{
+					{
+						ID:        "uuid-1",
+						Name:      "Name 1",
+						CPF:       "12345678911",
+						Secret:    "whatever",
+						Balance:   10,
+						CreatedAt: time.Time{},
+					},
+				},
+			},
+			args: args{
+				ctx: backgroundCtx,
+			},
+			wantErr: false,
+		},
+		{
+			name: "success two rows db",
+			fields: fields{
+				accounts: []model.Account{
+					{
+						ID:        "uuid-1",
+						Name:      "Homer Simpson",
+						CPF:       "12345678911",
+						Secret:    "donut",
+						Balance:   10,
+						CreatedAt: time.Time{},
+					},
+					{
+						ID:        "uuid-2",
+						Name:      "Marge Simpson",
+						CPF:       "12345678912",
+						Secret:    "kids",
+						Balance:   10,
+						CreatedAt: time.Time{},
+					},
+				},
+			},
+			args: args{
+				ctx: backgroundCtx,
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			repo := NewAccountRepository(tt.fields.accounts...)
+			got, err := repo.Fetch(tt.args.ctx)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Fetch() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.fields.accounts) {
+				t.Errorf("Fetch() got = %v, want %v", got, tt.fields.accounts)
 			}
 		})
 	}

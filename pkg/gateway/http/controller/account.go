@@ -10,6 +10,7 @@ import (
 // AccountController is the interface that wraps http handle methods related to accounts
 type AccountController interface {
 	Create(w http.ResponseWriter, r *http.Request)
+	Fetch(w http.ResponseWriter, r *http.Request)
 }
 
 type accountController struct {
@@ -25,7 +26,6 @@ func NewAccountController(accountUC usecase.AccountUseCase) AccountController {
 
 func (a accountController) Create(w http.ResponseWriter, r *http.Request) {
 	logger := hlog.FromRequest(r)
-	w.Header().Set("Content-type", "application/json")
 
 	var input usecase.AccountCreateInput
 	if err := io.ReadInput(r, logger, &input); err != nil {
@@ -41,4 +41,16 @@ func (a accountController) Create(w http.ResponseWriter, r *http.Request) {
 	}
 
 	io.WriteSuccess(w, logger, http.StatusCreated, result)
+}
+
+func (a accountController) Fetch(w http.ResponseWriter, r *http.Request) {
+	logger := hlog.FromRequest(r)
+
+	result, err := a.accountUC.Fetch(logger.WithContext(r.Context()))
+	if err != nil {
+		io.WriteError(w, logger, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	io.WriteSuccess(w, logger, http.StatusOK, result)
 }
