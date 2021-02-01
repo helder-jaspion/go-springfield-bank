@@ -323,3 +323,74 @@ func TestAccountRepository_Fetch(t *testing.T) {
 		})
 	}
 }
+
+func TestAccountRepository_GetBalance(t *testing.T) {
+	t.Parallel()
+
+	backgroundCtx := context.Background()
+
+	type fields struct {
+		accounts []model.Account
+	}
+	type args struct {
+		ctx context.Context
+		id  model.AccountID
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		want    *model.Account
+		wantErr bool
+	}{
+		{
+			name: "empty db should return not found",
+			fields: fields{
+				accounts: []model.Account{},
+			},
+			args: args{
+				ctx: backgroundCtx,
+				id:  "uuid1",
+			},
+			want:    nil,
+			wantErr: true,
+		},
+		{
+			name: "success with existing account",
+			fields: fields{
+				accounts: []model.Account{
+					{
+						ID:        "uuid-1",
+						Name:      "Name 1",
+						CPF:       "12345678911",
+						Secret:    "whatever",
+						Balance:   10,
+						CreatedAt: time.Time{},
+					},
+				},
+			},
+			args: args{
+				ctx: backgroundCtx,
+				id:  "uuid-1",
+			},
+			want: &model.Account{
+				ID:      "uuid-1",
+				Balance: 10,
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			repo := NewAccountRepository(tt.fields.accounts...)
+			got, err := repo.GetBalance(tt.args.ctx, tt.args.id)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetBalance() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetBalance() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

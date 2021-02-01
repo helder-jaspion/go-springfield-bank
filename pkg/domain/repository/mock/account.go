@@ -11,6 +11,7 @@ type AccountRepository struct {
 	OnCreate      func(ctx context.Context, account *model.Account) error
 	OnExistsByCPF func(ctx context.Context, cpf model.CPF) (bool, error)
 	OnFetch       func(ctx context.Context) ([]model.Account, error)
+	OnGetBalance  func(ctx context.Context, id model.AccountID) (*model.Account, error)
 }
 
 var _ repository.AccountRepository = (*AccountRepository)(nil)
@@ -28,4 +29,9 @@ func (a AccountRepository) ExistsByCPF(ctx context.Context, cpf model.CPF) (bool
 // Fetch returns the result of OnFetch.
 func (a AccountRepository) Fetch(ctx context.Context) ([]model.Account, error) {
 	return a.OnFetch(ctx)
+}
+
+// GetBalance returns the result of OnGetBalance.
+func (a AccountRepository) GetBalance(ctx context.Context, id model.AccountID) (*model.Account, error) {
+	return a.OnGetBalance(ctx, id)
 }

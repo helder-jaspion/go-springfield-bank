@@ -79,3 +79,19 @@ func (repo AccountRepository) Fetch(_ context.Context) ([]model.Account, error) 
 
 	return values, nil
 }
+
+// GetBalance returns the ID and balance of the account from db.
+func (repo AccountRepository) GetBalance(_ context.Context, id model.AccountID) (*model.Account, error) {
+	repo.lock.RLock()
+	defer repo.lock.RUnlock()
+
+	account, ok := repo.accountsByIDMap[id]
+	if !ok {
+		return nil, repository.ErrAccountNotFound
+	}
+
+	return &model.Account{
+		ID:      id,
+		Balance: account.Balance,
+	}, nil
+}
