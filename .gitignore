@@ -1,5 +1,9 @@
-# Created by https://www.toptal.com/developers/gitignore/api/go,macos,linux,vscode,windows,intellij
-# Edit at https://www.toptal.com/developers/gitignore?templates=go,macos,linux,vscode,windows,intellij
+
+# Created by https://www.toptal.com/developers/gitignore/api/go,macos,linux,vscode,windows,intellij,dotenv
+# Edit at https://www.toptal.com/developers/gitignore?templates=go,macos,linux,vscode,windows,intellij,dotenv
+
+### dotenv ###
+.env
 
 ### Go ###
 # Binaries for programs and plugins
@@ -203,4 +207,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/go,macos,linux,vscode,windows,intellij
+# End of https://www.toptal.com/developers/gitignore/api/go,macos,linux,vscode,windows,intellij,dotenv
