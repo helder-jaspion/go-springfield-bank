@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  postgres:
+    image: "postgres:12-alpine"
+    command: ["postgres", "-c", "log_statement=all"]
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: springfield-dev
+
+  pgadmin:
+    container_name: "pgadmin"
+    image: "dpage/pgadmin4:4"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "pgadmin@pgadmin.com"
+      PGADMIN_DEFAULT_PASSWORD: "pgadmin"
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:

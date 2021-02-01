@@ -6,16 +6,16 @@
 ## TODO
 - [x] create account use case
 - [x] move http handlers from cmd/main to pkg
-- [ ] logs
+- [x] logs
 - [ ] sql repository
-- [ ] unit test
+- [x] unit test
 - [ ] integration test
-- [ ] error handling
-- [ ] config/env
+- [x] error handling
+- [x] config/env
 - [ ] docker
 - [ ] README
 - [ ] swagger/openapi
-- [ ] fetch accounts use case
+- [x] fetch accounts use case
 - [ ] login use case (jwt)
 - [ ] create transfer use case
 - [ ] fetch transfers use case
