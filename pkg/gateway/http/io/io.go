@@ -25,8 +25,18 @@ func ReadInput(r *http.Request, logger *zerolog.Logger, value interface{}) error
 	return nil
 }
 
-// WriteError writes an error message to the http.ResponseWriter
-func WriteError(w http.ResponseWriter, logger *zerolog.Logger, statusCode int, message string) {
+// WriteSuccess writes a success result to the http.ResponseWriter
+func WriteSuccess(w http.ResponseWriter, logger *zerolog.Logger, statusCode int, result interface{}) {
+	w.Header().Set(contentType, jsonContentType)
+	w.WriteHeader(statusCode)
+
+	if err := json.NewEncoder(w).Encode(result); err != nil {
+		logger.Error().Err(err).Interface("result", result).Msg("error encoding response")
+	}
+}
+
+// WriteErrorMsg writes an error message to the http.ResponseWriter
+func WriteErrorMsg(w http.ResponseWriter, logger *zerolog.Logger, statusCode int, message string) {
 	w.Header().Set(contentType, jsonContentType)
 	w.WriteHeader(statusCode)
 
@@ -37,15 +47,5 @@ func WriteError(w http.ResponseWriter, logger *zerolog.Logger, statusCode int, m
 
 	if err := json.NewEncoder(w).Encode(errReturn); err != nil {
 		logger.Error().Err(err).Msg("error encoding response")
-	}
-}
-
-// WriteSuccess writes a success result to the http.ResponseWriter
-func WriteSuccess(w http.ResponseWriter, logger *zerolog.Logger, statusCode int, result interface{}) {
-	w.Header().Set(contentType, jsonContentType)
-	w.WriteHeader(statusCode)
-
-	if err := json.NewEncoder(w).Encode(result); err != nil {
-		logger.Error().Err(err).Interface("result", result).Msg("error encoding response")
 	}
 }

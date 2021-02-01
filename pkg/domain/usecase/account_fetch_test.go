@@ -152,6 +152,7 @@ func Test_accountUseCase_Fetch(t *testing.T) {
 				t.Errorf("Fetch() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
+
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Fetch() got = %v, want %v", got, tt.want)
 			}
