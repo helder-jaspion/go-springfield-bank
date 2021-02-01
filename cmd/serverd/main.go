@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/helder-jaspion/go-springfield-bank/config"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/db/memory"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http"
@@ -9,12 +10,14 @@ import (
 )
 
 func main() {
-	logging.InitZerolog("debug", "json")
+	conf := config.ReadConfigFromFile("config/.env")
+
+	logging.InitZerolog(conf.Log.Level, conf.Log.Encoding)
 
 	accountMemRepo := memory.NewAccountRepository()
 	accountUC := usecase.NewAccountUseCase(accountMemRepo)
 	accountController := controller.NewAccountController(accountUC)
 
-	httpRouterSrv := http.NewHTTPRouterServer(":8080", accountController)
+	httpRouterSrv := http.NewHTTPRouterServer(":"+conf.API.HTTPPort, accountController)
 	http.StartServer(httpRouterSrv)
 }
