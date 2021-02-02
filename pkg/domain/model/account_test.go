@@ -100,3 +100,55 @@ func TestNewAccount(t *testing.T) {
 		})
 	}
 }
+
+func TestAccount_CompareSecrets(t *testing.T) {
+	type fields struct {
+		Secret string
+	}
+	type args struct {
+		secret string
+	}
+	tests := []struct {
+		name    string
+		fields  fields
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "success",
+			fields: fields{
+				Secret: func() string {
+					hashedSecret, _ := bcrypt.GenerateFromPassword([]byte("secret"), bcrypt.DefaultCost)
+					return string(hashedSecret)
+				}(),
+			},
+			args: args{
+				"secret",
+			},
+			wantErr: false,
+		},
+		{
+			name: "wrong secret should error",
+			fields: fields{
+				Secret: func() string {
+					hashedSecret, _ := bcrypt.GenerateFromPassword([]byte("secret"), bcrypt.DefaultCost)
+					return string(hashedSecret)
+				}(),
+			},
+			args: args{
+				"wrong",
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			a := &Account{
+				Secret: tt.fields.Secret,
+			}
+			if err := a.CompareSecrets(tt.args.secret); (err != nil) != tt.wantErr {
+				t.Errorf("CompareSecrets() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}
