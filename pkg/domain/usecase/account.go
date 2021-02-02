@@ -14,12 +14,12 @@ type AccountUseCase interface {
 }
 
 type accountUseCase struct {
-	accountRepo repository.AccountRepository
+	accRepo repository.AccountRepository
 }
 
 // NewAccountUseCase instantiates a new AccountUseCase.
-func NewAccountUseCase(accountRepo repository.AccountRepository) AccountUseCase {
+func NewAccountUseCase(accRepo repository.AccountRepository) AccountUseCase {
 	return &accountUseCase{
-		accountRepo: accountRepo,
+		accRepo: accRepo,
 	}
 }

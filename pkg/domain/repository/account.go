@@ -15,6 +15,7 @@ var (
 type AccountRepository interface {
 	Create(ctx context.Context, account *model.Account) error
 	ExistsByCPF(ctx context.Context, cpf model.CPF) (bool, error)
+	GetByCPF(ctx context.Context, cpf model.CPF) (*model.Account, error)
 	Fetch(ctx context.Context) ([]model.Account, error)
 	GetBalance(ctx context.Context, id model.AccountID) (*model.Account, error)
 }

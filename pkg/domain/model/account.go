@@ -37,12 +37,20 @@ func NewAccount(name string, cpf string, secret string, balance float64) *Accoun
 	}
 }
 
-// HashSecret hashes secret with bcrypt
+// HashSecret hashes secret with bcrypt.
 func (a *Account) HashSecret() error {
 	hashedSecret, err := bcrypt.GenerateFromPassword([]byte(a.Secret), bcrypt.DefaultCost)
 	if err != nil {
 		return err
 	}
 	a.Secret = string(hashedSecret)
+	return nil
+}
+
+// CompareSecrets compare account secret and payload.
+func (a *Account) CompareSecrets(secret string) error {
+	if err := bcrypt.CompareHashAndPassword([]byte(a.Secret), []byte(secret)); err != nil {
+		return err
+	}
 	return nil
 }

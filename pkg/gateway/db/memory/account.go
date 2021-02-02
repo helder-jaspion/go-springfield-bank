@@ -37,43 +37,56 @@ func NewAccountRepository(accounts ...model.Account) *AccountRepository {
 
 // Create adds the account to the accountsByIDMap map.
 // It returns an error if an account with the same id already exists.
-func (repo AccountRepository) Create(_ context.Context, account *model.Account) error {
-	repo.lock.RLock()
-	defer repo.lock.RUnlock()
+func (accRepo AccountRepository) Create(_ context.Context, account *model.Account) error {
+	accRepo.lock.RLock()
+	defer accRepo.lock.RUnlock()
 
-	_, ok := repo.accountsByIDMap[account.ID]
+	_, ok := accRepo.accountsByIDMap[account.ID]
 	if ok {
 		return errors.New("account id already exists")
 	}
 
-	_, ok = repo.accountsByCPFMap[account.CPF]
+	_, ok = accRepo.accountsByCPFMap[account.CPF]
 	if ok {
 		return errors.New("account cpf already exists")
 	}
 
-	repo.accountsByIDMap[account.ID] = *account
-	repo.accountsByCPFMap[account.CPF] = *account
+	accRepo.accountsByIDMap[account.ID] = *account
+	accRepo.accountsByCPFMap[account.CPF] = *account
 
 	return nil
 }
 
 // ExistsByCPF verifies if there is an account with the same cpf.
-func (repo AccountRepository) ExistsByCPF(_ context.Context, cpf model.CPF) (bool, error) {
-	repo.lock.RLock()
-	defer repo.lock.RUnlock()
+func (accRepo AccountRepository) ExistsByCPF(_ context.Context, cpf model.CPF) (bool, error) {
+	accRepo.lock.RLock()
+	defer accRepo.lock.RUnlock()
 
-	_, ok := repo.accountsByCPFMap[cpf]
+	_, ok := accRepo.accountsByCPFMap[cpf]
 	return ok, nil
 }
 
+// GetByCPF returns the account that corresponds to the CPF.
+func (accRepo AccountRepository) GetByCPF(ctx context.Context, cpf model.CPF) (*model.Account, error) {
+	accRepo.lock.RLock()
+	defer accRepo.lock.RUnlock()
+
+	account, ok := accRepo.accountsByCPFMap[cpf]
+	if !ok {
+		return nil, repository.ErrAccountNotFound
+	}
+
+	return &account, nil
+}
+
 // Fetch returns all the accounts saved.
-func (repo AccountRepository) Fetch(_ context.Context) ([]model.Account, error) {
-	repo.lock.RLock()
-	defer repo.lock.RUnlock()
+func (accRepo AccountRepository) Fetch(_ context.Context) ([]model.Account, error) {
+	accRepo.lock.RLock()
+	defer accRepo.lock.RUnlock()
 
-	values := make([]model.Account, 0, len(repo.accountsByIDMap))
+	values := make([]model.Account, 0, len(accRepo.accountsByIDMap))
 
-	for _, v := range repo.accountsByIDMap {
+	for _, v := range accRepo.accountsByIDMap {
 		values = append(values, v)
 	}
 
@@ -81,11 +94,11 @@ func (repo AccountRepository) Fetch(_ context.Context) ([]model.Account, error) 
 }
 
 // GetBalance returns the ID and balance of the account from db.
-func (repo AccountRepository) GetBalance(_ context.Context, id model.AccountID) (*model.Account, error) {
-	repo.lock.RLock()
-	defer repo.lock.RUnlock()
+func (accRepo AccountRepository) GetBalance(_ context.Context, id model.AccountID) (*model.Account, error) {
+	accRepo.lock.RLock()
+	defer accRepo.lock.RUnlock()
 
-	account, ok := repo.accountsByIDMap[id]
+	account, ok := accRepo.accountsByIDMap[id]
 	if !ok {
 		return nil, repository.ErrAccountNotFound
 	}

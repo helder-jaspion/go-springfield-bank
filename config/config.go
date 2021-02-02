@@ -12,6 +12,7 @@ type Config struct {
 	Log      ConfLog
 	API      ConfAPI
 	Postgres ConfPostgres
+	Auth     ConfAuth
 }
 
 // ConfLog logging related configurations.
@@ -36,6 +37,12 @@ type ConfPostgres struct {
 	PoolMaxConn         int32         `env:"DB_POOL_MAX_CONN" env-default:"5"`
 	PoolMaxConnLifetime time.Duration `env:"DB_POOL_MAX_CONN_LIFETIME" env-default:"5m"`
 	Migrate             bool          `env:"DB_MIGRATE" env-default:"false"`
+}
+
+// ConfAuth Authentication related configurations.
+type ConfAuth struct {
+	SecretKey      string        `env:"AUTH_SECRET_KEY" env-default:"YOU-SHOULD-CHANGE-ME"`
+	AccessTokenDur time.Duration `env:"AUTH_ACCESS_TOKEN_DURATION" env-default:"15m"`
 }
 
 // GetDSN returns the database DSN, also known as Keyword/Value Connection String.

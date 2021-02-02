@@ -30,11 +30,11 @@ func newAccountFetchOutputList(accounts []model.Account) []AccountFetchOutput {
 }
 
 // Fetch returns all the accounts from repository.AccountRepository.
-func (accountUC *accountUseCase) Fetch(ctx context.Context) ([]AccountFetchOutput, error) {
+func (accUC *accountUseCase) Fetch(ctx context.Context) ([]AccountFetchOutput, error) {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
-	accounts, err := accountUC.accountRepo.Fetch(ctx)
+	accounts, err := accUC.accRepo.Fetch(ctx)
 	if err != nil {
 		return nil, ErrAccountFetch
 	}

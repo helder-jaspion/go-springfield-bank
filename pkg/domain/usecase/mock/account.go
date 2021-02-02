@@ -6,7 +6,7 @@ import (
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
 )
 
-// AccountUseCase mocks an AccountUseCase.
+// AccountUseCase mocks an usecase.AccountUseCase.
 type AccountUseCase struct {
 	OnCreate     func(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error)
 	OnFetch      func(ctx context.Context) ([]usecase.AccountFetchOutput, error)
@@ -16,16 +16,16 @@ type AccountUseCase struct {
 var _ usecase.AccountUseCase = (*AccountUseCase)(nil)
 
 // Create returns the result of OnCreate.
-func (m AccountUseCase) Create(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error) {
-	return m.OnCreate(ctx, accountInput)
+func (mAccUC AccountUseCase) Create(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error) {
+	return mAccUC.OnCreate(ctx, accountInput)
 }
 
 // Fetch returns the result of OnFetch.
-func (m AccountUseCase) Fetch(ctx context.Context) ([]usecase.AccountFetchOutput, error) {
-	return m.OnFetch(ctx)
+func (mAccUC AccountUseCase) Fetch(ctx context.Context) ([]usecase.AccountFetchOutput, error) {
+	return mAccUC.OnFetch(ctx)
 }
 
 // GetBalance returns the result of OnGetBalance.
-func (m AccountUseCase) GetBalance(ctx context.Context, id model.AccountID) (*usecase.AccountBalanceOutput, error) {
-	return m.OnGetBalance(ctx, id)
+func (mAccUC AccountUseCase) GetBalance(ctx context.Context, id model.AccountID) (*usecase.AccountBalanceOutput, error) {
+	return mAccUC.OnGetBalance(ctx, id)
 }

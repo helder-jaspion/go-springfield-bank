@@ -10,14 +10,18 @@ import (
 )
 
 // NewHTTPRouterServer creates a new http router server
-func NewHTTPRouterServer(listenAddr string, accountController controller.AccountController) *http.Server {
+func NewHTTPRouterServer(listenAddr string, accCtrl controller.AccountController, authCtrl controller.AuthController) *http.Server {
 	router := httprouter.New()
 	router.PanicHandler = handlePanic
 	router.GlobalOPTIONS = http.HandlerFunc(handleOPTIONS)
 
-	router.HandlerFunc("POST", "/accounts", accountController.Create)
-	router.HandlerFunc("GET", "/accounts", accountController.Fetch)
-	router.HandlerFunc("GET", "/accounts/:id/balance", accountController.GetBalance)
+	// accounts
+	router.HandlerFunc("POST", "/accounts", accCtrl.Create)
+	router.HandlerFunc("GET", "/accounts", accCtrl.Fetch)
+	router.HandlerFunc("GET", "/accounts/:id/balance", accCtrl.GetBalance)
+
+	// auth
+	router.HandlerFunc("POST", "/login", authCtrl.Login)
 
 	c := alice.New()
 	c = c.Append(middleware.NewLoggerHandlerFunc())

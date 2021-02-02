@@ -76,7 +76,7 @@ func newAccountCreateOutput(account *model.Account) *AccountCreateOutput {
 }
 
 // Create receives an AccountCreateInput, validates and save it sending to the repository.AccountRepository.
-func (accountUC accountUseCase) Create(ctx context.Context, accountInput AccountCreateInput) (*AccountCreateOutput, error) {
+func (accUC accountUseCase) Create(ctx context.Context, accountInput AccountCreateInput) (*AccountCreateOutput, error) {
 	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 	defer cancel()
 
@@ -96,7 +96,7 @@ func (accountUC accountUseCase) Create(ctx context.Context, accountInput Account
 		return nil, ErrAccountCreate
 	}
 
-	accountExists, err := accountUC.accountRepo.ExistsByCPF(ctx, account.CPF)
+	accountExists, err := accUC.accRepo.ExistsByCPF(ctx, account.CPF)
 	if err != nil {
 		return nil, ErrAccountCreate
 	}
@@ -104,7 +104,7 @@ func (accountUC accountUseCase) Create(ctx context.Context, accountInput Account
 		return nil, ErrAccountCPFAlreadyExists
 	}
 
-	err = accountUC.accountRepo.Create(ctx, account)
+	err = accUC.accRepo.Create(ctx, account)
 	if err != nil {
 		log.Ctx(ctx).Error().Err(err).Interface("account", account).Msg("error persisting new account")
 		return nil, ErrAccountCreate

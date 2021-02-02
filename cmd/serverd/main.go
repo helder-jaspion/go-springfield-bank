@@ -17,11 +17,14 @@ func main() {
 	dbPool := postgres.ConnectPool(conf.Postgres.GetDSN(), conf.Postgres.Migrate)
 	defer dbPool.Close()
 
-	//accountRepo := memory.NewAccountRepository()
-	accountRepo := postgres.NewAccountRepository(dbPool)
-	accountUC := usecase.NewAccountUseCase(accountRepo)
-	accountController := controller.NewAccountController(accountUC)
+	//accRepo := memory.NewAccountRepository()
+	accRepo := postgres.NewAccountRepository(dbPool)
+	accUC := usecase.NewAccountUseCase(accRepo)
+	accCtrl := controller.NewAccountController(accUC)
 
-	httpRouterSrv := http.NewHTTPRouterServer(":"+conf.API.HTTPPort, accountController)
+	authUC := usecase.NewAuthUseCase(conf.Auth.SecretKey, conf.Auth.AccessTokenDur, accRepo)
+	authCtrl := controller.NewAuthController(authUC)
+
+	httpRouterSrv := http.NewHTTPRouterServer(":"+conf.API.HTTPPort, accCtrl, authCtrl)
 	http.StartServer(httpRouterSrv)
 }

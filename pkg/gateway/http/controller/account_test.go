@@ -22,7 +22,7 @@ func Test_accountController_Create(t *testing.T) {
 	ja := jsonassert.New(t)
 
 	type fields struct {
-		accountUC usecase.AccountUseCase
+		accUC usecase.AccountUseCase
 	}
 	type args struct {
 		w http.ResponseWriter
@@ -38,7 +38,7 @@ func Test_accountController_Create(t *testing.T) {
 		{
 			name: "successful minimum input",
 			fields: fields{
-				accountUC: mock.AccountUseCase{
+				accUC: mock.AccountUseCase{
 					OnCreate: func(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error) {
 						ret := usecase.AccountCreateOutput{
 							ID:        "uuid-1",
@@ -64,7 +64,7 @@ func Test_accountController_Create(t *testing.T) {
 		{
 			name: "successful maximum input",
 			fields: fields{
-				accountUC: mock.AccountUseCase{
+				accUC: mock.AccountUseCase{
 					OnCreate: func(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error) {
 						ret := usecase.AccountCreateOutput{
 							ID:        "uuid-1",
@@ -90,7 +90,7 @@ func Test_accountController_Create(t *testing.T) {
 		{
 			name: "should return 500 when usecase error",
 			fields: fields{
-				accountUC: mock.AccountUseCase{
+				accUC: mock.AccountUseCase{
 					OnCreate: func(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error) {
 						return nil, errors.New("any error")
 					},
@@ -108,7 +108,7 @@ func Test_accountController_Create(t *testing.T) {
 		{
 			name: "should return 400 with error msg when request body is missing",
 			fields: fields{
-				accountUC: mock.AccountUseCase{
+				accUC: mock.AccountUseCase{
 					OnCreate: nil,
 				},
 			},
@@ -119,23 +119,10 @@ func Test_accountController_Create(t *testing.T) {
 			wantStatus: 400,
 			want:       `{"code": 400, "message": "error reading input"}`,
 		},
-
-		/*
-			case repository.ErrAccountNotFound:
-				statusCode = http.StatusNotFound
-			case usecase.ErrAccountCPFAlreadyExists:
-				statusCode = http.StatusConflict
-			case usecase.ErrAccountNameWrongLength,
-				usecase.ErrAccountSecretWrongLength,
-				usecase.ErrAccountBalanceNegative,
-				usecase.ErrAccountCPFInvalid:
-				statusCode = http.StatusBadRequest
-			}
-		*/
 		{
 			name: "should return 400 when name is invalid",
 			fields: fields{
-				accountUC: mock.AccountUseCase{
+				accUC: mock.AccountUseCase{
 					OnCreate: func(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error) {
 						return nil, usecase.ErrAccountNameWrongLength
 					},
@@ -153,7 +140,7 @@ func Test_accountController_Create(t *testing.T) {
 		{
 			name: "should return 400 when secret is invalid",
 			fields: fields{
-				accountUC: mock.AccountUseCase{
+				accUC: mock.AccountUseCase{
 					OnCreate: func(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error) {
 						return nil, usecase.ErrAccountSecretWrongLength
 					},
@@ -171,7 +158,7 @@ func Test_accountController_Create(t *testing.T) {
 		{
 			name: "should return 400 when balance is negative",
 			fields: fields{
-				accountUC: mock.AccountUseCase{
+				accUC: mock.AccountUseCase{
 					OnCreate: func(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error) {
 						return nil, usecase.ErrAccountBalanceNegative
 					},
@@ -189,7 +176,7 @@ func Test_accountController_Create(t *testing.T) {
 		{
 			name: "should return 400 when CPF is invalid",
 			fields: fields{
-				accountUC: mock.AccountUseCase{
+				accUC: mock.AccountUseCase{
 					OnCreate: func(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error) {
 						return nil, usecase.ErrAccountCPFInvalid
 					},
@@ -207,7 +194,7 @@ func Test_accountController_Create(t *testing.T) {
 		{
 			name: "should return 409 when cpf already exists",
 			fields: fields{
-				accountUC: mock.AccountUseCase{
+				accUC: mock.AccountUseCase{
 					OnCreate: func(ctx context.Context, accountInput usecase.AccountCreateInput) (*usecase.AccountCreateOutput, error) {
 						return nil, usecase.ErrAccountCPFAlreadyExists
 					},
@@ -225,7 +212,7 @@ func Test_accountController_Create(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			a := NewAccountController(tt.fields.accountUC)
+			a := NewAccountController(tt.fields.accUC)
 
 			a.Create(tt.args.w, tt.args.r)
 

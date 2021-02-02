@@ -17,7 +17,7 @@ func NewAccountRepository(db *pgxpool.Pool) repository.AccountRepository {
 	return &accountRepository{db}
 }
 
-func (ar *accountRepository) Create(ctx context.Context, account *model.Account) error {
+func (accRepo accountRepository) Create(ctx context.Context, account *model.Account) error {
 	var query = `
 		INSERT INTO
 			accounts (id, name, cpf, secret, balance, created_at)
@@ -25,7 +25,7 @@ func (ar *accountRepository) Create(ctx context.Context, account *model.Account)
 			($1, $2, $3, $4, $5, $6)
 	`
 
-	_, err := ar.db.Exec(
+	_, err := accRepo.db.Exec(
 		ctx,
 		query,
 		string(account.ID),
@@ -42,25 +42,40 @@ func (ar *accountRepository) Create(ctx context.Context, account *model.Account)
 	return nil
 }
 
-func (ar *accountRepository) ExistsByCPF(ctx context.Context, cpf model.CPF) (bool, error) {
+func (accRepo accountRepository) ExistsByCPF(ctx context.Context, cpf model.CPF) (bool, error) {
 	var query = `SELECT EXISTS(SELECT id FROM accounts WHERE cpf = $1)`
 
 	accountExists := false
-	err := ar.db.QueryRow(ctx, query, cpf).Scan(&accountExists)
+	err := accRepo.db.QueryRow(ctx, query, cpf).Scan(&accountExists)
 	if err == pgx.ErrNoRows {
 		return false, nil
 	}
 	return accountExists, err
 }
 
-func (ar *accountRepository) Fetch(ctx context.Context) ([]model.Account, error) {
+func (accRepo accountRepository) GetByCPF(ctx context.Context, cpf model.CPF) (*model.Account, error) {
+	var query = "SELECT id, name, cpf, secret, balance, created_at FROM accounts WHERE cpf = $1"
+
+	account := new(model.Account)
+	err := accRepo.db.QueryRow(ctx, query, cpf).Scan(&account.ID, &account.Name, &account.CPF, &account.Secret, &account.Balance, &account.CreatedAt)
+	if err != nil {
+		if err == pgx.ErrNoRows {
+			return nil, repository.ErrAccountNotFound
+		}
+		return nil, err
+	}
+
+	return account, nil
+}
+
+func (accRepo accountRepository) Fetch(ctx context.Context) ([]model.Account, error) {
 	var query = `
 		SELECT
 			id, name, cpf, secret, balance, created_at
 		FROM accounts
 	`
 
-	rows, err := ar.db.Query(ctx, query)
+	rows, err := accRepo.db.Query(ctx, query)
 	if err != nil {
 		return nil, err
 	}
@@ -83,13 +98,13 @@ func (ar *accountRepository) Fetch(ctx context.Context) ([]model.Account, error)
 	return accounts, nil
 }
 
-func (ar *accountRepository) GetBalance(ctx context.Context, id model.AccountID) (*model.Account, error) {
+func (accRepo accountRepository) GetBalance(ctx context.Context, id model.AccountID) (*model.Account, error) {
 	var query = "SELECT balance FROM accounts WHERE id = $1"
 
 	account := new(model.Account)
 	account.ID = id
 
-	err := ar.db.QueryRow(ctx, query, string(id)).Scan(&account.Balance)
+	err := accRepo.db.QueryRow(ctx, query, string(id)).Scan(&account.Balance)
 	if err != nil {
 		if err == pgx.ErrNoRows {
 			return nil, repository.ErrAccountNotFound

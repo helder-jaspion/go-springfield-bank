@@ -11,7 +11,7 @@ import (
 	"net/http"
 )
 
-// AccountController is the interface that wraps http handle methods related to accounts
+// AccountController is the interface that wraps http handle methods related to accounts.
 type AccountController interface {
 	Create(w http.ResponseWriter, r *http.Request)
 	Fetch(w http.ResponseWriter, r *http.Request)
@@ -19,17 +19,17 @@ type AccountController interface {
 }
 
 type accountController struct {
-	accountUC usecase.AccountUseCase
+	accUC usecase.AccountUseCase
 }
 
-//NewAccountController instantiates a new account controller
-func NewAccountController(accountUC usecase.AccountUseCase) AccountController {
+//NewAccountController instantiates a new account controller.
+func NewAccountController(accUC usecase.AccountUseCase) AccountController {
 	return &accountController{
-		accountUC: accountUC,
+		accUC: accUC,
 	}
 }
 
-func (a accountController) Create(w http.ResponseWriter, r *http.Request) {
+func (accCtrl accountController) Create(w http.ResponseWriter, r *http.Request) {
 	logger := hlog.FromRequest(r)
 
 	var input usecase.AccountCreateInput
@@ -39,42 +39,42 @@ func (a accountController) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	result, err := a.accountUC.Create(logger.WithContext(r.Context()), input)
+	result, err := accCtrl.accUC.Create(logger.WithContext(r.Context()), input)
 	if err != nil {
-		a.writeError(w, logger, http.StatusInternalServerError, err)
+		accCtrl.writeError(w, logger, http.StatusInternalServerError, err)
 		return
 	}
 
 	io.WriteSuccess(w, logger, http.StatusCreated, result)
 }
 
-func (a accountController) Fetch(w http.ResponseWriter, r *http.Request) {
+func (accCtrl accountController) Fetch(w http.ResponseWriter, r *http.Request) {
 	logger := hlog.FromRequest(r)
 
-	result, err := a.accountUC.Fetch(logger.WithContext(r.Context()))
+	result, err := accCtrl.accUC.Fetch(logger.WithContext(r.Context()))
 	if err != nil {
-		a.writeError(w, logger, http.StatusInternalServerError, err)
+		accCtrl.writeError(w, logger, http.StatusInternalServerError, err)
 		return
 	}
 
 	io.WriteSuccess(w, logger, http.StatusOK, result)
 }
 
-func (a *accountController) GetBalance(w http.ResponseWriter, r *http.Request) {
+func (accCtrl accountController) GetBalance(w http.ResponseWriter, r *http.Request) {
 	logger := hlog.FromRequest(r)
 
 	params := httprouter.ParamsFromContext(r.Context())
 
-	result, err := a.accountUC.GetBalance(r.Context(), model.AccountID(params.ByName("id")))
+	result, err := accCtrl.accUC.GetBalance(r.Context(), model.AccountID(params.ByName("id")))
 	if err != nil {
-		a.writeError(w, logger, http.StatusInternalServerError, err)
+		accCtrl.writeError(w, logger, http.StatusInternalServerError, err)
 		return
 	}
 
 	io.WriteSuccess(w, logger, http.StatusOK, result)
 }
 
-func (a *accountController) writeError(w http.ResponseWriter, logger *zerolog.Logger, statusCode int, err error) {
+func (accCtrl accountController) writeError(w http.ResponseWriter, logger *zerolog.Logger, statusCode int, err error) {
 	switch err {
 	case repository.ErrAccountNotFound:
 		statusCode = http.StatusNotFound
