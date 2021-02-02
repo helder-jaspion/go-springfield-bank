@@ -13,6 +13,8 @@ import (
 )
 
 func TestAccountCreateInput_Validate(t *testing.T) {
+	t.Parallel()
+
 	type fields struct {
 		Name    string
 		CPF     string
@@ -167,7 +169,7 @@ func Test_accountUseCase_Create(t *testing.T) {
 	backgroundCtx := context.Background()
 
 	type fields struct {
-		accountRepo repository.AccountRepository
+		accRepo repository.AccountRepository
 	}
 	type args struct {
 		ctx          context.Context
@@ -183,7 +185,7 @@ func Test_accountUseCase_Create(t *testing.T) {
 		{
 			name: "repo create error should return error",
 			fields: fields{
-				accountRepo: mock.AccountRepository{
+				accRepo: mock.AccountRepository{
 					OnExistsByCPF: func(ctx context.Context, cpf model.CPF) (bool, error) {
 						return false, nil
 					},
@@ -207,7 +209,7 @@ func Test_accountUseCase_Create(t *testing.T) {
 		{
 			name: "input name empty should return error",
 			fields: fields{
-				accountRepo: mock.AccountRepository{},
+				accRepo: mock.AccountRepository{},
 			},
 			args: args{
 				ctx: backgroundCtx,
@@ -224,7 +226,7 @@ func Test_accountUseCase_Create(t *testing.T) {
 		{
 			name: "unformatted CPF should return formatted",
 			fields: fields{
-				accountRepo: mock.AccountRepository{
+				accRepo: mock.AccountRepository{
 					OnExistsByCPF: func(ctx context.Context, cpf model.CPF) (bool, error) {
 						return false, nil
 					},
@@ -252,7 +254,7 @@ func Test_accountUseCase_Create(t *testing.T) {
 		{
 			name: "repo existsByCPF error should return error",
 			fields: fields{
-				accountRepo: mock.AccountRepository{
+				accRepo: mock.AccountRepository{
 					OnExistsByCPF: func(ctx context.Context, cpf model.CPF) (bool, error) {
 						return false, errors.New("any database error")
 					},
@@ -273,7 +275,7 @@ func Test_accountUseCase_Create(t *testing.T) {
 		{
 			name: "existsByCPF true should return error",
 			fields: fields{
-				accountRepo: mock.AccountRepository{
+				accRepo: mock.AccountRepository{
 					OnExistsByCPF: func(ctx context.Context, cpf model.CPF) (bool, error) {
 						return true, nil
 					},
@@ -294,7 +296,7 @@ func Test_accountUseCase_Create(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			accountUC := NewAccountUseCase(tt.fields.accountRepo)
+			accountUC := NewAccountUseCase(tt.fields.accRepo)
 
 			got, err := accountUC.Create(tt.args.ctx, tt.args.accountInput)
 			if (err != nil) != tt.wantErr {
