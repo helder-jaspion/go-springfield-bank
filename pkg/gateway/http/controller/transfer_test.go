@@ -6,6 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/appcontext"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase/mock"
 	"github.com/kinbiko/jsonassert"
@@ -186,7 +187,7 @@ func Test_transferController_Fetch(t *testing.T) {
 			name: "successful empty result",
 			fields: fields{
 				trfUC: mock.TransferUseCase{
-					OnFetch: func(ctx context.Context) ([]usecase.TransferFetchOutput, error) {
+					OnFetch: func(ctx context.Context, accountID model.AccountID) ([]usecase.TransferFetchOutput, error) {
 						return []usecase.TransferFetchOutput{}, nil
 					},
 				},
@@ -206,7 +207,7 @@ func Test_transferController_Fetch(t *testing.T) {
 			name: "successful one result",
 			fields: fields{
 				trfUC: mock.TransferUseCase{
-					OnFetch: func(ctx context.Context) ([]usecase.TransferFetchOutput, error) {
+					OnFetch: func(ctx context.Context, accountID model.AccountID) ([]usecase.TransferFetchOutput, error) {
 						return []usecase.TransferFetchOutput{
 							{
 								TransferCreateOutput: usecase.TransferCreateOutput{
@@ -236,7 +237,7 @@ func Test_transferController_Fetch(t *testing.T) {
 			name: "should return 500 when usecase error",
 			fields: fields{
 				trfUC: mock.TransferUseCase{
-					OnFetch: func(ctx context.Context) ([]usecase.TransferFetchOutput, error) {
+					OnFetch: func(ctx context.Context, accountID model.AccountID) ([]usecase.TransferFetchOutput, error) {
 						return nil, errors.New("any error")
 					},
 				},

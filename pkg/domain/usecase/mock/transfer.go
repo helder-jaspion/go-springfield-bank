@@ -9,7 +9,7 @@ import (
 // TransferUseCase mocks an usecase.TransferUseCase.
 type TransferUseCase struct {
 	OnCreate func(ctx context.Context, transferInput usecase.TransferCreateInput) (*usecase.TransferCreateOutput, error)
-	OnFetch  func(ctx context.Context) ([]usecase.TransferFetchOutput, error)
+	OnFetch  func(ctx context.Context, accountID model.AccountID) ([]usecase.TransferFetchOutput, error)
 }
 
 var _ usecase.TransferUseCase = (*TransferUseCase)(nil)
@@ -21,5 +21,5 @@ func (mTrfUC TransferUseCase) Create(ctx context.Context, transferInput usecase.
 
 // Fetch returns the result of OnFetch.
 func (mTrfUC TransferUseCase) Fetch(ctx context.Context, accountID model.AccountID) ([]usecase.TransferFetchOutput, error) {
-	return mTrfUC.OnFetch(ctx)
+	return mTrfUC.OnFetch(ctx, accountID)
 }

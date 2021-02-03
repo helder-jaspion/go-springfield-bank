@@ -67,7 +67,7 @@ func (accRepo AccountRepository) ExistsByCPF(_ context.Context, cpf model.CPF) (
 }
 
 // GetByCPF returns the account that corresponds to the CPF.
-func (accRepo AccountRepository) GetByCPF(ctx context.Context, cpf model.CPF) (*model.Account, error) {
+func (accRepo AccountRepository) GetByCPF(_ context.Context, cpf model.CPF) (*model.Account, error) {
 	accRepo.lock.RLock()
 	defer accRepo.lock.RUnlock()
 

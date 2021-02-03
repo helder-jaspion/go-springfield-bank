@@ -40,7 +40,7 @@ func WriteErrorMsg(w http.ResponseWriter, logger *zerolog.Logger, statusCode int
 	w.Header().Set(contentType, jsonContentType)
 	w.WriteHeader(statusCode)
 
-	// TODO formato do retorno {code, message}
+	// TODO return format {code, message}
 	errReturn := make(map[string]interface{})
 	errReturn["code"] = statusCode
 	errReturn["message"] = message
