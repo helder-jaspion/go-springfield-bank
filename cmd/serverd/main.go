@@ -25,6 +25,10 @@ func main() {
 	authUC := usecase.NewAuthUseCase(conf.Auth.SecretKey, conf.Auth.AccessTokenDur, accRepo)
 	authCtrl := controller.NewAuthController(authUC)
 
-	httpRouterSrv := http.NewHTTPRouterServer(":"+conf.API.HTTPPort, accCtrl, authCtrl)
+	trfRepo := postgres.NewTransferRepository(dbPool)
+	trfUC := usecase.NewTransferUseCase(trfRepo, accRepo)
+	trfCtrl := controller.NewTransferController(trfUC, authUC)
+
+	httpRouterSrv := http.NewHTTPRouterServer(":"+conf.API.HTTPPort, accCtrl, authCtrl, trfCtrl, authUC)
 	http.StartServer(httpRouterSrv)
 }

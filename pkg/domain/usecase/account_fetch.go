@@ -31,7 +31,7 @@ func newAccountFetchOutputList(accounts []model.Account) []AccountFetchOutput {
 
 // Fetch returns all the accounts from repository.AccountRepository.
 func (accUC *accountUseCase) Fetch(ctx context.Context) ([]AccountFetchOutput, error) {
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
 	defer cancel()
 
 	accounts, err := accUC.accRepo.Fetch(ctx)

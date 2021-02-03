@@ -28,7 +28,7 @@ func newAccountBalanceOutput(account *model.Account) *AccountBalanceOutput {
 
 // GetBalance returns the AccountBalanceOutput with matching ID from repository.AccountRepository.
 func (accUC *accountUseCase) GetBalance(ctx context.Context, id model.AccountID) (*AccountBalanceOutput, error) {
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
 	defer cancel()
 
 	account, err := accUC.accRepo.GetBalance(ctx, id)

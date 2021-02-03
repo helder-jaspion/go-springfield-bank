@@ -108,3 +108,20 @@ func (accRepo AccountRepository) GetBalance(_ context.Context, id model.AccountI
 		Balance: account.Balance,
 	}, nil
 }
+
+// UpdateBalance updates the account balance with the new value.
+func (accRepo AccountRepository) UpdateBalance(_ context.Context, id model.AccountID, balance model.Money) error {
+	accRepo.lock.RLock()
+	defer accRepo.lock.RUnlock()
+
+	account, ok := accRepo.accountsByIDMap[id]
+	if !ok {
+		return repository.ErrAccountNotFound
+	}
+
+	account.Balance = balance
+	accRepo.accountsByIDMap[id] = account
+	accRepo.accountsByCPFMap[account.CPF] = account
+
+	return nil
+}

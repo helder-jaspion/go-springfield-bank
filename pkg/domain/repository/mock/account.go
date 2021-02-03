@@ -8,36 +8,42 @@ import (
 
 // AccountRepository mocks an AccountRepository.
 type AccountRepository struct {
-	OnCreate      func(ctx context.Context, account *model.Account) error
-	OnExistsByCPF func(ctx context.Context, cpf model.CPF) (bool, error)
-	OnGetByCPF    func(ctx context.Context, cpf model.CPF) (*model.Account, error)
-	OnFetch       func(ctx context.Context) ([]model.Account, error)
-	OnGetBalance  func(ctx context.Context, id model.AccountID) (*model.Account, error)
+	OnCreate        func(ctx context.Context, account *model.Account) error
+	OnExistsByCPF   func(ctx context.Context, cpf model.CPF) (bool, error)
+	OnGetByCPF      func(ctx context.Context, cpf model.CPF) (*model.Account, error)
+	OnFetch         func(ctx context.Context) ([]model.Account, error)
+	OnGetBalance    func(ctx context.Context, id model.AccountID) (*model.Account, error)
+	OnUpdateBalance func(ctx context.Context, id model.AccountID, balance model.Money) error
 }
 
 var _ repository.AccountRepository = (*AccountRepository)(nil)
 
-// Create returns the result of OnCreate.
+// Create executes OnCreate.
 func (mAccRepo AccountRepository) Create(ctx context.Context, account *model.Account) error {
 	return mAccRepo.OnCreate(ctx, account)
 }
 
-// ExistsByCPF returns the result of OnExistsByCPF.
+// ExistsByCPF executes OnExistsByCPF.
 func (mAccRepo AccountRepository) ExistsByCPF(ctx context.Context, cpf model.CPF) (bool, error) {
 	return mAccRepo.OnExistsByCPF(ctx, cpf)
 }
 
-// GetByCPF returns the result of OnGetByCPF.
+// GetByCPF executes OnGetByCPF.
 func (mAccRepo AccountRepository) GetByCPF(ctx context.Context, cpf model.CPF) (*model.Account, error) {
 	return mAccRepo.OnGetByCPF(ctx, cpf)
 }
 
-// Fetch returns the result of OnFetch.
+// Fetch executes OnFetch.
 func (mAccRepo AccountRepository) Fetch(ctx context.Context) ([]model.Account, error) {
 	return mAccRepo.OnFetch(ctx)
 }
 
-// GetBalance returns the result of OnGetBalance.
+// GetBalance executes OnGetBalance.
 func (mAccRepo AccountRepository) GetBalance(ctx context.Context, id model.AccountID) (*model.Account, error) {
 	return mAccRepo.OnGetBalance(ctx, id)
+}
+
+// UpdateBalance executes OnUpdateBalance.
+func (mAccRepo AccountRepository) UpdateBalance(ctx context.Context, id model.AccountID, balance model.Money) error {
+	return mAccRepo.OnUpdateBalance(ctx, id, balance)
 }

@@ -239,7 +239,7 @@ func Test_accountController_Fetch(t *testing.T) {
 	ja := jsonassert.New(t)
 
 	type fields struct {
-		accountUC usecase.AccountUseCase
+		accUC usecase.AccountUseCase
 	}
 	type args struct {
 		w http.ResponseWriter
@@ -255,7 +255,7 @@ func Test_accountController_Fetch(t *testing.T) {
 		{
 			name: "successful empty result",
 			fields: fields{
-				accountUC: mock.AccountUseCase{
+				accUC: mock.AccountUseCase{
 					OnFetch: func(ctx context.Context) ([]usecase.AccountFetchOutput, error) {
 						return []usecase.AccountFetchOutput{}, nil
 					},
@@ -273,7 +273,7 @@ func Test_accountController_Fetch(t *testing.T) {
 		{
 			name: "successful one result",
 			fields: fields{
-				accountUC: mock.AccountUseCase{
+				accUC: mock.AccountUseCase{
 					OnFetch: func(ctx context.Context) ([]usecase.AccountFetchOutput, error) {
 						return []usecase.AccountFetchOutput{
 							{
@@ -301,7 +301,7 @@ func Test_accountController_Fetch(t *testing.T) {
 		{
 			name: "should return 500 when usecase error",
 			fields: fields{
-				accountUC: mock.AccountUseCase{
+				accUC: mock.AccountUseCase{
 					OnFetch: func(ctx context.Context) ([]usecase.AccountFetchOutput, error) {
 						return nil, errors.New("any error")
 					},
@@ -319,7 +319,7 @@ func Test_accountController_Fetch(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			a := NewAccountController(tt.fields.accountUC)
+			a := NewAccountController(tt.fields.accUC)
 
 			a.Fetch(tt.args.w, tt.args.r)
 

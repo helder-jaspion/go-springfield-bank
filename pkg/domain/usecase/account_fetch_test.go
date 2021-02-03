@@ -17,7 +17,7 @@ func Test_accountUseCase_Fetch(t *testing.T) {
 	backgroundCtx := context.Background()
 
 	type fields struct {
-		accountRepo repository.AccountRepository
+		accRepo repository.AccountRepository
 	}
 	type args struct {
 		ctx context.Context
@@ -32,7 +32,7 @@ func Test_accountUseCase_Fetch(t *testing.T) {
 		{
 			name: "repo fetch error should return error",
 			fields: fields{
-				accountRepo: mock.AccountRepository{
+				accRepo: mock.AccountRepository{
 					OnFetch: func(ctx context.Context) ([]model.Account, error) {
 						return nil, errors.New("any database error")
 					},
@@ -47,7 +47,7 @@ func Test_accountUseCase_Fetch(t *testing.T) {
 		{
 			name: "repo empty result should return empty result",
 			fields: fields{
-				accountRepo: mock.AccountRepository{
+				accRepo: mock.AccountRepository{
 					OnFetch: func(ctx context.Context) ([]model.Account, error) {
 						return []model.Account{}, nil
 					},
@@ -62,7 +62,7 @@ func Test_accountUseCase_Fetch(t *testing.T) {
 		{
 			name: "repo one result should return one result",
 			fields: fields{
-				accountRepo: mock.AccountRepository{
+				accRepo: mock.AccountRepository{
 					OnFetch: func(ctx context.Context) ([]model.Account, error) {
 						return []model.Account{
 							{
@@ -94,7 +94,7 @@ func Test_accountUseCase_Fetch(t *testing.T) {
 		{
 			name: "repo two results should return two results",
 			fields: fields{
-				accountRepo: mock.AccountRepository{
+				accRepo: mock.AccountRepository{
 					OnFetch: func(ctx context.Context) ([]model.Account, error) {
 						return []model.Account{
 							{
@@ -145,7 +145,7 @@ func Test_accountUseCase_Fetch(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			accountUC := NewAccountUseCase(tt.fields.accountRepo)
+			accountUC := NewAccountUseCase(tt.fields.accRepo)
 
 			got, err := accountUC.Fetch(tt.args.ctx)
 			if (err != nil) != tt.wantErr {

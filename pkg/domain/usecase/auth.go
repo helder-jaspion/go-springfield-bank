@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"context"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
 	"time"
 )
@@ -9,6 +10,7 @@ import (
 // AuthUseCase is the interface that wraps all business logic methods related to authentication.
 type AuthUseCase interface {
 	Login(ctx context.Context, loginInput AuthLoginInput) (*AuthTokenOutput, error)
+	Authorize(ctx context.Context, accessToken string) (*jwt.StandardClaims, error)
 }
 
 type authUseCase struct {

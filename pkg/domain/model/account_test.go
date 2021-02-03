@@ -8,6 +8,8 @@ import (
 )
 
 func TestAccount_HashSecret(t *testing.T) {
+	t.Parallel()
+
 	type fields struct {
 		Secret string
 	}
@@ -56,6 +58,8 @@ func TestAccount_HashSecret(t *testing.T) {
 }
 
 func TestNewAccount(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		name    string
 		cpf     string
@@ -68,7 +72,7 @@ func TestNewAccount(t *testing.T) {
 		want *Account
 	}{
 		{
-			name: "",
+			name: "success",
 			args: args{
 				name:    "Bart Simpson",
 				cpf:     "12345678911",
@@ -89,9 +93,15 @@ func TestNewAccount(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got := NewAccount(tt.args.name, tt.args.cpf, tt.args.secret, tt.args.balance)
-			// TODO check if id was generated
-			// TODO check if createdAt was generated
+
+			if len(got.ID) <= 0 {
+				t.Errorf("NewAccount() = %v, ID should not be empty", got)
+			}
 			got.ID = ""
+
+			if got.CreatedAt.Before(time.Now().Add(-5 * time.Second)) {
+				t.Errorf("NewAccount() got = %v, want CreatedAt in the last 5 seconds", got)
+			}
 			got.CreatedAt = time.Time{}
 
 			if !reflect.DeepEqual(got, tt.want) {
@@ -102,6 +112,8 @@ func TestNewAccount(t *testing.T) {
 }
 
 func TestAccount_CompareSecrets(t *testing.T) {
+	t.Parallel()
+
 	type fields struct {
 		Secret string
 	}

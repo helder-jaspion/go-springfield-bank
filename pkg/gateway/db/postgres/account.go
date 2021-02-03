@@ -25,7 +25,7 @@ func (accRepo accountRepository) Create(ctx context.Context, account *model.Acco
 			($1, $2, $3, $4, $5, $6)
 	`
 
-	_, err := accRepo.db.Exec(
+	_, err := getConnFromCtx(ctx, accRepo.db).Exec(
 		ctx,
 		query,
 		string(account.ID),
@@ -46,7 +46,7 @@ func (accRepo accountRepository) ExistsByCPF(ctx context.Context, cpf model.CPF)
 	var query = `SELECT EXISTS(SELECT id FROM accounts WHERE cpf = $1)`
 
 	accountExists := false
-	err := accRepo.db.QueryRow(ctx, query, cpf).Scan(&accountExists)
+	err := getConnFromCtx(ctx, accRepo.db).QueryRow(ctx, query, cpf).Scan(&accountExists)
 	if err == pgx.ErrNoRows {
 		return false, nil
 	}
@@ -57,7 +57,7 @@ func (accRepo accountRepository) GetByCPF(ctx context.Context, cpf model.CPF) (*
 	var query = "SELECT id, name, cpf, secret, balance, created_at FROM accounts WHERE cpf = $1"
 
 	account := new(model.Account)
-	err := accRepo.db.QueryRow(ctx, query, cpf).Scan(&account.ID, &account.Name, &account.CPF, &account.Secret, &account.Balance, &account.CreatedAt)
+	err := getConnFromCtx(ctx, accRepo.db).QueryRow(ctx, query, cpf).Scan(&account.ID, &account.Name, &account.CPF, &account.Secret, &account.Balance, &account.CreatedAt)
 	if err != nil {
 		if err == pgx.ErrNoRows {
 			return nil, repository.ErrAccountNotFound
@@ -75,7 +75,7 @@ func (accRepo accountRepository) Fetch(ctx context.Context) ([]model.Account, er
 		FROM accounts
 	`
 
-	rows, err := accRepo.db.Query(ctx, query)
+	rows, err := getConnFromCtx(ctx, accRepo.db).Query(ctx, query)
 	if err != nil {
 		return nil, err
 	}
@@ -104,7 +104,7 @@ func (accRepo accountRepository) GetBalance(ctx context.Context, id model.Accoun
 	account := new(model.Account)
 	account.ID = id
 
-	err := accRepo.db.QueryRow(ctx, query, string(id)).Scan(&account.Balance)
+	err := getConnFromCtx(ctx, accRepo.db).QueryRow(ctx, query, string(id)).Scan(&account.Balance)
 	if err != nil {
 		if err == pgx.ErrNoRows {
 			return nil, repository.ErrAccountNotFound
@@ -113,4 +113,15 @@ func (accRepo accountRepository) GetBalance(ctx context.Context, id model.Accoun
 	}
 
 	return account, nil
+}
+
+func (accRepo accountRepository) UpdateBalance(ctx context.Context, id model.AccountID, balance model.Money) error {
+	query := "UPDATE accounts SET balance = $1 WHERE id = $2"
+
+	_, err := getConnFromCtx(ctx, accRepo.db).Exec(ctx, query, balance, string(id))
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

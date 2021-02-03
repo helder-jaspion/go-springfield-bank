@@ -35,8 +35,8 @@ func newAuthTokenOutput(accessToken string) *AuthTokenOutput {
 }
 
 // Login checks if the user credentials are valid and, if valid, returns a jwt access token.
-func (authUC *authUseCase) Login(ctx context.Context, loginInput AuthLoginInput) (*AuthTokenOutput, error) {
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+func (authUC authUseCase) Login(ctx context.Context, loginInput AuthLoginInput) (*AuthTokenOutput, error) {
+	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
 	defer cancel()
 
 	cpf := model.NewCPF(loginInput.CPF)

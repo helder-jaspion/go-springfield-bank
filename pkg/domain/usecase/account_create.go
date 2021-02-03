@@ -34,7 +34,7 @@ type AccountCreateInput struct {
 	Balance float64 `json:"balance"`
 }
 
-// Validate validates the AccountCreateInput fields
+// Validate validates the AccountCreateInput fields.
 func (input *AccountCreateInput) Validate() error {
 	input.Name = strings.TrimSpace(input.Name)
 	if nameLen := len(input.Name); nameLen < 2 || nameLen > 100 {
@@ -77,7 +77,7 @@ func newAccountCreateOutput(account *model.Account) *AccountCreateOutput {
 
 // Create receives an AccountCreateInput, validates and save it sending to the repository.AccountRepository.
 func (accUC accountUseCase) Create(ctx context.Context, accountInput AccountCreateInput) (*AccountCreateOutput, error) {
-	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
 	defer cancel()
 
 	err := accountInput.Validate()

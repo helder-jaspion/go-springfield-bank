@@ -18,4 +18,5 @@ type AccountRepository interface {
 	GetByCPF(ctx context.Context, cpf model.CPF) (*model.Account, error)
 	Fetch(ctx context.Context) ([]model.Account, error)
 	GetBalance(ctx context.Context, id model.AccountID) (*model.Account, error)
+	UpdateBalance(ctx context.Context, id model.AccountID, balance model.Money) error
 }
