@@ -1,0 +1,1 @@
+docker run -v %cd%:/opt/app -v c:/go/pkg/mod:/go/pkg/mod -w /opt/app --rm golang:1.15 make %*

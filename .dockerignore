@@ -5,6 +5,7 @@ deployments
 docs
 .git*
 *.iml
+*.cmd
 LICENSE
 README.md
 
