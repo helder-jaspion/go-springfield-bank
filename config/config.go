@@ -37,13 +37,13 @@ type ConfMonitoring struct {
 type ConfPostgres struct {
 	Host                string        `env:"DB_HOST" env-default:"localhost"`
 	Port                int           `env:"DB_PORT" env-default:"5432"`
-	DbName              string        `env:"DB_NAME" env-default:"springfield-dev"`
+	DbName              string        `env:"DB_NAME" env-default:"springfield-bank-dev"`
 	User                string        `env:"DB_USER" env-default:"postgres"`
 	Password            string        `env:"DB_PASSWORD" env-default:"postgres"`
 	SslMode             string        `env:"DB_SSL_MODE" env-default:"prefer"`
 	PoolMaxConn         int32         `env:"DB_POOL_MAX_CONN" env-default:"5"`
 	PoolMaxConnLifetime time.Duration `env:"DB_POOL_MAX_CONN_LIFETIME" env-default:"5m"`
-	Migrate             bool          `env:"DB_MIGRATE" env-default:"false"`
+	Migrate             bool          `env:"DB_MIGRATE" env-default:"true"`
 }
 
 // ConfAuth Authentication related configurations.
