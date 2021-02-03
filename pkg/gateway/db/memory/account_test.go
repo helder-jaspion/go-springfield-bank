@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 	"reflect"
+	"sort"
 	"testing"
 	"time"
 )
@@ -317,6 +318,18 @@ func TestAccountRepository_Fetch(t *testing.T) {
 				t.Errorf("Fetch() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
+
+			if got != nil {
+				sort.SliceStable(got, func(i, j int) bool {
+					return got[i].ID < got[j].ID
+				})
+			}
+			if tt.fields.accounts != nil {
+				sort.SliceStable(tt.fields.accounts, func(i, j int) bool {
+					return tt.fields.accounts[i].ID < tt.fields.accounts[j].ID
+				})
+			}
+
 			if !reflect.DeepEqual(got, tt.fields.accounts) {
 				t.Errorf("Fetch() got = %v, want %v", got, tt.fields.accounts)
 			}

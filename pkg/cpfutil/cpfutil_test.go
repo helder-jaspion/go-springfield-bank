@@ -3,6 +3,8 @@ package cpfutil
 import "testing"
 
 func TestClean(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		cpf  string
@@ -49,6 +51,8 @@ func TestClean(t *testing.T) {
 }
 
 func TestFormat(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		cpf  string
@@ -95,6 +99,8 @@ func TestFormat(t *testing.T) {
 }
 
 func TestIsValid(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		cpf  string

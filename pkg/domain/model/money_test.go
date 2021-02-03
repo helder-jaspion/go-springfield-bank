@@ -3,6 +3,8 @@ package model
 import "testing"
 
 func TestFloat64ToMoney(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		f    float64
@@ -44,6 +46,8 @@ func TestFloat64ToMoney(t *testing.T) {
 }
 
 func TestMoney_Float64(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		m    Money
@@ -85,6 +89,8 @@ func TestMoney_Float64(t *testing.T) {
 }
 
 func TestMoney_Int64(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		m    Money

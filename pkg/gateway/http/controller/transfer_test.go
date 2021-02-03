@@ -157,7 +157,7 @@ func Test_transferController_Create(t *testing.T) {
 			}
 
 			// Check result response
-			bodyStr := string(rec.Body.Bytes())
+			bodyStr := rec.Body.String()
 			ja.Assertf(bodyStr, tt.want)
 		})
 	}
@@ -287,7 +287,7 @@ func Test_transferController_Fetch(t *testing.T) {
 			}
 
 			// Check result response
-			bodyStr := string(rec.Body.Bytes())
+			bodyStr := rec.Body.String()
 			ja.Assertf(bodyStr, tt.want)
 		})
 	}

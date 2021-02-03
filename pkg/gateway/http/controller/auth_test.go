@@ -122,7 +122,7 @@ func Test_authController_Login(t *testing.T) {
 			}
 
 			// Check result response
-			bodyStr := string(rec.Body.Bytes())
+			bodyStr := rec.Body.String()
 			ja.Assertf(bodyStr, tt.want)
 		})
 	}

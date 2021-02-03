@@ -3,6 +3,8 @@ package model
 import "testing"
 
 func TestNewCPF(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		c    string
@@ -44,6 +46,8 @@ func TestNewCPF(t *testing.T) {
 }
 
 func TestCPF_String(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name string
 		c    CPF
