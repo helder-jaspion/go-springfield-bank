@@ -6,8 +6,8 @@ import (
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/db/postgres"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http/controller"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/infraestructure/health"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/infraestructure/logging"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/infraestructure/monitoring"
 )
 
 func main() {
@@ -18,7 +18,7 @@ func main() {
 	dbPool := postgres.ConnectPool(conf.Postgres.GetDSN(), conf.Postgres.Migrate)
 	defer dbPool.Close()
 
-	go health.RunHealthServer("8086", dbPool)
+	go monitoring.RunServer(conf.Monitoring.Port, dbPool)
 
 	//accRepo := memory.NewAccountRepository()
 	accRepo := postgres.NewAccountRepository(dbPool)

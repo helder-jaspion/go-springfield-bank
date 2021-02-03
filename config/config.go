@@ -10,10 +10,11 @@ import (
 
 // Config the base config structure.
 type Config struct {
-	Log      ConfLog
-	API      ConfAPI
-	Postgres ConfPostgres
-	Auth     ConfAuth
+	Log        ConfLog
+	API        ConfAPI
+	Monitoring ConfMonitoring
+	Postgres   ConfPostgres
+	Auth       ConfAuth
 }
 
 // ConfLog logging related configurations.
@@ -24,8 +25,12 @@ type ConfLog struct {
 
 // ConfAPI API related configurations.
 type ConfAPI struct {
-	HTTPPort   string `env:"API_HTTP_PORT" env-default:"8080"`
-	HealthPort string `env:"API_HEALTH_PORT" env-default:"8086"`
+	HTTPPort string `env:"API_HTTP_PORT" env-default:"8080"`
+}
+
+// ConfMonitoring monitoring related configurations.
+type ConfMonitoring struct {
+	Port string `env:"MONITORING_PORT" env-default:"8086"`
 }
 
 // ConfPostgres Postgres DB related configurations.
