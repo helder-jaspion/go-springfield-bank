@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/ilyakaznacheev/cleanenv"
 	"github.com/rs/zerolog/log"
+	"os"
 	"time"
 )
 
@@ -23,7 +24,8 @@ type ConfLog struct {
 
 // ConfAPI API related configurations.
 type ConfAPI struct {
-	HTTPPort string `env:"API_HTTP_PORT" env-default:"8080"`
+	HTTPPort   string `env:"API_HTTP_PORT" env-default:"8080"`
+	HealthPort string `env:"API_HEALTH_PORT" env-default:"8086"`
 }
 
 // ConfPostgres Postgres DB related configurations.
@@ -60,8 +62,10 @@ func (c ConfPostgres) GetDSN() string {
 	)
 }
 
-// ReadConfigFromFile reads configurations from file path and parses them into Config type.
+// ReadConfigFromFile reads configurations from OS env vars and file path and parses them into Config type.
 // Supported extensions: .yaml, .yml, .json, .toml, .edn and .env.
+//
+// ATTENTION: OS env vars will take precedence over file vars.
 func ReadConfigFromFile(filename string) *Config {
 	var cfg Config
 
@@ -73,7 +77,7 @@ func ReadConfigFromFile(filename string) *Config {
 	return &cfg
 }
 
-// ReadConfigFromEnv reads SO env variables and parses them into Config type.
+// ReadConfigFromEnv reads OS env variables and parses them into Config type.
 func ReadConfigFromEnv() *Config {
 	var cfg Config
 
@@ -83,4 +87,17 @@ func ReadConfigFromEnv() *Config {
 	}
 
 	return &cfg
+}
+
+// ReadConfig reads configurations from OS and file, if it exists, and parses them into Config type.
+// Supported extensions: .yaml, .yml, .json, .toml, .edn and .env.
+//
+// ATTENTION: OS env vars will take precedence over file vars.
+func ReadConfig(filename string) *Config {
+	if _, err := os.Stat(filename); os.IsNotExist(err) {
+		log.Warn().Msgf("Config file not found %s", filename)
+		return ReadConfigFromEnv()
+	}
+
+	return ReadConfigFromFile(filename)
 }

@@ -6,16 +6,19 @@ import (
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/db/postgres"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http/controller"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/infraestructure/health"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/infraestructure/logging"
 )
 
 func main() {
-	conf := config.ReadConfigFromFile("config/.env")
+	conf := config.ReadConfig("config/.env")
 
 	logging.InitZerolog(conf.Log.Level, conf.Log.Encoding)
 
 	dbPool := postgres.ConnectPool(conf.Postgres.GetDSN(), conf.Postgres.Migrate)
 	defer dbPool.Close()
+
+	go health.RunHealthServer("8086", dbPool)
 
 	//accRepo := memory.NewAccountRepository()
 	accRepo := postgres.NewAccountRepository(dbPool)
