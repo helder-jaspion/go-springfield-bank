@@ -24,7 +24,6 @@ func main() {
 
 	go monitoring.RunServer(conf.Monitoring.Port, dbPool)
 
-	//accRepo := memory.NewAccountRepository()
 	accRepo := postgres.NewAccountRepository(dbPool)
 	accUC := usecase.NewAccountUseCase(accRepo)
 	accCtrl := controller.NewAccountController(accUC)
