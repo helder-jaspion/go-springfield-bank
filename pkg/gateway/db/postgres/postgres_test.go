@@ -27,7 +27,7 @@ func TestMain(m *testing.M) {
 
 	dockerPool, err := dockertest.NewPool("")
 	if err != nil {
-		log.Logger.Fatal().Err(err).Msg("Could not connect to docker")
+		log.Logger.Fatal().Stack().Err(err).Msg("Could not connect to docker")
 	}
 
 	opts := dockertest.RunOptions{
@@ -42,7 +42,7 @@ func TestMain(m *testing.M) {
 
 	resource, err := dockerPool.RunWithOptions(&opts)
 	if err != nil {
-		log.Logger.Fatal().Err(err).Msg("Could not start resource")
+		log.Logger.Fatal().Stack().Err(err).Msg("Could not start resource")
 	}
 	_ = resource.Expire(60) // Tell docker to hard kill the container in 60 seconds
 	confPostgres.Port = resource.GetPort("5432/tcp")
@@ -51,7 +51,7 @@ func TestMain(m *testing.M) {
 		testDbPool, err = ConnectPool(confPostgres.GetDSN(), confPostgres.Migrate)
 		return err
 	}); err != nil {
-		log.Logger.Fatal().Err(err).Msg("Could not connect to docker")
+		log.Logger.Fatal().Stack().Err(err).Msg("Could not connect to docker")
 	}
 
 	defer func() {
@@ -61,7 +61,7 @@ func TestMain(m *testing.M) {
 	code := m.Run()
 
 	if err := dockerPool.Purge(resource); err != nil {
-		log.Logger.Fatal().Err(err).Msg("Could not purge resource")
+		log.Logger.Fatal().Stack().Err(err).Msg("Could not purge resource")
 	}
 
 	os.Exit(code)

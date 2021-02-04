@@ -108,7 +108,7 @@ func (trfUC transferUseCase) Create(ctx context.Context, transferInput TransferC
 		if err == repository.ErrAccountNotFound || err == ErrAccountCurrentBalanceInsufficient {
 			return nil, err
 		}
-		log.Ctx(ctx).Error().Err(err).Interface("transfer", transfer).Msg("error persisting new transfer")
+		log.Ctx(ctx).Error().Stack().Err(err).Interface("transfer", transfer).Msg("error persisting new transfer")
 		return nil, ErrTransferCreate
 	}
 

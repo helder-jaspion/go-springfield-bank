@@ -34,7 +34,7 @@ func (accCtrl accountController) Create(w http.ResponseWriter, r *http.Request) 
 
 	var input usecase.AccountCreateInput
 	if err := io.ReadInput(r, logger, &input); err != nil {
-		logger.Error().Err(err).Msg("error decoding account create input")
+		logger.Error().Stack().Err(err).Msg("error decoding account create input")
 		io.WriteErrorMsg(w, logger, http.StatusBadRequest, "error reading input")
 		return
 	}

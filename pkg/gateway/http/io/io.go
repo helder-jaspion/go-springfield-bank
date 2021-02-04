@@ -18,7 +18,7 @@ func ReadInput(r *http.Request, logger *zerolog.Logger, value interface{}) error
 	}
 	defer func() {
 		if err := r.Body.Close(); err != nil {
-			logger.Error().Err(err).Msg("error closing request body")
+			logger.Error().Stack().Err(err).Msg("error closing request body")
 		}
 	}()
 
@@ -31,7 +31,7 @@ func WriteSuccess(w http.ResponseWriter, logger *zerolog.Logger, statusCode int,
 	w.WriteHeader(statusCode)
 
 	if err := json.NewEncoder(w).Encode(result); err != nil {
-		logger.Error().Err(err).Interface("result", result).Msg("error encoding response")
+		logger.Error().Stack().Err(err).Interface("result", result).Msg("error encoding response")
 	}
 }
 
@@ -46,6 +46,6 @@ func WriteErrorMsg(w http.ResponseWriter, logger *zerolog.Logger, statusCode int
 	errReturn["message"] = message
 
 	if err := json.NewEncoder(w).Encode(errReturn); err != nil {
-		logger.Error().Err(err).Msg("error encoding response")
+		logger.Error().Stack().Err(err).Msg("error encoding response")
 	}
 }

@@ -18,7 +18,7 @@ func main() {
 
 	dbPool, err := postgres.ConnectPool(conf.Postgres.GetDSN(), conf.Postgres.Migrate)
 	if err != nil {
-		log.Fatal().Err(err).Msg("error connecting to db")
+		log.Fatal().Stack().Err(err).Msg("error connecting to db")
 	}
 	defer dbPool.Close()
 
@@ -38,7 +38,3 @@ func main() {
 	httpRouterSrv := http.NewHTTPRouterServer(":"+conf.API.HTTPPort, accCtrl, authCtrl, trfCtrl, authUC)
 	http.StartServer(httpRouterSrv)
 }
-
-// TODO log withStack
-// TODO logout
-// TODO grpc

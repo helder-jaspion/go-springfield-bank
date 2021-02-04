@@ -22,7 +22,7 @@ func RunServer(port string, dbPool *pgxpool.Pool) {
 
 	err := http.ListenAndServe(":"+port, adminMux)
 	if err != nil {
-		log.Error().Err(err).Msg("Could not start monitoring server")
+		log.Error().Stack().Err(err).Msg("Could not start monitoring server")
 	}
 }
 

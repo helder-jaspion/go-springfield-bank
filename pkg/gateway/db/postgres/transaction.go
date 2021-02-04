@@ -23,16 +23,9 @@ func execTransaction(ctx context.Context, db *pgxpool.Pool, txFunc func(context.
 		if p != nil || !errors.Is(err, nil) {
 			rbErr := tx.Rollback(ctx)
 			if rbErr != nil {
-				log.Logger.Error().
-					Interface("panic", p).
-					AnErr("originalErr", err).
-					Err(rbErr).
-					Msg("error during transaction rollback")
+				log.Logger.Error().Stack().Interface("panic", p).AnErr("originalErr", err).Err(rbErr).Msg("error during transaction rollback")
 			} else {
-				log.Logger.Warn().
-					Interface("panic", p).
-					AnErr("originalErr", err).
-					Msg("transaction rollback executed")
+				log.Logger.Warn().Stack().Interface("panic", p).AnErr("originalErr", err).Msg("transaction rollback executed")
 			}
 		} else {
 			err = tx.Commit(ctx)

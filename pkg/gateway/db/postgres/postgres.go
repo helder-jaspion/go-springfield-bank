@@ -6,11 +6,11 @@ import (
 	"context"
 	"github.com/golang-migrate/migrate/v4"
 	pgxDriver "github.com/golang-migrate/migrate/v4/database/postgres"
+	bindata "github.com/golang-migrate/migrate/v4/source/go_bindata"
 	"github.com/pkg/errors"
 
 	// migrate using sql files
 	_ "github.com/golang-migrate/migrate/v4/source/file"
-	bindata "github.com/golang-migrate/migrate/v4/source/go_bindata"
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/log/zerologadapter"
 	"github.com/jackc/pgx/v4/pgxpool"
@@ -46,7 +46,7 @@ func RunMigrations(connConfig *pgx.ConnConfig) error {
 	db := stdlib.OpenDB(*connConfig)
 	defer func() {
 		if err := db.Close(); err != nil {
-			log.Error().Err(err).Msg("error closing db connection from migration")
+			log.Error().Stack().Err(err).Msg("error closing db connection from migration")
 		}
 	}()
 

@@ -13,7 +13,7 @@ import (
 func InitZeroLog(levelStr, outputType string) {
 	level, err := zerolog.ParseLevel(levelStr)
 	if err != nil {
-		log.Error().Err(err).Msg("could not parse log level")
+		log.Error().Stack().Err(err).Msg("could not parse log level")
 	}
 	zerolog.SetGlobalLevel(level)
 	zerolog.ErrorStackMarshaler = pkgerrors.MarshalStack

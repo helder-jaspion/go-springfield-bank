@@ -76,7 +76,7 @@ func ReadConfigFromFile(filename string) *Config {
 
 	err := cleanenv.ReadConfig(filename, &cfg)
 	if err != nil {
-		log.Fatal().Err(err).Msg("error reading configs file")
+		log.Fatal().Stack().Err(err).Msg("error reading configs file")
 	}
 
 	return &cfg
@@ -88,7 +88,7 @@ func ReadConfigFromEnv() *Config {
 
 	err := cleanenv.ReadEnv(&cfg)
 	if err != nil {
-		log.Fatal().Err(err).Msg("error reading env")
+		log.Fatal().Stack().Err(err).Msg("error reading env")
 	}
 
 	return &cfg

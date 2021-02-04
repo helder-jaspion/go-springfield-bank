@@ -41,7 +41,7 @@ func (trfCtrl transferController) Create(w http.ResponseWriter, r *http.Request)
 
 	var input usecase.TransferCreateInput
 	if err := io.ReadInput(r, logger, &input); err != nil {
-		logger.Error().Err(err).Msg("error decoding transfer create input")
+		logger.Error().Stack().Err(err).Msg("error decoding transfer create input")
 		io.WriteErrorMsg(w, logger, http.StatusBadRequest, "error reading input")
 		return
 	}

@@ -21,7 +21,7 @@ func StartServer(server *http.Server) {
 
 	log.Info().Msgf("Server is ready to handle requests at %s", server.Addr)
 	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		log.Fatal().Err(err).Msgf("Could not listen on %s", server.Addr)
+		log.Fatal().Stack().Err(err).Msgf("Could not listen on %s", server.Addr)
 	}
 
 	<-done
@@ -37,7 +37,7 @@ func gracefulShutdown(server *http.Server, quit <-chan os.Signal, done chan<- bo
 
 	server.SetKeepAlivesEnabled(false)
 	if err := server.Shutdown(ctx); err != nil {
-		log.Fatal().Err(err).Msg("Could not gracefully shutdown the server")
+		log.Fatal().Stack().Err(err).Msg("Could not gracefully shutdown the server")
 	}
 	close(done)
 }
@@ -55,6 +55,6 @@ func handleOPTIONS(w http.ResponseWriter, r *http.Request) {
 }
 
 func handlePanic(w http.ResponseWriter, r *http.Request, p interface{}) {
-	hlog.FromRequest(r).Error().Interface("panic", p).Msg("Panic recovered")
+	hlog.FromRequest(r).Error().Stack().Interface("panic", p).Msg("Panic recovered")
 	w.WriteHeader(http.StatusInternalServerError)
 }

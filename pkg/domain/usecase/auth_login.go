@@ -46,7 +46,7 @@ func (authUC authUseCase) Login(ctx context.Context, loginInput AuthLoginInput) 
 		if err == repository.ErrAccountNotFound {
 			return nil, ErrAuthInvalidCredentials
 		}
-		log.Ctx(ctx).Error().Err(err).Str("cpf", loginInput.CPF).Msg("error during login")
+		log.Ctx(ctx).Error().Stack().Err(err).Str("cpf", loginInput.CPF).Msg("error during login")
 		return nil, ErrAuthLogin
 	}
 
@@ -61,7 +61,7 @@ func (authUC authUseCase) Login(ctx context.Context, loginInput AuthLoginInput) 
 
 	authTokenOutput, err := authUC.createAccountToken(account.ID)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Str("cpf", loginInput.CPF).Str("accountID", string(account.ID)).Msg("error creating new authTokenOutput")
+		log.Ctx(ctx).Error().Stack().Err(err).Str("cpf", loginInput.CPF).Str("accountID", string(account.ID)).Msg("error creating new authTokenOutput")
 		return nil, ErrAuthLogin
 	}
 

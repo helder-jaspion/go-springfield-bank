@@ -92,7 +92,7 @@ func (accUC accountUseCase) Create(ctx context.Context, accountInput AccountCrea
 	err = account.HashSecret()
 	if err != nil {
 		account.Secret = "[MASKED]" // removes secret to prevent logging it
-		log.Ctx(ctx).Error().Err(err).Interface("account", account).Msg("error hashing account secret")
+		log.Ctx(ctx).Error().Stack().Err(err).Interface("account", account).Msg("error hashing account secret")
 		return nil, ErrAccountCreate
 	}
 
@@ -106,7 +106,7 @@ func (accUC accountUseCase) Create(ctx context.Context, accountInput AccountCrea
 
 	err = accUC.accRepo.Create(ctx, account)
 	if err != nil {
-		log.Ctx(ctx).Error().Err(err).Interface("account", account).Msg("error persisting new account")
+		log.Ctx(ctx).Error().Stack().Err(err).Interface("account", account).Msg("error persisting new account")
 		return nil, ErrAccountCreate
 	}
 

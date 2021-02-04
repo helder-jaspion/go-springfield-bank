@@ -29,7 +29,7 @@ func (authCtrl authController) Login(w http.ResponseWriter, r *http.Request) {
 
 	var input usecase.AuthLoginInput
 	if err := io.ReadInput(r, logger, &input); err != nil {
-		logger.Error().Err(err).Msg("error decoding login input")
+		logger.Error().Stack().Err(err).Msg("error decoding login input")
 		io.WriteErrorMsg(w, logger, http.StatusBadRequest, "error reading input")
 		return
 	}
