@@ -47,9 +47,6 @@ func (accRepo accountRepository) ExistsByCPF(ctx context.Context, cpf model.CPF)
 
 	accountExists := false
 	err := getConnFromCtx(ctx, accRepo.db).QueryRow(ctx, query, cpf).Scan(&accountExists)
-	if err == pgx.ErrNoRows {
-		return false, nil
-	}
 	return accountExists, err
 }
 

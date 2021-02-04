@@ -36,7 +36,7 @@ type ConfMonitoring struct {
 // ConfPostgres Postgres DB related configurations.
 type ConfPostgres struct {
 	Host                string        `env:"DB_HOST" env-default:"localhost"`
-	Port                int           `env:"DB_PORT" env-default:"5432"`
+	Port                string        `env:"DB_PORT" env-default:"5432"`
 	DbName              string        `env:"DB_NAME" env-default:"springfield-bank-dev"`
 	User                string        `env:"DB_USER" env-default:"postgres"`
 	Password            string        `env:"DB_PASSWORD" env-default:"postgres"`
@@ -55,7 +55,7 @@ type ConfAuth struct {
 // GetDSN returns the database DSN, also known as Keyword/Value Connection String.
 func (c ConfPostgres) GetDSN() string {
 	return fmt.Sprintf(
-		"host=%s port=%d dbname=%s user=%s password=%s pool_max_conns=%d pool_max_conn_lifetime=%s sslmode=%s",
+		"host=%s port=%s dbname=%s user=%s password=%s pool_max_conns=%d pool_max_conn_lifetime=%s sslmode=%s",
 		c.Host,
 		c.Port,
 		c.DbName,

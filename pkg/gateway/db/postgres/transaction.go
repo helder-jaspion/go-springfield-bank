@@ -3,15 +3,14 @@ package postgres
 import (
 	"context"
 	"errors"
+	"github.com/jackc/pgtype/pgxtype"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/rs/zerolog/log"
 )
 
-type contextKey int
+type key int
 
-const (
-	transactionContextKey contextKey = iota
-)
+var transactionContextKey key
 
 func execTransaction(ctx context.Context, db *pgxpool.Pool, txFunc func(context.Context) (interface{}, error)) (data interface{}, err error) {
 	tx, err := db.Begin(ctx)
@@ -50,10 +49,10 @@ func execTransaction(ctx context.Context, db *pgxpool.Pool, txFunc func(context.
 	return data, err
 }
 
-func getConnFromCtx(ctx context.Context, db *pgxpool.Pool) *pgxpool.Pool {
-	tx, ok := ctx.Value(transactionContextKey).(*pgxpool.Pool)
+func getConnFromCtx(ctx context.Context, db *pgxpool.Pool) pgxtype.Querier {
+	tx, ok := ctx.Value(transactionContextKey).(pgxtype.Querier)
 	if !ok {
-		return db
+		return pgxtype.Querier(db)
 	}
 
 	return tx

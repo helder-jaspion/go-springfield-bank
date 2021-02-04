@@ -8,14 +8,18 @@ import (
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http/controller"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/infraestructure/logging"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/infraestructure/monitoring"
+	"github.com/rs/zerolog/log"
 )
 
 func main() {
 	conf := config.ReadConfig("config/.env")
 
-	logging.InitZerolog(conf.Log.Level, conf.Log.Encoding)
+	logging.InitZeroLog(conf.Log.Level, conf.Log.Encoding)
 
-	dbPool := postgres.ConnectPool(conf.Postgres.GetDSN(), conf.Postgres.Migrate)
+	dbPool, err := postgres.ConnectPool(conf.Postgres.GetDSN(), conf.Postgres.Migrate)
+	if err != nil {
+		log.Fatal().Err(err).Msg("error connecting to db")
+	}
 	defer dbPool.Close()
 
 	go monitoring.RunServer(conf.Monitoring.Port, dbPool)
@@ -35,3 +39,7 @@ func main() {
 	httpRouterSrv := http.NewHTTPRouterServer(":"+conf.API.HTTPPort, accCtrl, authCtrl, trfCtrl, authUC)
 	http.StartServer(httpRouterSrv)
 }
+
+// TODO log withStack
+// TODO logout
+// TODO grpc

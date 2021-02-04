@@ -6,6 +6,8 @@ import (
 	"context"
 	"github.com/golang-migrate/migrate/v4"
 	pgxDriver "github.com/golang-migrate/migrate/v4/database/postgres"
+	"github.com/pkg/errors"
+
 	// migrate using sql files
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 	bindata "github.com/golang-migrate/migrate/v4/source/go_bindata"
@@ -17,26 +19,26 @@ import (
 )
 
 // ConnectPool connects do Postgres and returns a *pgxPool.Pool.
-func ConnectPool(dbURL string, runMigrations bool) *pgxpool.Pool {
+func ConnectPool(dbURL string, runMigrations bool) (*pgxpool.Pool, error) {
 	config, err := pgxpool.ParseConfig(dbURL)
 	if err != nil {
-		log.Logger.Fatal().Err(err).Msg("error configuring the database")
+		return nil, errors.Wrap(err, "error configuring the database")
 	}
 	config.ConnConfig.Logger = zerologadapter.NewLogger(log.Logger)
 
 	dbPool, err := pgxpool.ConnectConfig(context.Background(), config)
 	if err != nil {
-		log.Logger.Fatal().Err(err).Msg("Unable to connect to database")
+		return nil, errors.Wrap(err, "Unable to connect to database")
 	}
 
 	if runMigrations {
 		err = RunMigrations(config.ConnConfig)
 		if err != nil {
-			log.Logger.Fatal().Err(err).Msg("error migrating postgres database")
+			return nil, errors.Wrap(err, "error migrating postgres database")
 		}
 	}
 
-	return dbPool
+	return dbPool, nil
 }
 
 // RunMigrations executes the database migrations all the way up.

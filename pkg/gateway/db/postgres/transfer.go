@@ -27,9 +27,9 @@ func (trfRepo transferRepository) Create(ctx context.Context, transfer *model.Tr
 	_, err := getConnFromCtx(ctx, trfRepo.db).Exec(
 		ctx,
 		query,
-		transfer.ID,
-		transfer.AccountOriginID,
-		transfer.AccountDestinationID,
+		string(transfer.ID),
+		string(transfer.AccountOriginID),
+		string(transfer.AccountDestinationID),
 		transfer.Amount,
 		transfer.CreatedAt,
 	)
@@ -46,10 +46,10 @@ func (trfRepo transferRepository) Fetch(ctx context.Context, accountID model.Acc
 			id, account_origin_id, account_destination_id, amount, created_at
 		FROM transfers
 		WHERE account_origin_id = $1 OR account_destination_id = $1
-		ORDER BY created_at asc
+		ORDER BY created_at desc
 	`
 
-	rows, err := getConnFromCtx(ctx, trfRepo.db).Query(ctx, query, accountID)
+	rows, err := getConnFromCtx(ctx, trfRepo.db).Query(ctx, query, string(accountID))
 	if err != nil {
 		return nil, err
 	}
