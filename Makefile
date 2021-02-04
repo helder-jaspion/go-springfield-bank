@@ -41,6 +41,7 @@ generate:
 .PHONY: lint
 lint:
 	@echo "  >  Running linters..."
+	golint ./...
 	golangci-lint run ./...
 
 .PHONY: archlint
