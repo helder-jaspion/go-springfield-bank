@@ -1,6 +1,5 @@
 FROM golang:1.15-alpine AS builder
 
-ARG PROJECT_PATH=github.com/helder-jaspion/go-springfield-bank
 ARG COMMAND_HANDLER=serverd
 
 # Set necessary environmet variables needed for our image
@@ -20,14 +19,11 @@ RUN go mod download
 COPY . .
 
 # Build the application
-RUN go build -o dist/main ${PROJECT_PATH}/cmd/${COMMAND_HANDLER}
-
-# Move to /dist directory as the place for resulting binary folder
-WORKDIR /dist
+RUN go build -o dist/main cmd/${COMMAND_HANDLER}/main.go
 
 
 # Build a small image
-FROM scratch
+FROM alpine
 
 ENV API_HTTP_PORT 8080
 EXPOSE $API_HTTP_PORT
@@ -36,7 +32,7 @@ ENV MONITORING_PORT 8086
 EXPOSE $MONITORING_PORT
 
 COPY --from=builder /build/dist/main /
-COPY migrations /migrations
+#COPY migrations /migrations
 
 # Command to run
 ENTRYPOINT ["/main"]

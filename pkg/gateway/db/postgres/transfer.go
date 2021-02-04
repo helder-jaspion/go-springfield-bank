@@ -46,6 +46,7 @@ func (trfRepo transferRepository) Fetch(ctx context.Context, accountID model.Acc
 			id, account_origin_id, account_destination_id, amount, created_at
 		FROM transfers
 		WHERE account_origin_id = $1 OR account_destination_id = $1
+		ORDER BY created_at asc
 	`
 
 	rows, err := getConnFromCtx(ctx, trfRepo.db).Query(ctx, query, accountID)

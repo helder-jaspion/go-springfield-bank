@@ -4,13 +4,13 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/rs/zerolog/pkgerrors"
-	stdlog "log"
+	stdLog "log"
 	"os"
 	"time"
 )
 
-// InitZerolog configures zero log with the initial values
-func InitZerolog(levelStr, outputType string) {
+// InitZeroLog configures zero log with the initial values
+func InitZeroLog(levelStr, outputType string) {
 	level, err := zerolog.ParseLevel(levelStr)
 	if err != nil {
 		log.Error().Err(err).Msg("could not parse log level")
@@ -26,8 +26,8 @@ func InitZerolog(levelStr, outputType string) {
 		})
 	}
 
-	log.Logger = log.Logger.With().Caller().Logger()
+	log.Logger = log.Logger.With().CallerWithSkipFrameCount(2).Logger()
 
-	stdlog.SetFlags(0)
-	stdlog.SetOutput(log.Logger)
+	stdLog.SetFlags(0)
+	stdLog.SetOutput(log.Logger)
 }

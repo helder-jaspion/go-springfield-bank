@@ -73,6 +73,7 @@ func (accRepo accountRepository) Fetch(ctx context.Context) ([]model.Account, er
 		SELECT
 			id, name, cpf, secret, balance, created_at
 		FROM accounts
+		ORDER BY created_at asc
 	`
 
 	rows, err := getConnFromCtx(ctx, accRepo.db).Query(ctx, query)
