@@ -10,7 +10,7 @@ It's main purpose is to transfer amounts between internal accounts.
 
 Written in Golang, this project aims to follow Go best practices and [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) for best maintainability, extensibility and testability.
 
-##### Table of Contents
+## Table of Contents
 - [Main features](#features)
 - [Endpoints](#endpoints)
 - [Running](#running)
@@ -33,16 +33,16 @@ Written in Golang, this project aims to follow Go best practices and [clean arch
 
 ## Endpoints
 ### Accounts
-- `POST /accounts` - Creates an account
+- `POST /accounts` - Create an account
     - accepts `X-Idempotent-Key` header
-- `GET /accounts` - fetch all the accounts
+- `GET /accounts` - Fetch all the accounts
 - `GET /accounts/:id/balance` - Get the balance of an account
 
 ### Authentication
-- `POST /login` - authenticates the user and return the access token
+- `POST /login` - Authenticate the user and return the access token
 
 ### Transfers
-- `POST /transfers` - transfer money to another account
+- `POST /transfers` - Transfer money to another account
     - requires `Authorization`
     - accepts `X-Idempotent-Key` header
 - `GET /transfers` - Fetch all the transfers related to the logged in account
@@ -52,11 +52,11 @@ Written in Golang, this project aims to follow Go best practices and [clean arch
 The monitoring endpoints listen on a different port for security reasons.
 The monitoring port number can be changed using the `MONITORING_PORT` [environment variable](#environment-variables).
 - `GET /metrics` - Prometheus metrics
-- `GET /ready` - readiness endpoint
-- `GET /live` - liveness endpoint
+- `GET /ready` - Readiness endpoint
+- `GET /live` - Liveness endpoint
 
 ## Running
-You can quickly build and run the application with its dependencies with this command (requires docker-compose):
+You can quickly build and run the application with its dependencies with this command (requires [docker-compose](https://docs.docker.com/compose/install/)):
 > make start
 
 You can stop it with:
@@ -64,13 +64,14 @@ You can stop it with:
 
 ## Development
 ### Architecture and data flow
-Here's a simple sequence diagram that shows the roles of Controllers, Use Cases and Repositories.
+Here's a simple sequence diagram that shows the roles of Controllers, Use Cases and Repositories and how they interact with each other:
+
 ![Basic sequence diagram](docs/diagrams/basic_sequence.png)
 
 ### Postgres and Redis servers
 The application depends on having a Postgres and a Redis server.
 
-You can get a Postgres and a Redis servers up and running quickly by running (requires docker-compose):
+You can get a Postgres and a Redis servers up and running quickly by running (requires [docker-compose](https://docs.docker.com/compose/install/)):
 > make dev-up
 
 You can shut them down later by running:
@@ -151,4 +152,3 @@ Check definitions and examples of configuration variables used by this app at [c
 - [ ] README
 - [ ] swagger/openapi
 - [ ] logout
-- [ ] grpc
