@@ -29,12 +29,9 @@ jobs:
           flags: unittests
           name: codecov-umbrella
 
-      - name: Login to Heroku Container registry
-        env: 
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login
-      - name: Build and push
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          HEROKU_APP_NAME: go-springfield-bank
-        run: heroku container:push web
+      - uses: akhileshns/heroku-deploy@v3.0.0
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "go-springfield-bank"
+          heroku_email: "helder.jaspion@gmail.com"
+          usedocker: true
