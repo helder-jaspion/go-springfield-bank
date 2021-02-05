@@ -3,11 +3,38 @@ COMMAND_HANDLER ?= serverd
 VERSION ?= dev
 OS ?= linux
 
+.PHONY: dev-up
+setup:
+	@echo "  > Starting dev deps..."
+	docker-compose -f deployments/docker-compose-dev.yml up -d
+
+.PHONY: dev-down
+setup:
+	@echo "  > Shutting dev deps down..."
+	docker-compose -f deployments/docker-compose-dev.yml down
+
+.PHONY: start
+setup:
+	@echo "  > Starting..."
+	docker-compose -f deployments/docker-compose.yml up -d --build
+
+.PHONY: stop
+setup:
+	@echo "  > Stopping..."
+	docker-compose -f deployments/docker-compose.yml down
+
+.PHONY: setup-pre-commit
+setup-pre-commit:
+	@echo "  > Setting pre-commit up..."
+	pip install pre-commit
+	pre-commit install
+
 .PHONY: setup
 setup:
 	@echo "  > Getting deps..."
 	go mod tidy
 	GO111MODULE=on go install \
+	golang.org/x/tools/cmd/goimports \
 	github.com/resotto/gochk/cmd/gochk \
 	github.com/golangci/golangci-lint/cmd/golangci-lint
 
@@ -20,7 +47,7 @@ clean:
 .PHONY: test
 test:
 	@echo "  >  Running Tests..."
-	go test -v ./...
+	go test -v -race ./...
 
 .PHONY: compile
 compile: clean

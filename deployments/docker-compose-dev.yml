@@ -30,5 +30,16 @@ services:
       postgres:
         condition: service_healthy
 
+  redis:
+    image: redis:6-alpine
+    command: redis-server --requirepass Redis2021!
+    ports:
+      - 6379:6379
+    healthcheck:
+      test: [ "CMD", "redis-cli","ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
 volumes:
   postgres_data_dev:

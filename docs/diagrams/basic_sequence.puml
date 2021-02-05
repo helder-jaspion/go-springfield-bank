@@ -1,0 +1,12 @@
+@startuml
+Controller -> Controller: receives and decodes http req
+Controller -> UseCase: sends a custom input type
+UseCase -> UseCase: validates input type
+UseCase -> UseCase: does some business processing
+UseCase -> Repository: sends domain type
+Repository -> DataSource
+Repository <-- DataSource
+UseCase <-- Repository: sends domain type
+Controller <-- UseCase: sends a custom output type
+Controller -> Controller: encodes output into http resp
+@enduml
