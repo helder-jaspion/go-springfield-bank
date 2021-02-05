@@ -75,8 +75,7 @@ archlint:
 .PHONY: test-coverage
 test-coverage:
 	@echo "  >  Running tests..."
-	go test -failfast -coverprofile=coverage.out ./...
-	go tool cover -html=coverage.out -o coverage.html
+	go test -v ./... -coverprofile=coverage.txt -covermode=atomic
 
 .PHONY: go-fmt
 go-fmt:
