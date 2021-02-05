@@ -29,12 +29,12 @@ jobs:
           flags: unittests
           name: codecov-umbrella
 
-      - name: Deploy Container to Heroku
-        uses: lucassarcanjo/heroku-deploy@2.1.2
-        with:
-          # Email Linked to your Heroku Account
-          email: "helder.jaspion@gmail.com"
-          # Your Heroku API Key
-          api_key: ${{secrets.HEROKU_API_KEY}}
-          # Your Heroku App Name
-          app_name: "go-springfield-bank"
+      - name: Login to Heroku Container registry
+        env: 
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login
+      - name: Build and push
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP_NAME: go-springfield-bank
+        run: heroku container:push web
