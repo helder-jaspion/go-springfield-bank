@@ -47,8 +47,8 @@ test:
 .PHONY: compile
 compile: clean
 	@echo "  >  Building "${COMMAND_HANDLER}"..."
-	env GOOS=${OS} GOARCH=amd64 go build -v -o build/${COMMAND_HANDLER} cmd/${COMMAND_HANDLER}/main.go
-	echo "Binary generated at build/"${COMMAND_HANDLER}
+	env GOOS=${OS} GOARCH=amd64 go build -v -o dist/${COMMAND_HANDLER} cmd/${COMMAND_HANDLER}/main.go
+	echo "Binary generated at dist/"${COMMAND_HANDLER}
 
 .PHONY: build
 build: clean
