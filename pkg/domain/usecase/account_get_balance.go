@@ -15,8 +15,8 @@ var (
 
 // AccountBalanceOutput represents the output data of the GetBalance method.
 type AccountBalanceOutput struct {
-	ID      string  `json:"id"`
-	Balance float64 `json:"balance"`
+	ID      string  `json:"id" example:"16b1d860-43d3-4970-bb54-ec395908599a"`
+	Balance float64 `json:"balance" example:"9999.99"`
 }
 
 func newAccountBalanceOutput(account *model.Account) *AccountBalanceOutput {

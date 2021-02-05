@@ -16,7 +16,7 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 # Copy the code into the container
-COPY . .
+COPY build .
 
 # Build the application
 RUN go build -o dist/main cmd/${COMMAND_HANDLER}/main.go

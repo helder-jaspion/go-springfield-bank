@@ -30,6 +30,20 @@ func NewTransferController(trfUC usecase.TransferUseCase, authUC usecase.AuthUse
 	}
 }
 
+// @Summary Create transfer
+// @Description Creates a new transfer from the current account to another. Debits the amount from origin account and credit it to the destination account.
+// @tags Transfers
+// @Accept json
+// @Produce json
+// @Security Access token
+// @Param account body usecase.TransferCreateInput true "Transfer"
+// @Param X-Idempotency-Key header string false "Idempotency key"
+// @Success 201 {object} usecase.TransferCreateOutput
+// @failure 400 {object} io.ErrorOutput
+// @failure 401 {object} io.ErrorOutput
+// @failure 422 {object} io.ErrorOutput
+// @failure 500 {object} io.ErrorOutput
+// @Router /transfers [post]
 func (trfCtrl transferController) Create(w http.ResponseWriter, r *http.Request) {
 	logger := hlog.FromRequest(r)
 
@@ -56,6 +70,15 @@ func (trfCtrl transferController) Create(w http.ResponseWriter, r *http.Request)
 	io.WriteSuccess(w, logger, http.StatusCreated, result)
 }
 
+// @Summary Fetch transfers
+// @Description Fetch the transfers the current account is related to
+// @tags Transfers
+// @Produce json
+// @Security Access token
+// @Success 200 {object} []usecase.TransferFetchOutput
+// @failure 401 {object} io.ErrorOutput
+// @failure 500 {object} io.ErrorOutput
+// @Router /transfers [get]
 func (trfCtrl transferController) Fetch(w http.ResponseWriter, r *http.Request) {
 	logger := hlog.FromRequest(r)
 

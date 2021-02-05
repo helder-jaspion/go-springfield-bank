@@ -1,3 +1,18 @@
+// @title GO Springfield Bank API
+// @version 0.0.1
+// @description GO Springfield Bank API simulates a digital bank where you can create and fetch accounts, login with your account and transfer money to other accounts.
+
+// @contact.name Helder Alves
+// @contact.email helder.jaspion@gmail.com
+// @contact.url https://github.com/helder-jaspion/go-springfield-bank/
+
+// @license.name MIT
+// @license.url https://github.com/helder-jaspion/go-springfield-bank/blob/main/LICENSE
+
+// @securityDefinitions.apikey Access token
+// @in header
+// @name Authorization
+
 package main
 
 import (

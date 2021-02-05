@@ -23,12 +23,6 @@ setup:
 	@echo "  > Stopping..."
 	docker-compose -f deployments/docker-compose.yml down
 
-.PHONY: setup-pre-commit
-setup-pre-commit:
-	@echo "  > Setting pre-commit up..."
-	pip install pre-commit
-	pre-commit install
-
 .PHONY: setup
 setup:
 	@echo "  > Getting deps..."
@@ -36,7 +30,8 @@ setup:
 	GO111MODULE=on go install \
 	golang.org/x/tools/cmd/goimports \
 	github.com/resotto/gochk/cmd/gochk \
-	github.com/golangci/golangci-lint/cmd/golangci-lint
+	github.com/golangci/golangci-lint/cmd/golangci-lint \
+	github.com/swaggo/swag/cmd/swag
 
 .PHONY: clean
 clean:
@@ -64,6 +59,7 @@ build: clean
 generate:
 	@echo "  >  Generating Go files..."
 	go generate ./...
+	swag init -g cmd/${COMMAND_HANDLER}/main.go -o api
 
 .PHONY: lint
 lint:

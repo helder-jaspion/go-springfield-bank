@@ -1,0 +1,333 @@
+definitions:
+  io.ErrorOutput:
+    properties:
+      code:
+        type: integer
+      message:
+        example: something wrong happened
+        type: string
+    type: object
+  usecase.AccountBalanceOutput:
+    properties:
+      balance:
+        example: 9999.99
+        type: number
+      id:
+        example: 16b1d860-43d3-4970-bb54-ec395908599a
+        type: string
+    type: object
+  usecase.AccountCreateInput:
+    properties:
+      balance:
+        default: 0
+        example: 9999.99
+        type: number
+      cpf:
+        example: 999.999.999-99
+        type: string
+      name:
+        example: Bart Simpson
+        type: string
+      secret:
+        example: S3cr3t
+        type: string
+    type: object
+  usecase.AccountCreateOutput:
+    properties:
+      balance:
+        example: 9999.99
+        type: number
+      cpf:
+        example: 999.999.999-99
+        type: string
+      created_at:
+        example: "2020-12-31T23:59:59.999999-03:00"
+        type: string
+      id:
+        example: 16b1d860-43d3-4970-bb54-ec395908599a
+        type: string
+      name:
+        example: Bart Simpson
+        type: string
+    type: object
+  usecase.AccountFetchOutput:
+    properties:
+      balance:
+        example: 9999.99
+        type: number
+      cpf:
+        example: 999.999.999-99
+        type: string
+      created_at:
+        example: "2020-12-31T23:59:59.999999-03:00"
+        type: string
+      id:
+        example: 16b1d860-43d3-4970-bb54-ec395908599a
+        type: string
+      name:
+        example: Bart Simpson
+        type: string
+    type: object
+  usecase.AuthLoginInput:
+    properties:
+      cpf:
+        example: 999.999.999-99
+        type: string
+      secret:
+        example: S3cr3t
+        type: string
+    type: object
+  usecase.AuthTokenOutput:
+    properties:
+      access_token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTI1Mjk3NTksImlhdCI6MTYxMjUyODg1OSwic3ViIjoiNmMzYjhhNTUtNmI4MC00MTM3LTlkZmYtNTAzY2FmNTc2NTE0In0.uJc24K1GLMwbswa_4DqCpNzqhdLYAklVyGaZEcmlKn8
+        type: string
+    type: object
+  usecase.TransferCreateInput:
+    properties:
+      account_destination_id:
+        example: ce8ba94a-2c5f-4e00-80a1-6fcb0ce7382d
+        type: string
+      amount:
+        example: 9999.99
+        type: number
+    type: object
+  usecase.TransferCreateOutput:
+    properties:
+      account_destination_id:
+        example: ce8ba94a-2c5f-4e00-80a1-6fcb0ce7382d
+        type: string
+      account_origin_id:
+        example: 16b1d860-43d3-4970-bb54-ec395908599a
+        type: string
+      amount:
+        example: 9999.99
+        type: number
+      created_at:
+        example: "2020-12-31T23:59:59.999999-03:00"
+        type: string
+      id:
+        example: e82706ef-9ffb-45a2-8081-547accd818c4
+        type: string
+    type: object
+  usecase.TransferFetchOutput:
+    properties:
+      account_destination_id:
+        example: ce8ba94a-2c5f-4e00-80a1-6fcb0ce7382d
+        type: string
+      account_origin_id:
+        example: 16b1d860-43d3-4970-bb54-ec395908599a
+        type: string
+      amount:
+        example: 9999.99
+        type: number
+      created_at:
+        example: "2020-12-31T23:59:59.999999-03:00"
+        type: string
+      id:
+        example: e82706ef-9ffb-45a2-8081-547accd818c4
+        type: string
+    type: object
+info:
+  contact:
+    email: helder.jaspion@gmail.com
+    name: Helder Alves
+    url: https://github.com/helder-jaspion/go-springfield-bank/
+  description: GO Springfield Bank API simulates a digital bank where you can create
+    and fetch accounts, login with your account and transfer money to other accounts.
+  license:
+    name: MIT
+    url: https://github.com/helder-jaspion/go-springfield-bank/blob/main/LICENSE
+  title: GO Springfield Bank API
+  version: 0.0.1
+paths:
+  /account/{id}/balance:
+    get:
+      consumes:
+      - application/json
+      description: Get the balance of an account
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/usecase.AccountBalanceOutput'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/io.ErrorOutput'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/io.ErrorOutput'
+      summary: Get account balance
+      tags:
+      - Accounts
+  /accounts:
+    get:
+      description: Fetch all the accounts
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/usecase.AccountFetchOutput'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/io.ErrorOutput'
+      summary: Fetch accounts
+      tags:
+      - Accounts
+    post:
+      consumes:
+      - application/json
+      description: Creates a new account
+      parameters:
+      - description: Account
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/usecase.AccountCreateInput'
+      - description: Idempotency key
+        in: header
+        name: X-Idempotency-Key
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/usecase.AccountCreateOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/io.ErrorOutput'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/io.ErrorOutput'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/io.ErrorOutput'
+      summary: Create account
+      tags:
+      - Accounts
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates the user/account
+      parameters:
+      - description: Credentials
+        in: body
+        name: credentials
+        required: true
+        schema:
+          $ref: '#/definitions/usecase.AuthLoginInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/usecase.AuthTokenOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/io.ErrorOutput'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/io.ErrorOutput'
+      summary: Login
+      tags:
+      - Authentication
+  /transfers:
+    get:
+      description: Fetch the transfers the current account is related to
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/usecase.TransferFetchOutput'
+            type: array
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/io.ErrorOutput'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/io.ErrorOutput'
+      security:
+      - Access token: []
+      summary: Fetch transfers
+      tags:
+      - Transfers
+    post:
+      consumes:
+      - application/json
+      description: Creates a new transfer from the current account to another. Debits
+        the amount from origin account and credit it to the destination account.
+      parameters:
+      - description: Transfer
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/usecase.TransferCreateInput'
+      - description: Idempotency key
+        in: header
+        name: X-Idempotency-Key
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/usecase.TransferCreateOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/io.ErrorOutput'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/io.ErrorOutput'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/io.ErrorOutput'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/io.ErrorOutput'
+      security:
+      - Access token: []
+      summary: Create transfer
+      tags:
+      - Transfers
+securityDefinitions:
+  Access token:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

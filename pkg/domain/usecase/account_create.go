@@ -28,10 +28,10 @@ var (
 
 // AccountCreateInput represents the expected input data when creating an account.
 type AccountCreateInput struct {
-	Name    string  `json:"name"`
-	CPF     string  `json:"cpf"`
-	Secret  string  `json:"secret"`
-	Balance float64 `json:"balance"`
+	Name    string  `json:"name" example:"Bart Simpson"`
+	CPF     string  `json:"cpf" example:"999.999.999-99"`
+	Secret  string  `json:"secret" example:"S3cr3t"`
+	Balance float64 `json:"balance" example:"9999.99" default:"0"`
 }
 
 // Validate validates the AccountCreateInput fields.
@@ -58,11 +58,11 @@ func (input *AccountCreateInput) Validate() error {
 
 // AccountCreateOutput represents the output data of the create method.
 type AccountCreateOutput struct {
-	ID        string    `json:"id"`
-	Name      string    `json:"name"`
-	CPF       string    `json:"cpf"`
-	Balance   float64   `json:"balance"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        string    `json:"id" example:"16b1d860-43d3-4970-bb54-ec395908599a"`
+	Name      string    `json:"name" example:"Bart Simpson"`
+	CPF       string    `json:"cpf" example:"999.999.999-99"`
+	Balance   float64   `json:"balance" example:"9999.99"`
+	CreatedAt time.Time `json:"created_at" example:"2020-12-31T23:59:59.999999-03:00"`
 }
 
 func newAccountCreateOutput(account *model.Account) *AccountCreateOutput {

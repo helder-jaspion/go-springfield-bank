@@ -69,7 +69,7 @@ Here's a simple sequence diagram that shows the roles of Controllers, Use Cases 
 ![Basic sequence diagram](docs/diagrams/basic_sequence.png)
 
 ### Postgres and Redis servers
-The application depends on having a Postgres and a Redis server.
+The application depends on Postgres and Redis servers.
 
 You can get a Postgres and a Redis servers up and running quickly by running (requires [docker-compose](https://docs.docker.com/compose/install/)):
 > make dev-up

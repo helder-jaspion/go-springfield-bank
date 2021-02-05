@@ -29,6 +29,18 @@ func NewAccountController(accUC usecase.AccountUseCase) AccountController {
 	}
 }
 
+// @Summary Create account
+// @Description Creates a new account
+// @tags Accounts
+// @Accept  json
+// @Produce  json
+// @Param account body usecase.AccountCreateInput true "Account"
+// @Param X-Idempotency-Key header string false "Idempotency key"
+// @Success 201 {object} usecase.AccountCreateOutput
+// @failure 400 {object} io.ErrorOutput
+// @failure 409 {object} io.ErrorOutput
+// @failure 500 {object} io.ErrorOutput
+// @Router /accounts [post]
 func (accCtrl accountController) Create(w http.ResponseWriter, r *http.Request) {
 	logger := hlog.FromRequest(r)
 
@@ -48,6 +60,13 @@ func (accCtrl accountController) Create(w http.ResponseWriter, r *http.Request) 
 	io.WriteSuccess(w, logger, http.StatusCreated, result)
 }
 
+// @Summary Fetch accounts
+// @Description Fetch all the accounts
+// @tags Accounts
+// @Produce json
+// @Success 200 {object} []usecase.AccountFetchOutput
+// @failure 500 {object} io.ErrorOutput
+// @Router /accounts [get]
 func (accCtrl accountController) Fetch(w http.ResponseWriter, r *http.Request) {
 	logger := hlog.FromRequest(r)
 
@@ -60,6 +79,16 @@ func (accCtrl accountController) Fetch(w http.ResponseWriter, r *http.Request) {
 	io.WriteSuccess(w, logger, http.StatusOK, result)
 }
 
+// @Summary Get account balance
+// @Description Get the balance of an account
+// @tags Accounts
+// @Accept json
+// @Produce json
+// @Param id path string true "Account ID"
+// @Success 200 {object} usecase.AccountBalanceOutput
+// @failure 404 {object} io.ErrorOutput
+// @failure 500 {object} io.ErrorOutput
+// @Router /account/{id}/balance [get]
 func (accCtrl accountController) GetBalance(w http.ResponseWriter, r *http.Request) {
 	logger := hlog.FromRequest(r)
 

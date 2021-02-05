@@ -99,17 +99,17 @@ func Test_accountUseCase_Fetch(t *testing.T) {
 						return []model.Account{
 							{
 								ID:        "any-uuid-1",
-								Name:      "Jon Snow",
+								Name:      "Homer Simpson",
 								CPF:       "59951332099",
-								Secret:    "IAmNotSnow",
+								Secret:    "Donuts",
 								Balance:   -240,
 								CreatedAt: time.Time{},
 							},
 							{
 								ID:        "any-uuid-2",
-								Name:      "Tyrion Lannister",
+								Name:      "Marge Simpson",
 								CPF:       "84352262048",
-								Secret:    "Wine",
+								Secret:    "Blu3H4ir",
 								Balance:   55,
 								CreatedAt: time.Time{},
 							},
@@ -124,7 +124,7 @@ func Test_accountUseCase_Fetch(t *testing.T) {
 				{
 					AccountCreateOutput: AccountCreateOutput{
 						ID:        "any-uuid-1",
-						Name:      "Jon Snow",
+						Name:      "Homer Simpson",
 						CPF:       "599.513.320-99",
 						Balance:   -2.4,
 						CreatedAt: time.Time{},
@@ -133,7 +133,7 @@ func Test_accountUseCase_Fetch(t *testing.T) {
 				{
 					AccountCreateOutput: AccountCreateOutput{
 						ID:        "any-uuid-2",
-						Name:      "Tyrion Lannister",
+						Name:      "Marge Simpson",
 						CPF:       "843.522.620-48",
 						Balance:   0.55,
 						CreatedAt: time.Time{},

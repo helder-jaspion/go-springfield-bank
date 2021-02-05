@@ -11,6 +11,8 @@ import (
 // AuthController is the interface that wraps http handle methods related to authentication.
 type AuthController interface {
 	Login(w http.ResponseWriter, r *http.Request)
+	//Logout(w http.ResponseWriter, r *http.Request)
+	//RefreshToken(w http.ResponseWriter, r *http.Request)
 }
 
 type authController struct {
@@ -24,6 +26,16 @@ func NewAuthController(authUC usecase.AuthUseCase) AuthController {
 	}
 }
 
+// @Summary Login
+// @Description Authenticates the user/account
+// @tags Authentication
+// @Accept json
+// @Produce json
+// @Param credentials body usecase.AuthLoginInput true "Credentials"
+// @Success 200 {object} usecase.AuthTokenOutput
+// @failure 400 {object} io.ErrorOutput
+// @failure 401 {object} io.ErrorOutput
+// @Router /login [post]
 func (authCtrl authController) Login(w http.ResponseWriter, r *http.Request) {
 	logger := hlog.FromRequest(r)
 

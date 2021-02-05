@@ -19,13 +19,13 @@ var (
 
 // AuthLoginInput represents the expected input data when logging in.
 type AuthLoginInput struct {
-	CPF    string `json:"cpf"`
-	Secret string `json:"secret"`
+	CPF    string `json:"cpf" example:"999.999.999-99"`
+	Secret string `json:"secret" example:"S3cr3t"`
 }
 
 // AuthTokenOutput represents the output data of the login method.
 type AuthTokenOutput struct {
-	AccessToken string `json:"access_token,omitempty"`
+	AccessToken string `json:"access_token,omitempty" example:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTI1Mjk3NTksImlhdCI6MTYxMjUyODg1OSwic3ViIjoiNmMzYjhhNTUtNmI4MC00MTM3LTlkZmYtNTAzY2FmNTc2NTE0In0.uJc24K1GLMwbswa_4DqCpNzqhdLYAklVyGaZEcmlKn8"`
 }
 
 func newAuthTokenOutput(accessToken string) *AuthTokenOutput {

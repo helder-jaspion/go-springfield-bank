@@ -28,8 +28,8 @@ var (
 // TransferCreateInput represents the expected input data when creating a transfer.
 type TransferCreateInput struct {
 	AccountOriginID      string  `json:"-"`
-	AccountDestinationID string  `json:"account_destination_id"`
-	Amount               float64 `json:"amount"`
+	AccountDestinationID string  `json:"account_destination_id" example:"ce8ba94a-2c5f-4e00-80a1-6fcb0ce7382d"`
+	Amount               float64 `json:"amount" example:"9999.99"`
 }
 
 // Validate validates the TransferCreateInput fields.
@@ -57,11 +57,11 @@ func (input *TransferCreateInput) Validate() error {
 
 // TransferCreateOutput represents the output data of the create method.
 type TransferCreateOutput struct {
-	ID                   string    `json:"id"`
-	AccountOriginID      string    `json:"account_origin_id"`
-	AccountDestinationID string    `json:"account_destination_id"`
-	Amount               float64   `json:"amount"`
-	CreatedAt            time.Time `json:"created_at"`
+	ID                   string    `json:"id" example:"e82706ef-9ffb-45a2-8081-547accd818c4"`
+	AccountOriginID      string    `json:"account_origin_id" example:"16b1d860-43d3-4970-bb54-ec395908599a"`
+	AccountDestinationID string    `json:"account_destination_id" example:"ce8ba94a-2c5f-4e00-80a1-6fcb0ce7382d"`
+	Amount               float64   `json:"amount" example:"9999.99"`
+	CreatedAt            time.Time `json:"created_at" example:"2020-12-31T23:59:59.999999-03:00"`
 }
 
 func newTransferCreateOutput(transfer *model.Transfer) *TransferCreateOutput {

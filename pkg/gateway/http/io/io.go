@@ -11,6 +11,12 @@ const (
 	jsonContentType = "application/json"
 )
 
+// ErrorOutput represents the output data in case of error.
+type ErrorOutput struct {
+	Code    int    `json:"code"`
+	Message string `json:"message" example:"something wrong happened"`
+}
+
 // ReadInput reads the JSON-encoded value from request and stores it in the value pointed to by value.
 func ReadInput(r *http.Request, logger *zerolog.Logger, value interface{}) error {
 	if err := json.NewDecoder(r.Body).Decode(value); err != nil {
@@ -41,9 +47,14 @@ func WriteErrorMsg(w http.ResponseWriter, logger *zerolog.Logger, statusCode int
 	w.WriteHeader(statusCode)
 
 	// TODO return format {code, message}
-	errReturn := make(map[string]interface{})
-	errReturn["code"] = statusCode
-	errReturn["message"] = message
+	//errReturn := make(map[string]interface{})
+	//errReturn["code"] = statusCode
+	//errReturn["message"] = message
+
+	errReturn := ErrorOutput{
+		Code:    statusCode,
+		Message: message,
+	}
 
 	if err := json.NewEncoder(w).Encode(errReturn); err != nil {
 		logger.Error().Stack().Err(err).Msg("error encoding response")
