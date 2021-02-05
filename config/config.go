@@ -14,6 +14,7 @@ type Config struct {
 	API        ConfAPI
 	Monitoring ConfMonitoring
 	Postgres   ConfPostgres
+	Redis      ConfRedis
 	Auth       ConfAuth
 }
 
@@ -44,6 +45,12 @@ type ConfPostgres struct {
 	PoolMaxConn         int32         `env:"DB_POOL_MAX_CONN" env-default:"5"`
 	PoolMaxConnLifetime time.Duration `env:"DB_POOL_MAX_CONN_LIFETIME" env-default:"5m"`
 	Migrate             bool          `env:"DB_MIGRATE" env-default:"true"`
+}
+
+// ConfRedis Redis related configurations.
+type ConfRedis struct {
+	Addr     string `env:"REDIS_ADDR" env-default:"localhost:6379"`
+	Password string `env:"REDIS_PASSWORD" env-default:"Redis2021!"`
 }
 
 // ConfAuth Authentication related configurations.

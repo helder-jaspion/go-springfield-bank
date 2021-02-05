@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-// BearerAuth getBearer  Authorization header, parses and validate.
+// BearerAuth get Bearer Authorization header, parses and validate.
 func BearerAuth(authUC usecase.AuthUseCase, next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		logger := hlog.FromRequest(r)

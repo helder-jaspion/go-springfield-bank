@@ -3,7 +3,8 @@ package main
 import (
 	"github.com/helder-jaspion/go-springfield-bank/config"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/db/postgres"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/datasource/postgres"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/datasource/redis"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http/controller"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/infraestructure/logging"
@@ -22,7 +23,13 @@ func main() {
 	}
 	defer dbPool.Close()
 
-	go monitoring.RunServer(conf.Monitoring.Port, dbPool)
+	redisClient := redis.Connect(conf.Redis.Addr, conf.Redis.Password)
+	defer func() {
+		err = redisClient.Close()
+		log.Fatal().Stack().Err(err).Msg("error closing redis connection")
+	}()
+
+	go monitoring.RunServer(conf.Monitoring.Port, dbPool, redisClient)
 
 	accRepo := postgres.NewAccountRepository(dbPool)
 	accUC := usecase.NewAccountUseCase(accRepo)
@@ -35,6 +42,8 @@ func main() {
 	trfUC := usecase.NewTransferUseCase(trfRepo, accRepo)
 	trfCtrl := controller.NewTransferController(trfUC, authUC)
 
-	httpRouterSrv := http.NewHTTPRouterServer(":"+conf.API.HTTPPort, accCtrl, authCtrl, trfCtrl, authUC)
+	idpRepo := redis.NewIdempotencyRepository(redisClient)
+
+	httpRouterSrv := http.NewHTTPRouterServer(":"+conf.API.HTTPPort, accCtrl, authCtrl, trfCtrl, authUC, idpRepo)
 	http.StartServer(httpRouterSrv)
 }
