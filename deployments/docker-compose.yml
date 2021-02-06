@@ -9,7 +9,7 @@ services:
     environment:
       "LOG_ENCODING": json # json, console; default: json
       "LOG_LEVEL": info # trace, debug, info, warn, error, fatal, panic; default: info
-      "API_HTTP_PORT": 8080 # default: 8080
+      "PORT": 8080 # default: 8080
       "MONITORING_PORT": 8086 # default: 8086
       "DB_HOST": postgres # default: localhost
       "DB_PORT": 5432 # default: 5432
