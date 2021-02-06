@@ -7,6 +7,7 @@ import (
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http/middleware"
 	"github.com/julienschmidt/httprouter"
 	"github.com/justinas/alice"
+	"github.com/swaggo/http-swagger"
 	"net/http"
 	"time"
 )
@@ -28,6 +29,11 @@ func NewHTTPRouterServer(listenAddr string, accCtrl controller.AccountController
 	// transfer
 	router.HandlerFunc(http.MethodPost, "/transfers", middleware.BearerAuth(authUC, middleware.Idempotency(idpRepo, trfCtrl.Create)))
 	router.HandlerFunc(http.MethodGet, "/transfers", middleware.BearerAuth(authUC, trfCtrl.Fetch))
+
+	router.HandlerFunc(http.MethodGet, "/swagger/*any", httpSwagger.WrapHandler)
+	router.HandlerFunc(http.MethodGet, "/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/swagger", http.StatusFound)
+	})
 
 	c := alice.New()
 	c = c.Append(middleware.NewLoggerHandlerFunc())

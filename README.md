@@ -12,6 +12,7 @@ Written in Golang, this project aims to follow Go best practices and [clean arch
 
 ## Table of Contents
 - [Main features](#features)
+- [Demo / Deployment](#demo--deployment)
 - [Endpoints](#endpoints)
 - [Running](#running)
 - [Development](#development)
@@ -28,10 +29,20 @@ Written in Golang, this project aims to follow Go best practices and [clean arch
 - Error handling with proper http status code
 - Idempotent requests
 - Metrics/health endpoints with [heptiolabs/healthcheck](https://github.com/heptiolabs/healthcheck)
+- OpenAPI/Swagger 2.0 documentation generated with [swaggo/swag](https://github.com/swaggo/swag)
 
 [comment]: <> (- Integration tests with the help of [ory/dockertest]&#40;https://github.com/ory/dockertest/v3&#41;)
 
+## Demo / Deployment
+A Github Action is configured to compile, test, build a docker image and deploy to Heroku.
+
+The application is accessible at https://go-springfield-bank.herokuapp.com/.
+
 ## Endpoints
+The complete API documentations is available at `/swagger`.
+
+Demo: https://go-springfield-bank.herokuapp.com/swagger
+
 ### Accounts
 - `POST /accounts` - Create an account
     - accepts `X-Idempotent-Key` header
@@ -149,6 +160,4 @@ Check definitions and examples of configuration variables used by this app at [c
 
 ## TODO
 - [ ] integration test
-- [ ] README
-- [ ] swagger/openapi
 - [ ] logout
