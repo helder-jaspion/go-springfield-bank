@@ -38,7 +38,10 @@ func main() {
 	}
 	defer dbPool.Close()
 
-	redisClient := redis.Connect(conf.Redis.Addr, conf.Redis.Password)
+	redisClient, err := redis.Connect(conf.Redis.URL)
+	if err != nil {
+		log.Fatal().Stack().Err(err).Msg("error connecting to redis")
+	}
 	defer func() {
 		err = redisClient.Close()
 		log.Fatal().Stack().Err(err).Msg("error closing redis connection")

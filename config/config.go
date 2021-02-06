@@ -42,6 +42,7 @@ type ConfPostgres struct {
 	User                string        `env:"DB_USER" env-default:"postgres"`
 	Password            string        `env:"DB_PASSWORD" env-default:"postgres"`
 	SslMode             string        `env:"DB_SSL_MODE" env-default:"prefer"`
+	URL                 string        `env:"DATABASE_URL" env-default:""`
 	PoolMaxConn         int32         `env:"DB_POOL_MAX_CONN" env-default:"5"`
 	PoolMaxConnLifetime time.Duration `env:"DB_POOL_MAX_CONN_LIFETIME" env-default:"5m"`
 	Migrate             bool          `env:"DB_MIGRATE" env-default:"true"`
@@ -49,8 +50,7 @@ type ConfPostgres struct {
 
 // ConfRedis Redis related configurations.
 type ConfRedis struct {
-	Addr     string `env:"REDIS_ADDR" env-default:"localhost:6379"`
-	Password string `env:"REDIS_PASSWORD" env-default:"Redis2021!"`
+	URL string `env:"REDIS_URL" env-default:"redis://:Redis2021!@localhost:6379"`
 }
 
 // ConfAuth Authentication related configurations.
@@ -61,6 +61,10 @@ type ConfAuth struct {
 
 // GetDSN returns the database DSN, also known as Keyword/Value Connection String.
 func (c ConfPostgres) GetDSN() string {
+	if c.URL != "" {
+		return c.URL
+	}
+
 	return fmt.Sprintf(
 		"host=%s port=%s dbname=%s user=%s password=%s pool_max_conns=%d pool_max_conn_lifetime=%s sslmode=%s",
 		c.Host,

@@ -6,19 +6,20 @@ import (
 )
 
 // Connect connects to redis server.
-func Connect(url string, password string) *redis.Client {
-	client := redis.NewClient(&redis.Options{
-		Addr:     url,
-		Password: password, // no password set
-		DB:       0,        // use default DB
-	})
-
-	err := client.Ping().Err()
+func Connect(url string) (*redis.Client, error) {
+	options, err := redis.ParseURL(url)
 	if err != nil {
-		panic(err)
+		return nil, err
+	}
+
+	client := redis.NewClient(options)
+
+	err = client.Ping().Err()
+	if err != nil {
+		return nil, err
 	}
 
 	log.Info().Msgf("Connected to Redis on %s", url)
 
-	return client
+	return client, nil
 }
