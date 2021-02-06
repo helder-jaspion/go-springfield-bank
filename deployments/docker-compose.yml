@@ -5,7 +5,6 @@ services:
     container_name: "go-springfield-bank"
     build:
       context: ..
-      dockerfile: ../Dockerfile
     restart: unless-stopped
     environment:
       "LOG_ENCODING": json # json, console; default: json
