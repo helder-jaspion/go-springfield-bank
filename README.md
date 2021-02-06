@@ -13,8 +13,8 @@ Written in Golang, this project aims to follow Go best practices and [clean arch
 ## Table of Contents
 - [Main features](#features)
 - [Demo / Deployment](#demo--deployment)
-- [Endpoints](#endpoints)
 - [Running](#running)
+- [Endpoints](#endpoints)
 - [Development](#development)
 - [Environment variables](#environment-variables)
 - [References](#references)
@@ -37,6 +37,13 @@ Written in Golang, this project aims to follow Go best practices and [clean arch
 A Github Action is configured to compile, test, build a docker image and deploy to Heroku.
 
 The application is accessible at https://go-springfield-bank.herokuapp.com/.
+
+## Running
+You can quickly build and run the application with its dependencies with this command (requires [docker-compose](https://docs.docker.com/compose/install/)):
+> make start
+
+You can stop it with:
+> make stop
 
 ## Endpoints
 The complete API documentations is available at `/swagger`.
@@ -65,13 +72,6 @@ The monitoring port number can be changed using the `MONITORING_PORT` [environme
 - `GET /metrics` - Prometheus metrics
 - `GET /ready` - Readiness endpoint
 - `GET /live` - Liveness endpoint
-
-## Running
-You can quickly build and run the application with its dependencies with this command (requires [docker-compose](https://docs.docker.com/compose/install/)):
-> make start
-
-You can stop it with:
-> make stop
 
 ## Development
 ### Architecture and data flow
