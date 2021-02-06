@@ -88,7 +88,74 @@ func TestNewAccount(t *testing.T) {
 				CreatedAt: time.Time{},
 			},
 		},
-		// TODO add more tests (formatted cpf, negative balance, positive balance, empty fields)
+		{
+			name: "formatted CPF should return non-formatted",
+			args: args{
+				name:    "Bart Simpson",
+				cpf:     "123.456.789-11",
+				secret:  "123456",
+				balance: 0,
+			},
+			want: &Account{
+				ID:        "",
+				Name:      "Bart Simpson",
+				CPF:       "12345678911",
+				Secret:    "123456",
+				Balance:   0,
+				CreatedAt: time.Time{},
+			},
+		},
+		{
+			name: "name with lead/trailing spaces should trim",
+			args: args{
+				name:    "  Bart Simpson  ",
+				cpf:     "12345678911",
+				secret:  "123456",
+				balance: 0,
+			},
+			want: &Account{
+				ID:        "",
+				Name:      "Bart Simpson",
+				CPF:       "12345678911",
+				Secret:    "123456",
+				Balance:   0,
+				CreatedAt: time.Time{},
+			},
+		},
+		{
+			name: "negative balance should be OK",
+			args: args{
+				name:    "Bart Simpson",
+				cpf:     "12345678911",
+				secret:  "123456",
+				balance: -1.9,
+			},
+			want: &Account{
+				ID:        "",
+				Name:      "Bart Simpson",
+				CPF:       "12345678911",
+				Secret:    "123456",
+				Balance:   -190,
+				CreatedAt: time.Time{},
+			},
+		},
+		{
+			name: "positive balance should be OK",
+			args: args{
+				name:    "Bart Simpson",
+				cpf:     "12345678911",
+				secret:  "123456",
+				balance: 1.9,
+			},
+			want: &Account{
+				ID:        "",
+				Name:      "Bart Simpson",
+				CPF:       "12345678911",
+				Secret:    "123456",
+				Balance:   190,
+				CreatedAt: time.Time{},
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
