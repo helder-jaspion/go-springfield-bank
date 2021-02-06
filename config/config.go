@@ -26,7 +26,7 @@ type ConfLog struct {
 
 // ConfAPI API related configurations.
 type ConfAPI struct {
-	Host string `env:"HOST" env-default:"localhost"`
+	Host string `env:"HOST" env-default:"localhost:8080"`
 	Port string `env:"PORT" env-default:"8080"`
 }
 

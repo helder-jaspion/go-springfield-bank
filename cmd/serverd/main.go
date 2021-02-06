@@ -16,7 +16,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/helder-jaspion/go-springfield-bank/api"
 	"github.com/helder-jaspion/go-springfield-bank/config"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
@@ -51,7 +50,7 @@ func main() {
 
 	go monitoring.RunServer(conf.Monitoring.Port, dbPool, redisClient)
 
-	api.SwaggerInfo.Host = fmt.Sprintf("%s:%s", conf.API.Host, conf.API.Port)
+	api.SwaggerInfo.Host = conf.API.Host
 
 	accRepo := postgres.NewAccountRepository(dbPool)
 	accUC := usecase.NewAccountUseCase(accRepo)
