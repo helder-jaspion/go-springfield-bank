@@ -32,7 +32,7 @@ ENV MONITORING_PORT 8086
 EXPOSE $MONITORING_PORT
 
 COPY --from=builder /build/dist/main /
-#COPY migrations /migrations
+COPY migrations /migrations
 
 # Command to run
 ENTRYPOINT ["/main"]

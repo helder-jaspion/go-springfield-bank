@@ -6,7 +6,6 @@ import (
 	"context"
 	"github.com/golang-migrate/migrate/v4"
 	pgxDriver "github.com/golang-migrate/migrate/v4/database/postgres"
-	bindata "github.com/golang-migrate/migrate/v4/source/go_bindata"
 	"github.com/pkg/errors"
 
 	// migrate using sql files
@@ -55,18 +54,18 @@ func RunMigrations(connConfig *pgx.ConnConfig) error {
 		return err
 	}
 
-	// wrap assets into Resource
-	s := bindata.Resource(AssetNames(),
-		func(name string) ([]byte, error) {
-			return Asset(name)
-		})
-
-	srcDrv, err := bindata.WithInstance(s)
-	if err != nil {
-		return err
-	}
-	m, err := migrate.NewWithInstance("go-bindata", srcDrv, "postgres", dbDrv)
-	//m, err := migrate.NewWithDatabaseInstance("file://migrations/postgres", "postgres", dbDrv)
+	//// wrap assets into Resource
+	//s := bindata.Resource(AssetNames(),
+	//	func(name string) ([]byte, error) {
+	//		return Asset(name)
+	//	})
+	//
+	//srcDrv, err := bindata.WithInstance(s)
+	//if err != nil {
+	//	return err
+	//}
+	//m, err := migrate.NewWithInstance("go-bindata", srcDrv, "postgres", dbDrv)
+	m, err := migrate.NewWithDatabaseInstance("file://migrations/postgres", "postgres", dbDrv)
 	if err != nil {
 		return err
 	}

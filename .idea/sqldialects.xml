@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/pkg/gateway/datasource/postgres/migrations/000001_init_schema.down.sql" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/pkg/gateway/datasource/postgres/migrations/000001_init_schema.up.sql" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/pkg/gateway/datasource/postgres/migrations/000002_init_schema.down.sql" dialect="PostgreSQL" />
-    <file url="file://$PROJECT_DIR$/pkg/gateway/datasource/postgres/migrations/000002_init_schema.up.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/migrations/postgres/000001_init_schema.down.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/migrations/postgres/000001_init_schema.up.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/migrations/postgres/000002_init_schema.down.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/migrations/postgres/000002_init_schema.up.sql" dialect="PostgreSQL" />
   </component>
 </project>
