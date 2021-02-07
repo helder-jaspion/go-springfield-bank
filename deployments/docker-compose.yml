@@ -20,8 +20,7 @@ services:
       "DB_POOL_MAX_CONN": 5 # default: 5
       "DB_POOL_MAX_CONN_LIFETIME": 5m # default: 5m
       "DB_MIGRATE": "true" # default: true
-      "REDIS_ADDR": redis:6379 # default: localhost:6379
-      "REDIS_PASSWORD": Redis2021! # default: Redis2021!
+      "REDIS_URL": redis://:Redis2021!@redis:6379 # default: redis://:Redis2021!@localhost:6379
       "AUTH_SECRET_KEY": "CHANGE-IT" # default: YOU-SHOULD-CHANGE-ME
       "AUTH_ACCESS_TOKEN_DURATION": 15m # default: 15m
     ports:

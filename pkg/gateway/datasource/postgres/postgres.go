@@ -65,7 +65,7 @@ func RunMigrations(connConfig *pgx.ConnConfig) error {
 	//	return err
 	//}
 	//m, err := migrate.NewWithInstance("go-bindata", srcDrv, "postgres", dbDrv)
-	m, err := migrate.NewWithDatabaseInstance("file://migrations/postgres", "postgres", dbDrv)
+	m, err := migrate.NewWithDatabaseInstance("file://migrations", "postgres", dbDrv)
 	if err != nil {
 		return err
 	}
