@@ -4,22 +4,22 @@ VERSION ?= dev
 OS ?= linux
 
 .PHONY: dev-up
-setup:
+dev-up:
 	@echo "  > Starting dev deps..."
 	docker-compose -f deployments/docker-compose-dev.yml up -d
 
 .PHONY: dev-down
-setup:
+dev-down:
 	@echo "  > Shutting dev deps down..."
 	docker-compose -f deployments/docker-compose-dev.yml down
 
 .PHONY: start
-setup:
+start:
 	@echo "  > Starting..."
 	docker-compose -f deployments/docker-compose.yml up -d --build
 
 .PHONY: stop
-setup:
+stop:
 	@echo "  > Stopping..."
 	docker-compose -f deployments/docker-compose.yml down
 
@@ -28,8 +28,10 @@ setup:
 	@echo "  > Getting deps..."
 	go mod tidy
 	GO111MODULE=on go install \
+	github.com/kevinburke/go-bindata/go-bindata \
 	golang.org/x/tools/cmd/goimports \
 	github.com/resotto/gochk/cmd/gochk \
+	golang.org/x/lint/golint \
 	github.com/golangci/golangci-lint/cmd/golangci-lint \
 	github.com/swaggo/swag/cmd/swag
 
@@ -38,6 +40,8 @@ clean:
 	@echo "  >  Cleaning releases..."
 	GOOS=${OS} go clean -i -x ./...
 	rm -f build/${COMMAND_HANDLER}
+	rm -f dist/${COMMAND_HANDLER}
+	rm -f coverage.txt
 
 .PHONY: test
 test:
@@ -48,7 +52,7 @@ test:
 compile: clean
 	@echo "  >  Building "${COMMAND_HANDLER}"..."
 	env GOOS=${OS} GOARCH=amd64 go build -v -o dist/${COMMAND_HANDLER} cmd/${COMMAND_HANDLER}/main.go
-	echo "Binary generated at dist/"${COMMAND_HANDLER}
+	@echo "Binary generated at dist/"${COMMAND_HANDLER}
 
 .PHONY: build
 build: clean
@@ -58,18 +62,21 @@ build: clean
 .PHONY: generate
 generate:
 	@echo "  >  Generating Go files..."
+	go get -u github.com/kevinburke/go-bindata/...
 	go generate ./...
 	swag init -g cmd/${COMMAND_HANDLER}/main.go -o api
 
 .PHONY: lint
 lint:
 	@echo "  >  Running linters..."
+	go get -u golang.org/x/lint/golint github.com/golangci/golangci-lint/cmd/golangci-lint
 	golint ./...
 	golangci-lint run ./...
 
 .PHONY: archlint
 archlint:
 	@echo "  >  Running architecture linter(gochk)..."
+	go get -u github.com/resotto/gochk/cmd/gochk
 	gochk -c ./gochk-arch-lint.json
 
 .PHONY: test-coverage
