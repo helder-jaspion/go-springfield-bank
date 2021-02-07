@@ -30,8 +30,7 @@ Written in Golang, this project aims to follow Go best practices and [clean arch
 - Idempotent requests
 - Metrics/health endpoints with [heptiolabs/healthcheck](https://github.com/heptiolabs/healthcheck)
 - OpenAPI/Swagger 2.0 documentation generated with [swaggo/swag](https://github.com/swaggo/swag)
-
-[comment]: <> (- Integration tests with the help of [ory/dockertest]&#40;https://github.com/ory/dockertest/v3&#41;)
+- Integration tests with the help of [ory/dockertest](https://github.com/ory/dockertest/v3)
 
 ## Demo / Deployment
 A Github Action is configured to compile, test, build a docker image and deploy to Heroku.

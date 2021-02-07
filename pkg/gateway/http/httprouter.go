@@ -1,19 +1,29 @@
 package http
 
 import (
+	"github.com/go-redis/redis"
+	"github.com/helder-jaspion/go-springfield-bank/config"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/datasource/postgres"
+	redisGateway "github.com/helder-jaspion/go-springfield-bank/pkg/gateway/datasource/redis"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http/controller"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http/middleware"
+	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/julienschmidt/httprouter"
 	"github.com/justinas/alice"
 	"github.com/swaggo/http-swagger"
 	"net/http"
-	"time"
 )
 
-// NewHTTPRouterServer creates a new http router server
-func NewHTTPRouterServer(listenAddr string, accCtrl controller.AccountController, authCtrl controller.AuthController, trfCtrl controller.TransferController, authUC usecase.AuthUseCase, idpRepo repository.IdempotencyRepository) *http.Server {
+// NewHTTPRouterHandler creates a new http router handler.
+func NewHTTPRouterHandler(
+	accCtrl controller.AccountController,
+	authCtrl controller.AuthController,
+	trfCtrl controller.TransferController,
+	authUC usecase.AuthUseCase,
+	idpRepo repository.IdempotencyRepository,
+) http.Handler {
 	router := httprouter.New()
 	router.PanicHandler = handlePanic
 	router.GlobalOPTIONS = http.HandlerFunc(handleOPTIONS)
@@ -38,11 +48,23 @@ func NewHTTPRouterServer(listenAddr string, accCtrl controller.AccountController
 	c := alice.New()
 	c = c.Append(middleware.NewLoggerHandlerFunc())
 
-	return &http.Server{
-		Addr:         listenAddr,
-		Handler:      c.Then(router),
-		ReadTimeout:  5 * time.Second,
-		WriteTimeout: 10 * time.Second,
-		IdleTimeout:  15 * time.Second,
-	}
+	return c.Then(router)
+}
+
+// GetHTTPHandler instantiates the repos, ucs and controllers and returns a handler.
+func GetHTTPHandler(dbPool *pgxpool.Pool, redisClient *redis.Client, authConf config.ConfAuth) http.Handler {
+	accRepo := postgres.NewAccountRepository(dbPool)
+	accUC := usecase.NewAccountUseCase(accRepo)
+	accCtrl := controller.NewAccountController(accUC)
+
+	authUC := usecase.NewAuthUseCase(authConf.SecretKey, authConf.AccessTokenDur, accRepo)
+	authCtrl := controller.NewAuthController(authUC)
+
+	trfRepo := postgres.NewTransferRepository(dbPool)
+	trfUC := usecase.NewTransferUseCase(trfRepo, accRepo)
+	trfCtrl := controller.NewTransferController(trfUC, authUC)
+
+	idpRepo := redisGateway.NewIdempotencyRepository(redisClient)
+
+	return NewHTTPRouterHandler(accCtrl, authCtrl, trfCtrl, authUC, idpRepo)
 }
