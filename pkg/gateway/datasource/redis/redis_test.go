@@ -9,7 +9,10 @@ import (
 	"testing"
 )
 
-var testRedisClient *redis.Client
+var (
+	testRedisClient *redis.Client
+	testRedisURL    string
+)
 
 func TestMain(m *testing.M) {
 	dockerPool, err := dockertest.NewPool("")
@@ -28,10 +31,10 @@ func TestMain(m *testing.M) {
 		log.Logger.Fatal().Stack().Err(err).Msg("Could not start resource")
 	}
 	_ = resource.Expire(60) // Tell docker to hard kill the container in 60 seconds
-	url := fmt.Sprintf("redis://%s:%s@%s:%s", "", "RedisTest2021!", "localhost", resource.GetPort("6379/tcp"))
+	testRedisURL = fmt.Sprintf("redis://%s:%s@%s:%s", "", "RedisTest2021!", "localhost", resource.GetPort("6379/tcp"))
 
 	if err = dockerPool.Retry(func() error {
-		testRedisClient, err = Connect(url)
+		testRedisClient, err = Connect(testRedisURL)
 		return err
 	}); err != nil {
 		log.Logger.Fatal().Stack().Err(err).Msg("Could not connect to docker")
@@ -51,4 +54,51 @@ func TestMain(m *testing.M) {
 	}
 
 	os.Exit(code)
+}
+
+func TestConnect(t *testing.T) {
+	type args struct {
+		url string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "success",
+			args: args{
+				url: testRedisURL,
+			},
+			wantErr: false,
+		},
+		{
+			name: "wrong url format should error",
+			args: args{
+				url: "http://wrong-url",
+			},
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := Connect(tt.args.url)
+			defer func() {
+				if got != nil {
+					got.Close()
+				}
+			}()
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Connect() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+
+			if !tt.wantErr {
+				if err := got.Ping().Err(); err != nil {
+					t.Errorf("Connect() error while ping = %v", err)
+					return
+				}
+			}
+		})
+	}
 }
