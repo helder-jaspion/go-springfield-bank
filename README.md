@@ -61,7 +61,7 @@ Demo: https://go-springfield-bank.herokuapp.com/swagger
 ### Accounts
 
 - `POST /accounts` - Create an account
-    - accepts `X-Idempotent-Key` header.
+    - accepts `X-Idempotency-Key` header.
 - `GET /accounts` - Fetch all the accounts
 - `GET /accounts/:id/balance` - Get the balance of an account
 
@@ -74,7 +74,7 @@ Demo: https://go-springfield-bank.herokuapp.com/swagger
 
 - `POST /transfers` - **Protected**. Transfer money to another account
     - requires `Authorization` header.
-    - accepts `X-Idempotent-Key` header.
+    - accepts `X-Idempotency-Key` header.
 - `GET /transfers` - **Protected**.Fetch all the transfers related to the logged in account 
     - requires `Authorization` header.
 
@@ -82,10 +82,10 @@ Demo: https://go-springfield-bank.herokuapp.com/swagger
 
 Idempotent request are very useful to prevent accidentally processing the same request/operation twice.
 
-Some endpoints accept the special header `X-Idempotent-Key`.
+Some endpoints accept the special header `X-Idempotency-Key`.
 
 The client should send a unique key per operation, and if retrying the same operation with the same values it should send the same key.
-This application will cache the result of that operation and if another request with the same `X-Idempotent-Key` the cached result will be responded.
+This application will cache the result of that operation and if another request with the same `X-Idempotency-Key` the cached result will be responded.
 
 Redis is being used as to cache the idempotent responses.
 

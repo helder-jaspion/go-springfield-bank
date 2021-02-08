@@ -1,10 +1,10 @@
 // @title GO Springfield Bank API
 // @version 0.0.1
 // @description GO Springfield Bank API simulates a digital bank where you can create and fetch accounts, login with your account and transfer money to other accounts.
-// @description ## Authorization
-// @description You can get the access_token returned from `/login`, click the `Authorize` button and input this format `Bearer <access_token>`. After this, the `Authorization` header will be sent along in your next requests.
+// @description ### Authorization
+// @description You can get the access_token returned from `/login`, click the **Authorize** button and input this format `Bearer <access_token>`. After this, the `Authorization` header will be sent along in your next requests.
 // @description The JWT access token has short expiration, so maybe you have to login again to get a new `access_token`.
-// @description ## X-Idempotency-Key
+// @description ### X-Idempotency-Key
 // @description If you send the `X-Idempotency-Key` header along with a request, that request's response will be cached. So, if you send the same request with the same `X-Idempotency-Key` again, the server will respond the cached response, so no processing will be done twice.
 
 // @contact.name Helder Alves
