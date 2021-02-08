@@ -9,20 +9,22 @@ services:
     environment:
       "LOG_ENCODING": json # json, console; default: json
       "LOG_LEVEL": info # trace, debug, info, warn, error, fatal, panic; default: info
-      "PORT": 8080 # default: 8080
-      "MONITORING_PORT": 8086 # default: 8086
+      "HOST": localhost:8080 # The host + port the application will be exposed. default: localhost:8080
+      "PORT": 8080 # the port the application will listen to (can be different from HOST). default: 8080
+      "MONITORING_PORT": 8086 # The port the application will listen to metrics/health endpoints. MUST be different from PORT. default: 8086
       "DB_HOST": postgres # default: localhost
       "DB_PORT": 5432 # default: 5432
       "DB_NAME": springfield-bank
       "DB_USER": postgres
       "DB_PASSWORD": postgres
       "DB_SSL_MODE": prefer # default: prefer
-      "DB_POOL_MAX_CONN": 5 # default: 5
-      "DB_POOL_MAX_CONN_LIFETIME": 5m # default: 5m
-      "DB_MIGRATE": "true" # default: true
+      "DATABASE_URL": # Takes precedence over separated DB_* vars. https://www.postgresql.org/docs/10/libpq-connect.html#id-1.7.3.8.3.6. default: ""
+      "DB_POOL_MAX_CONN": 5 # Max opened connections. default: 5
+      "DB_POOL_MAX_CONN_LIFETIME": 5m # Max time a DB connection can live. default: 5m
+      "DB_MIGRATE": "true" # Run DB migration on startup. default: true
       "REDIS_URL": redis://:Redis2021!@redis:6379 # default: redis://:Redis2021!@localhost:6379
-      "AUTH_SECRET_KEY": "CHANGE-IT" # default: YOU-SHOULD-CHANGE-ME
-      "AUTH_ACCESS_TOKEN_DURATION": 15m # default: 15m
+      "AUTH_SECRET_KEY": "CHANGE-IT" # The secret key used to generate and validate JWT tokens. default: YOU-SHOULD-CHANGE-ME
+      "AUTH_ACCESS_TOKEN_DURATION": 15m # How long the JWT access token is valid after issuing. default: 15m
     ports:
       - 8080:8080
       - 8086:8086
