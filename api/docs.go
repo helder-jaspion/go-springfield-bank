@@ -524,7 +524,7 @@ var SwaggerInfo = swaggerInfo{
 	BasePath:    "",
 	Schemes:     []string{},
 	Title:       "GO Springfield Bank API",
-	Description: "GO Springfield Bank API simulates a digital bank where you can create and fetch accounts, login with your account and transfer money to other accounts.",
+	Description: "GO Springfield Bank API simulates a digital bank where you can create and fetch accounts, login with your account and transfer money to other accounts.\n## Authorization\nYou can get the access_token returned from `/login`, click the `Authorize` button and input this format `Bearer <access_token>`. After this, the `Authorization` header will be sent along in your next requests.\nThe JWT access token has short expiration, so maybe you have to login again to get a new `access_token`.\n## X-Idempotency-Key\nIf you send the `X-Idempotency-Key` header along with a request, that request's response will be cached. So, if you send the same request with the same `X-Idempotency-Key` again, the server will respond the cached response, so no processing will be done twice.",
 }
 
 type s struct{}

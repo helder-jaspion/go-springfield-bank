@@ -54,27 +54,40 @@ You can stop it with:
 
 ## Endpoints
 
-The complete API documentations is available at `/swagger`.
+The complete API documentation is available at `/swagger`.
 
 Demo: https://go-springfield-bank.herokuapp.com/swagger
 
 ### Accounts
 
 - `POST /accounts` - Create an account
-    - accepts `X-Idempotent-Key` header
+    - accepts `X-Idempotent-Key` header.
 - `GET /accounts` - Fetch all the accounts
 - `GET /accounts/:id/balance` - Get the balance of an account
 
 ### Authentication
 
 - `POST /login` - Authenticate the user and return the access token
+    - The returned `access_token` must be sent in `Authorization` header for "protected" endpoints using the format `Bearer <access_token>`.
 
 ### Transfers
 
-- `POST /transfers` - Transfer money to another account
-    - requires `Authorization`
-    - accepts `X-Idempotent-Key` header
-- `GET /transfers` - Fetch all the transfers related to the logged in account -requires `Authorization`
+- `POST /transfers` - **Protected**. Transfer money to another account
+    - requires `Authorization` header.
+    - accepts `X-Idempotent-Key` header.
+- `GET /transfers` - **Protected**.Fetch all the transfers related to the logged in account 
+    - requires `Authorization` header.
+
+### Idempotent requests
+
+Idempotent request are very useful to prevent accidentally processing the same request/operation twice.
+
+Some endpoints accept the special header `X-Idempotent-Key`.
+
+The client should send a unique key per operation, and if retrying the same operation with the same values it should send the same key.
+This application will cache the result of that operation and if another request with the same `X-Idempotent-Key` the cached result will be responded.
+
+Redis is being used as to cache the idempotent responses.
 
 ### Metrics/Health
 
