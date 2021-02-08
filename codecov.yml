@@ -1,0 +1,3 @@
+ignore:
+  - "api/docs.go"  # generated swagger docs
+  - "**/*.gen.go" # generated files

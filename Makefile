@@ -82,8 +82,7 @@ archlint:
 .PHONY: test-coverage
 test-coverage:
 	@echo "  >  Running tests..."
-	go test -v ./... -coverprofile=coverage.tmp.out -covermode=atomic
-	cat coverage.tmp.out | grep -v ".gen.go" > coverage.out
+	go test -v ./... -coverprofile=coverage.out -covermode=atomic
 
 .PHONY: go-fmt
 go-fmt:
