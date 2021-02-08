@@ -4,7 +4,7 @@
 
 [![Main](https://github.com/helder-jaspion/go-springfield-bank/workflows/Main/badge.svg)](https://github.com/helder-jaspion/go-springfield-bank/actions?query=workflow%3AMain)
 [![codecov](https://codecov.io/gh/helder-jaspion/go-springfield-bank/branch/main/graph/badge.svg?token=D1Y8HWP4OB)](https://codecov.io/gh/helder-jaspion/go-springfield-bank)
-[![Go Report Card](https://goreportcard.com/badge/github.com/helder-jaspion/go-springfield-bank)](https://goreportcard.com/report/github.com/helder-jaspion/go-springfield-bank)
+[![Go Report Card](https://goreportcard.com/badge/github.com/helder-jaspion/go-springfield-bank?updated=202108021122)](https://goreportcard.com/report/github.com/helder-jaspion/go-springfield-bank)
 [![Go Reference](https://pkg.go.dev/badge/github.com/helder-jaspion/go-springfield-bank.svg)](https://pkg.go.dev/github.com/helder-jaspion/go-springfield-bank)
 
 Go Springfield Bank is a simple digital bank API. It's main purpose is to transfer amounts between internal accounts.
