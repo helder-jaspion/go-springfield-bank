@@ -19,7 +19,7 @@ func Connect(url string) (*redis.Client, error) {
 		return nil, err
 	}
 
-	log.Info().Msgf("Connected to Redis on %s", url)
+	log.Info().Msgf("Connected to Redis")
 
 	return client, nil
 }
