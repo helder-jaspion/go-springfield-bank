@@ -31,7 +31,7 @@ maintainability, extensibility and testability.
 - Database migration [golang-migrate/migrate](https://github.com/golang-migrate/migrate/v4)
 - Environment variables configuration using [ilyakaznacheev/cleanenv](https://github.com/ilyakaznacheev/cleanenv)
 - Structured logging with contextual information [zerolog](https://github.com/rs/zerolog)
-- Error handling with proper http status code
+- Error handling with proper HTTP status code
 - Idempotent requests
 - Metrics/health endpoints with [heptiolabs/healthcheck](https://github.com/heptiolabs/healthcheck)
 - OpenAPI/Swagger 2.0 documentation generated with [swaggo/swag](https://github.com/swaggo/swag)
@@ -61,7 +61,7 @@ Demo: https://go-springfield-bank.herokuapp.com/swagger
 ### Accounts
 
 - `POST /accounts` - Create an account
-    - accepts `X-Idempotency-Key` header.
+    - accepts the `X-Idempotency-Key` header.
 - `GET /accounts` - Fetch all the accounts
 - `GET /accounts/:id/balance` - Get the balance of an account
 
@@ -75,7 +75,7 @@ Demo: https://go-springfield-bank.herokuapp.com/swagger
 - `POST /transfers` - **Protected**. Transfer money to another account
     - requires the `Authorization` header.
     - accepts the `X-Idempotency-Key` header.
-- `GET /transfers` - **Protected**.Fetch all the transfers related to the logged in account 
+- `GET /transfers` - **Protected**.Fetch all the transfers related to the logged-in account 
     - requires the `Authorization` header.
 
 ### Idempotent requests
@@ -102,7 +102,7 @@ using the `MONITORING_PORT` [environment variable](#environment-variables).
 
 ### Architecture and data flow
 
-Here's a simple sequence diagram that shows the roles of Controllers, Use Cases and Repositories and how they interact
+Here's a simple sequence diagram that shows the roles of Controllers, Use Cases and Repositories, and how they interact
 with each other:
 
 ![Basic sequence diagram](docs/diagrams/basic_sequence.png)
@@ -111,7 +111,7 @@ with each other:
 
 The application depends on Postgres and Redis servers.
 
-You can get a Postgres and a Redis servers up and running quickly by running (
+You can get a Postgres and a Redis server up and running quickly by running (
 requires [docker-compose](https://docs.docker.com/compose/install/)):
 > make dev-up
 
@@ -130,8 +130,7 @@ You can easily run the tests with:
 
 ## Environment variables
 
-Check definitions and examples of configuration variables used by this app at [config/.env.example](config/.env.example)
-.
+Check definitions and examples of configuration variables used by this app at [config/.env.example](config/.env.example).
 
 ## References
 
