@@ -7,10 +7,10 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/helder-jaspion/go-springfield-bank?updated=202108021122)](https://goreportcard.com/report/github.com/helder-jaspion/go-springfield-bank)
 [![Go Reference](https://pkg.go.dev/badge/github.com/helder-jaspion/go-springfield-bank.svg)](https://pkg.go.dev/github.com/helder-jaspion/go-springfield-bank)
 
-Go Springfield Bank is a simple digital bank API. It's main purpose is to transfer amounts between internal accounts.
+Go Springfield Bank is a simple digital bank API. Its main purpose is to transfer amounts between internal accounts.
 
 Written in Golang, this project aims to follow Go best practices
-and [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) for best
+and the [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) for better
 maintainability, extensibility and testability.
 
 ## Table of Contents
@@ -68,26 +68,26 @@ Demo: https://go-springfield-bank.herokuapp.com/swagger
 ### Authentication
 
 - `POST /login` - Authenticate the user and return the access token
-    - The returned `access_token` must be sent in `Authorization` header for "protected" endpoints using the format `Bearer <access_token>`.
+    - The returned `access_token` must be sent in the `Authorization` header for "protected" endpoints using the format `Bearer <access_token>`.
 
 ### Transfers
 
 - `POST /transfers` - **Protected**. Transfer money to another account
-    - requires `Authorization` header.
-    - accepts `X-Idempotency-Key` header.
+    - requires the `Authorization` header.
+    - accepts the `X-Idempotency-Key` header.
 - `GET /transfers` - **Protected**.Fetch all the transfers related to the logged in account 
-    - requires `Authorization` header.
+    - requires the `Authorization` header.
 
 ### Idempotent requests
 
-Idempotent request are very useful to prevent accidentally processing the same request/operation twice.
+Idempotent requests are very useful to prevent accidentally processing the same request/operation twice.
 
 Some endpoints accept the special header `X-Idempotency-Key`.
 
 The client should send a unique key per operation, and if retrying the same operation with the same values it should send the same key.
-This application will cache the result of that operation and if another request with the same `X-Idempotency-Key` the cached result will be responded.
+This application will cache the result of that operation and if another request with the same `X-Idempotency-Key` arrives the cached result will be returned.
 
-Redis is being used as to cache the idempotent responses.
+Redis is used to cache the idempotent responses.
 
 ### Metrics/Health
 
