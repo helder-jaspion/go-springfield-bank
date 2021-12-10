@@ -8,6 +8,18 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: yokawasa/action-sqlcheck@v1.3.0
+        with:
+          post-comment: true
+          risk-level: 3
+          verbose: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+
   test:
     runs-on: ubuntu-latest
     steps:
