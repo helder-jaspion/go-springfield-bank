@@ -46,7 +46,14 @@ clean:
 .PHONY: test
 test:
 	@echo "  >  Running Tests..."
-	go test -v -race ./...
+	@go install github.com/rakyll/gotest@latest
+	gotest -race -failfast -v ./...
+
+.PHONY: test-coverage
+test-coverage:
+	@echo "  >  Running tests..."
+	@go install github.com/rakyll/gotest@latest
+	gotest -race -failfast -coverprofile=coverage.out -covermode=atomic ./...
 
 .PHONY: compile
 compile: clean
@@ -78,11 +85,6 @@ archlint:
 	@echo "  >  Running architecture linter(gochk)..."
 	go get -u github.com/resotto/gochk/cmd/gochk
 	gochk -c ./gochk-arch-lint.json
-
-.PHONY: test-coverage
-test-coverage:
-	@echo "  >  Running tests..."
-	go test -v ./... -coverprofile=coverage.out -covermode=atomic
 
 .PHONY: go-fmt
 go-fmt:

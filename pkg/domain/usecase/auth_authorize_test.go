@@ -89,12 +89,15 @@ func Test_authUseCase_Authorize(t *testing.T) {
 				return
 			}
 
-			if got.IssuedAt.UTC() != tt.want.IssuedAt.UTC() {
-				t.Errorf("Authorize() got = %v, want %v", got, tt.want)
-				return
+			if tt.want != nil {
+				if got.IssuedAt.UTC() != tt.want.IssuedAt.UTC() {
+					t.Errorf("Authorize() got = %v, want %v", got, tt.want)
+					return
+				}
+
+				got.IssuedAt = tt.want.IssuedAt
 			}
 
-			got.IssuedAt = tt.want.IssuedAt
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Authorize() got = %v, want %v", got, tt.want)
 			}
