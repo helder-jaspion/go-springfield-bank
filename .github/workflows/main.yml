@@ -8,19 +8,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  bar:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Set up Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: 1.17
-
-      - name: Erro
-        run: make compile
-
   test:
     runs-on: ubuntu-latest
     steps:
