@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Erro
-        run: make bar
+        run: make compile
 
   test:
     runs-on: ubuntu-latest
