@@ -18,8 +18,10 @@ jobs:
         with:
           post-comment: true
           risk-level: 1
-          verbose: false
+          verbose: true
           token: ${{ secrets.GITHUB_TOKEN }}
+          directories: |
+            pkg/gateway/datasource/postgres/migrations
 
       - name: Get output
         run: echo "Issues found in previous step"
