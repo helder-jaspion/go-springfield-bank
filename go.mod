@@ -12,12 +12,11 @@ require (
 	github.com/google/uuid v1.2.0
 	github.com/heptiolabs/healthcheck v0.0.0-20180807145615-6ff867650f40
 	github.com/ilyakaznacheev/cleanenv v1.2.5
-	github.com/jackc/pgtype v1.6.2
-	github.com/jackc/pgx/v4 v4.10.1
+	github.com/jackc/pgtype v1.9.1
+	github.com/jackc/pgx/v4 v4.12.1-0.20210724153913-640aa07df17c
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/justinas/alice v1.2.0
 	github.com/kinbiko/jsonassert v1.1.0
-	github.com/lib/pq v1.9.0 // indirect
 	github.com/onsi/ginkgo v1.14.2 // indirect
 	github.com/onsi/gomega v1.10.4 // indirect
 	github.com/ory/dockertest/v3 v3.8.1
@@ -26,6 +25,6 @@ require (
 	github.com/rs/zerolog v1.26.0
 	github.com/swaggo/http-swagger v1.0.0
 	github.com/swaggo/swag v1.7.0
-	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad
+	golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97
 	gopkg.in/DATA-DOG/go-sqlmock.v1 v1.3.0 // indirect
 )
