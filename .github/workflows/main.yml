@@ -14,12 +14,16 @@ jobs:
       - uses: actions/checkout@v2
 
       - uses: yokawasa/action-sqlcheck@v1.3.0
+        id: sqlcheck
         with:
           post-comment: true
-          risk-level: 3
+          risk-level: 1
           verbose: false
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Get output
+        run: echo "Issues found in previous step"
+        if: steps.sqlcheck.outputs.issue-found
   test:
     runs-on: ubuntu-latest
     steps:
