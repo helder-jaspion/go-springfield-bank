@@ -17,7 +17,7 @@ require (
 	github.com/jackc/pgx/v4 v4.10.1
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/justinas/alice v1.2.0
-	github.com/kinbiko/jsonassert v1.0.1
+	github.com/kinbiko/jsonassert v1.1.0
 	github.com/lib/pq v1.9.0 // indirect
 	github.com/onsi/ginkgo v1.14.2 // indirect
 	github.com/onsi/gomega v1.10.4 // indirect
