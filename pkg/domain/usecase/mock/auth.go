@@ -3,7 +3,7 @@ package mock
 import (
 	"context"
 
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v4"
 
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
 )

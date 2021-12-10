@@ -26,7 +26,7 @@ maintainability, extensibility and testability.
 ## Features
 
 - RESTful endpoints using [julienschmidt/httprouter](https://github.com/julienschmidt/httprouter)
-- JWT-based authentication using [dgrijalva/jwt-go](https://github.com/dgrijalva/jwt-go)
+- JWT-based authentication using [golang-jwt/jwt](https://github.com/golang-jwt/jwt )
 - Postgres database connection pool using [jackc/pgx](https://github.com/jackc/pgx/v4)
 - Database migration [golang-migrate/migrate](https://github.com/golang-migrate/migrate/v4)
 - Environment variables configuration using [ilyakaznacheev/cleanenv](https://github.com/ilyakaznacheev/cleanenv)
