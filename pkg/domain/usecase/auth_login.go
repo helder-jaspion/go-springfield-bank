@@ -72,10 +72,10 @@ func (authUC authUseCase) Login(ctx context.Context, loginInput AuthLoginInput) 
 
 func (authUC authUseCase) createAccountToken(accountID model.AccountID) (*AuthTokenOutput, error) {
 	now := time.Now()
-	accessTokenClaims := jwt.StandardClaims{
+	accessTokenClaims := jwt.RegisteredClaims{
 		Subject:   string(accountID),
-		IssuedAt:  now.Unix(),
-		ExpiresAt: now.Add(authUC.accessTokenDur).Unix(),
+		IssuedAt:  jwt.NewNumericDate(now),
+		ExpiresAt: jwt.NewNumericDate(now.Add(authUC.accessTokenDur)),
 	}
 
 	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)

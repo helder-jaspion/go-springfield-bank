@@ -3,12 +3,13 @@ package usecase
 import (
 	"context"
 	"errors"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository/mock"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository/mock"
 )
 
 func Test_accountUseCase_Fetch(t *testing.T) {

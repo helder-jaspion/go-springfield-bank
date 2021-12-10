@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"errors"
+
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 )
 

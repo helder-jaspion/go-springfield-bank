@@ -2,10 +2,11 @@ package config
 
 import (
 	"fmt"
-	"github.com/ilyakaznacheev/cleanenv"
-	"github.com/rs/zerolog/log"
 	"os"
 	"time"
+
+	"github.com/ilyakaznacheev/cleanenv"
+	"github.com/rs/zerolog/log"
 )
 
 // Config the base config structure.

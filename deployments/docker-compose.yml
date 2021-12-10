@@ -42,7 +42,7 @@ services:
 
   postgres:
     image: "postgres:12-alpine"
-    command: ["postgres", "-c", "log_statement=all"]
+    command: [ "postgres", "-c", "log_statement=all" ]
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres

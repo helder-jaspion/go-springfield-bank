@@ -1,10 +1,11 @@
 package model
 
 import (
-	"github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
 	"strings"
 	"time"
+
+	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // AccountID represents an Account ID as uuid.

@@ -3,11 +3,13 @@ package usecase
 import (
 	"context"
 	"errors"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
-	"github.com/rs/zerolog/log"
 	"strings"
 	"time"
+
+	"github.com/rs/zerolog/log"
+
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
 )
 
 var (

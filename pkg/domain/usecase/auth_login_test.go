@@ -185,7 +185,7 @@ func Test_authUseCase_Login(t *testing.T) {
 
 			token, err := jwt.ParseWithClaims(
 				got.AccessToken,
-				&jwt.StandardClaims{},
+				&jwt.RegisteredClaims{},
 				func(token *jwt.Token) (interface{}, error) {
 					_, ok := token.Method.(*jwt.SigningMethodHMAC)
 					if !ok {
@@ -200,7 +200,7 @@ func Test_authUseCase_Login(t *testing.T) {
 				return
 			}
 
-			claims, ok := token.Claims.(*jwt.StandardClaims)
+			claims, ok := token.Claims.(*jwt.RegisteredClaims)
 			if !ok {
 				t.Errorf("Login() invalid token error = %v", err)
 				return

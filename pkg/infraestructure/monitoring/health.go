@@ -3,13 +3,14 @@ package monitoring
 import (
 	"context"
 	"fmt"
+	"net/http"
+	"time"
+
 	"github.com/go-redis/redis"
 	"github.com/heptiolabs/healthcheck"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/rs/zerolog/log"
-	"net/http"
-	"time"
 )
 
 // RunServer starts and exposes the monitoring (health and metrics) endpoints.

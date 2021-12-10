@@ -3,16 +3,18 @@ package e2e
 import (
 	"context"
 	"fmt"
-	"github.com/go-redis/redis"
-	"github.com/helder-jaspion/go-springfield-bank/config"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/datasource/postgres"
-	redisGateway "github.com/helder-jaspion/go-springfield-bank/pkg/gateway/datasource/redis"
-	"github.com/jackc/pgx/v4/pgxpool"
-	"github.com/ory/dockertest/v3"
-	"github.com/rs/zerolog/log"
 	"os"
 	"testing"
 	"time"
+
+	"github.com/go-redis/redis"
+	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/ory/dockertest/v3"
+	"github.com/rs/zerolog/log"
+
+	"github.com/helder-jaspion/go-springfield-bank/config"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/datasource/postgres"
+	redisGateway "github.com/helder-jaspion/go-springfield-bank/pkg/gateway/datasource/redis"
 )
 
 const (

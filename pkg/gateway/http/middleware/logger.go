@@ -1,9 +1,10 @@
 package middleware
 
 import (
-	"github.com/rs/zerolog/log"
 	"net/http"
 	"time"
+
+	"github.com/rs/zerolog/log"
 
 	"github.com/justinas/alice"
 	"github.com/rs/zerolog/hlog"
@@ -15,7 +16,7 @@ func NewLoggerHandlerFunc() func(http.Handler) http.Handler {
 	c = c.Append(hlog.NewHandler(log.Logger))
 
 	// Install some provided extra handler to set some request's context fields.
-	// Thanks to that handler, all our logs will come with some pre populated fields.
+	// Thanks to that handler, all our logs will come with some pre-populated fields.
 	c = c.Append(hlog.AccessHandler(func(r *http.Request, status, size int, duration time.Duration) {
 		hlog.FromRequest(r).Info().
 			Str("method", r.Method).

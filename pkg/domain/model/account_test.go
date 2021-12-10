@@ -1,10 +1,11 @@
 package model
 
 import (
-	"golang.org/x/crypto/bcrypt"
 	"reflect"
 	"testing"
 	"time"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 func TestAccount_HashSecret(t *testing.T) {

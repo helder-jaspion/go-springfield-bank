@@ -2,11 +2,12 @@ package redis
 
 import (
 	"fmt"
+	"os"
+	"testing"
+
 	"github.com/go-redis/redis"
 	"github.com/ory/dockertest/v3"
 	"github.com/rs/zerolog/log"
-	"os"
-	"testing"
 )
 
 var (

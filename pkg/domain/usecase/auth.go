@@ -12,7 +12,7 @@ import (
 // AuthUseCase is the interface that wraps all business logic methods related to authentication.
 type AuthUseCase interface {
 	Login(ctx context.Context, loginInput AuthLoginInput) (*AuthTokenOutput, error)
-	Authorize(ctx context.Context, accessToken string) (*jwt.StandardClaims, error)
+	Authorize(ctx context.Context, accessToken string) (*jwt.RegisteredClaims, error)
 }
 
 type authUseCase struct {

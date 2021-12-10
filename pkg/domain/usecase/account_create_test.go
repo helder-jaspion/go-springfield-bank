@@ -3,13 +3,14 @@ package usecase
 import (
 	"context"
 	"errors"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository/mock"
 	"reflect"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository/mock"
 )
 
 func TestAccountCreateInput_Validate(t *testing.T) {
@@ -224,7 +225,7 @@ func Test_accountUseCase_Create(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "unformatted CPF should return formatted",
+			name: "nonformatted CPF should return formatted",
 			fields: fields{
 				accRepo: mock.AccountRepository{
 					OnExistsByCPF: func(ctx context.Context, cpf model.CPF) (bool, error) {

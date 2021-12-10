@@ -2,8 +2,9 @@ package io
 
 import (
 	"encoding/json"
-	"github.com/rs/zerolog"
 	"net/http"
+
+	"github.com/rs/zerolog"
 )
 
 const (

@@ -3,8 +3,9 @@ package usecase
 import (
 	"context"
 	"errors"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 	"time"
+
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 )
 
 var (

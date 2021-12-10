@@ -2,11 +2,12 @@ package usecase
 
 import (
 	"context"
+
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
 )
 
-// AccountUseCase is the interface that wraps all business logic methods related to accounts.
+// AccountUseCase is the interface that wraps all business logic methods related to the accounts.
 type AccountUseCase interface {
 	Create(ctx context.Context, accountInput AccountCreateInput) (*AccountCreateOutput, error)
 	Fetch(ctx context.Context) ([]AccountFetchOutput, error)

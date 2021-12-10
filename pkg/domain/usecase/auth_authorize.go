@@ -15,13 +15,13 @@ var (
 )
 
 // Authorize parses and verifies JWT token.
-func (authUC authUseCase) Authorize(ctx context.Context, accessToken string) (*jwt.StandardClaims, error) {
+func (authUC authUseCase) Authorize(ctx context.Context, accessToken string) (*jwt.RegisteredClaims, error) {
 	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
 	defer cancel()
 
 	token, err := jwt.ParseWithClaims(
 		accessToken,
-		&jwt.StandardClaims{},
+		&jwt.RegisteredClaims{},
 		func(token *jwt.Token) (interface{}, error) {
 			_, ok := token.Method.(*jwt.SigningMethodHMAC)
 			if !ok {
@@ -36,7 +36,7 @@ func (authUC authUseCase) Authorize(ctx context.Context, accessToken string) (*j
 		return nil, ErrAuthInvalidAccessToken
 	}
 
-	claims, ok := token.Claims.(*jwt.StandardClaims)
+	claims, ok := token.Claims.(*jwt.RegisteredClaims)
 	if !ok {
 		return nil, ErrAuthInvalidAccessToken
 	}

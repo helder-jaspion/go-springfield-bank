@@ -9,8 +9,8 @@
 
 Go Springfield Bank is a simple digital bank API. Its main purpose is to transfer amounts between internal accounts.
 
-Written in Golang, this project aims to follow Go best practices
-and the [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) for better
+Written in Golang, this project aims to follow Go best practices and
+the [clean architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) for better
 maintainability, extensibility and testability.
 
 ## Table of Contents
@@ -39,7 +39,7 @@ maintainability, extensibility and testability.
 
 ## Demo / Deployment
 
-A Github Action is configured to compile, test, build a docker image and deploy to Heroku.
+A GitHub Action is configured to compile, test, build a docker image and deploy to Heroku.
 
 The application is accessible at https://go-springfield-bank.herokuapp.com/.
 
@@ -68,14 +68,15 @@ Demo: https://go-springfield-bank.herokuapp.com/swagger
 ### Authentication
 
 - `POST /login` - Authenticate the user and return the access token
-    - The returned `access_token` must be sent in the `Authorization` header for "protected" endpoints using the format `Bearer <access_token>`.
+    - The returned `access_token` must be sent in the `Authorization` header for "protected" endpoints using the
+      format `Bearer <access_token>`.
 
 ### Transfers
 
 - `POST /transfers` - **Protected**. Transfer money to another account
     - requires the `Authorization` header.
     - accepts the `X-Idempotency-Key` header.
-- `GET /transfers` - **Protected**.Fetch all the transfers related to the logged-in account 
+- `GET /transfers` - **Protected**.Fetch all the transfers related to the logged-in account
     - requires the `Authorization` header.
 
 ### Idempotent requests
@@ -84,8 +85,9 @@ Idempotent requests are very useful to prevent accidentally processing the same 
 
 Some endpoints accept the special header `X-Idempotency-Key`.
 
-The client should send a unique key per operation, and if retrying the same operation with the same values it should send the same key.
-This application will cache the result of that operation and if another request with the same `X-Idempotency-Key` arrives the cached result will be returned.
+The client should send a unique key per operation, and if retrying the same operation with the same values it should
+send the same key. This application will cache the result of that operation and if another request with the
+same `X-Idempotency-Key` arrives the cached result will be returned.
 
 Redis is used to cache the idempotent responses.
 
@@ -130,7 +132,8 @@ You can easily run the tests with:
 
 ## Environment variables
 
-Check definitions and examples of configuration variables used by this app at [config/.env.example](config/.env.example).
+Check definitions and examples of configuration variables used by this app at [config/.env.example](config/.env.example)
+.
 
 ## References
 

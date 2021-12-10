@@ -1,4 +1,7 @@
 {
-  "ignore": [".git", "test"],
+  "ignore": [
+    ".git",
+    "test"
+  ],
   "printViolationsAtTheBottom": false
 }

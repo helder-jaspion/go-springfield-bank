@@ -2,9 +2,11 @@ package postgres
 
 import (
 	"context"
+
+	"github.com/jackc/pgx/v4/pgxpool"
+
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
-	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 type transferRepository struct {

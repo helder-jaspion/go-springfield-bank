@@ -11,7 +11,7 @@ import (
 // AuthUseCase mocks an usecase.AuthUseCase.
 type AuthUseCase struct {
 	OnLogin     func(ctx context.Context, loginInput usecase.AuthLoginInput) (*usecase.AuthTokenOutput, error)
-	OnAuthorize func(ctx context.Context, accessToken string) (*jwt.StandardClaims, error)
+	OnAuthorize func(ctx context.Context, accessToken string) (*jwt.RegisteredClaims, error)
 }
 
 var _ usecase.AuthUseCase = (*AuthUseCase)(nil)
@@ -22,6 +22,6 @@ func (mAuthUC AuthUseCase) Login(ctx context.Context, loginInput usecase.AuthLog
 }
 
 // Authorize executes Authorize.
-func (mAuthUC AuthUseCase) Authorize(ctx context.Context, accessToken string) (*jwt.StandardClaims, error) {
+func (mAuthUC AuthUseCase) Authorize(ctx context.Context, accessToken string) (*jwt.RegisteredClaims, error) {
 	return mAuthUC.OnAuthorize(ctx, accessToken)
 }

@@ -2,10 +2,12 @@ package postgres
 
 import (
 	"context"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
+
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/pgxpool"
+
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
 )
 
 type accountRepository struct {

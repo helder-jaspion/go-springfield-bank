@@ -2,6 +2,7 @@ package mock
 
 import (
 	"context"
+
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
 )

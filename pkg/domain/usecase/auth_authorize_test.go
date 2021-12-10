@@ -29,7 +29,7 @@ func Test_authUseCase_Authorize(t *testing.T) {
 		name    string
 		fields  fields
 		args    args
-		want    *jwt.StandardClaims
+		want    *jwt.RegisteredClaims
 		wantErr error
 	}{
 		{
@@ -68,8 +68,8 @@ func Test_authUseCase_Authorize(t *testing.T) {
 				ctx:         backgroundCtx,
 				accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTIzMDQzMTcsInN1YiI6IjQ0MTk3NDY0LTAyYmUtNDljMi1iMGZkLTY2MGZhZWQ3MzViZCJ9.tpCm8rPCsWG9exmw5_Ic9dGohNo2Q5S_PrCZirH8x-w",
 			},
-			want: &jwt.StandardClaims{
-				IssuedAt: 1612304317,
+			want: &jwt.RegisteredClaims{
+				IssuedAt: jwt.NewNumericDate(time.Date(2021, time.February, 2, 22, 18, 37, 0, time.UTC)),
 				Subject:  "44197464-02be-49c2-b0fd-660faed735bd",
 			},
 			wantErr: nil,
@@ -88,6 +88,13 @@ func Test_authUseCase_Authorize(t *testing.T) {
 				t.Errorf("Authorize() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
+
+			if got.IssuedAt.UTC() != tt.want.IssuedAt.UTC() {
+				t.Errorf("Authorize() got = %v, want %v", got, tt.want)
+				return
+			}
+
+			got.IssuedAt = tt.want.IssuedAt
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Authorize() got = %v, want %v", got, tt.want)
 			}

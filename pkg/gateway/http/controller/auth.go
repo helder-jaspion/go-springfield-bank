@@ -1,11 +1,13 @@
 package controller
 
 import (
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http/io"
+	"net/http"
+
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/hlog"
-	"net/http"
+
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http/io"
 )
 
 // AuthController is the interface that wraps http handle methods related to authentication.

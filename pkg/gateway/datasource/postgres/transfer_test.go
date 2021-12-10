@@ -3,12 +3,14 @@ package postgres
 import (
 	"context"
 	"fmt"
-	"github.com/google/uuid"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
-	"github.com/jackc/pgx/v4/pgxpool"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/google/uuid"
+	"github.com/jackc/pgx/v4/pgxpool"
+
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 )
 
 func Test_transferRepository_Create(t *testing.T) {

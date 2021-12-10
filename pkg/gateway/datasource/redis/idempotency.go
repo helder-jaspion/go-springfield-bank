@@ -2,9 +2,11 @@ package redis
 
 import (
 	"context"
-	"github.com/go-redis/redis"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
 	"time"
+
+	"github.com/go-redis/redis"
+
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
 )
 
 type idempotencyRepository struct {

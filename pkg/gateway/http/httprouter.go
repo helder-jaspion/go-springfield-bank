@@ -1,7 +1,14 @@
 package http
 
 import (
+	"net/http"
+
 	"github.com/go-redis/redis"
+	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/julienschmidt/httprouter"
+	"github.com/justinas/alice"
+	"github.com/swaggo/http-swagger"
+
 	"github.com/helder-jaspion/go-springfield-bank/config"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
@@ -9,11 +16,6 @@ import (
 	redisGateway "github.com/helder-jaspion/go-springfield-bank/pkg/gateway/datasource/redis"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http/controller"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http/middleware"
-	"github.com/jackc/pgx/v4/pgxpool"
-	"github.com/julienschmidt/httprouter"
-	"github.com/justinas/alice"
-	"github.com/swaggo/http-swagger"
-	"net/http"
 )
 
 // NewHTTPRouterHandler creates a new http router handler.

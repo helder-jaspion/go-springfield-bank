@@ -113,10 +113,10 @@ func Test_transfers_Fetch(t *testing.T) {
 					}
 
 					now := time.Now()
-					accessTokenClaims := jwt.StandardClaims{
+					accessTokenClaims := jwt.RegisteredClaims{
 						Subject:   id,
-						IssuedAt:  now.Unix(),
-						ExpiresAt: now.Add(30 * time.Second).Unix(),
+						IssuedAt:  jwt.NewNumericDate(now),
+						ExpiresAt: jwt.NewNumericDate(now.Add(30 * time.Second)),
 					}
 
 					accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
@@ -192,10 +192,10 @@ func Test_transfers_Fetch(t *testing.T) {
 					}
 
 					now := time.Now()
-					accessTokenClaims := jwt.StandardClaims{
+					accessTokenClaims := jwt.RegisteredClaims{
 						Subject:   id1,
-						IssuedAt:  now.Unix(),
-						ExpiresAt: now.Add(30 * time.Second).Unix(),
+						IssuedAt:  jwt.NewNumericDate(now),
+						ExpiresAt: jwt.NewNumericDate(now.Add(30 * time.Second)),
 					}
 
 					accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
@@ -360,10 +360,10 @@ func Test_transfers_Create(t *testing.T) {
 					}
 
 					now := time.Now()
-					accessTokenClaims := jwt.StandardClaims{
+					accessTokenClaims := jwt.RegisteredClaims{
 						Subject:   id1,
-						IssuedAt:  now.Unix(),
-						ExpiresAt: now.Add(30 * time.Second).Unix(),
+						IssuedAt:  jwt.NewNumericDate(now),
+						ExpiresAt: jwt.NewNumericDate(now.Add(30 * time.Second)),
 					}
 
 					accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
@@ -419,10 +419,10 @@ func Test_transfers_Create(t *testing.T) {
 					}
 
 					now := time.Now()
-					accessTokenClaims := jwt.StandardClaims{
+					accessTokenClaims := jwt.RegisteredClaims{
 						Subject:   id1,
-						IssuedAt:  now.Unix(),
-						ExpiresAt: now.Add(30 * time.Second).Unix(),
+						IssuedAt:  jwt.NewNumericDate(now),
+						ExpiresAt: jwt.NewNumericDate(now.Add(30 * time.Second)),
 					}
 
 					accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
@@ -478,10 +478,10 @@ func Test_transfers_Create(t *testing.T) {
 					}
 
 					now := time.Now()
-					accessTokenClaims := jwt.StandardClaims{
+					accessTokenClaims := jwt.RegisteredClaims{
 						Subject:   id1,
-						IssuedAt:  now.Unix(),
-						ExpiresAt: now.Add(30 * time.Second).Unix(),
+						IssuedAt:  jwt.NewNumericDate(now),
+						ExpiresAt: jwt.NewNumericDate(now.Add(30 * time.Second)),
 					}
 
 					accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
@@ -537,10 +537,10 @@ func Test_transfers_Create(t *testing.T) {
 					}
 
 					now := time.Now()
-					accessTokenClaims := jwt.StandardClaims{
+					accessTokenClaims := jwt.RegisteredClaims{
 						Subject:   id1,
-						IssuedAt:  now.Unix(),
-						ExpiresAt: now.Add(30 * time.Second).Unix(),
+						IssuedAt:  jwt.NewNumericDate(now),
+						ExpiresAt: jwt.NewNumericDate(now.Add(30 * time.Second)),
 					}
 
 					accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
@@ -596,10 +596,10 @@ func Test_transfers_Create(t *testing.T) {
 					}
 
 					now := time.Now()
-					accessTokenClaims := jwt.StandardClaims{
+					accessTokenClaims := jwt.RegisteredClaims{
 						Subject:   id1,
-						IssuedAt:  now.Unix(),
-						ExpiresAt: now.Add(30 * time.Second).Unix(),
+						IssuedAt:  jwt.NewNumericDate(now),
+						ExpiresAt: jwt.NewNumericDate(now.Add(30 * time.Second)),
 					}
 
 					accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
@@ -646,10 +646,10 @@ func Test_transfers_Create(t *testing.T) {
 					id2 := uuid.NewString()
 
 					now := time.Now()
-					accessTokenClaims := jwt.StandardClaims{
+					accessTokenClaims := jwt.RegisteredClaims{
 						Subject:   id1,
-						IssuedAt:  now.Unix(),
-						ExpiresAt: now.Add(30 * time.Second).Unix(),
+						IssuedAt:  jwt.NewNumericDate(now),
+						ExpiresAt: jwt.NewNumericDate(now.Add(30 * time.Second)),
 					}
 
 					accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
@@ -694,10 +694,10 @@ func Test_transfers_Create(t *testing.T) {
 					}
 
 					now := time.Now()
-					accessTokenClaims := jwt.StandardClaims{
+					accessTokenClaims := jwt.RegisteredClaims{
 						Subject:   id1,
-						IssuedAt:  now.Unix(),
-						ExpiresAt: now.Add(30 * time.Second).Unix(),
+						IssuedAt:  jwt.NewNumericDate(now),
+						ExpiresAt: jwt.NewNumericDate(now.Add(30 * time.Second)),
 					}
 
 					accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)
@@ -818,10 +818,10 @@ func Test_transfers_Create_Idempotent(t *testing.T) {
 					}
 
 					now := time.Now()
-					accessTokenClaims := jwt.StandardClaims{
+					accessTokenClaims := jwt.RegisteredClaims{
 						Subject:   id1,
-						IssuedAt:  now.Unix(),
-						ExpiresAt: now.Add(30 * time.Second).Unix(),
+						IssuedAt:  jwt.NewNumericDate(now),
+						ExpiresAt: jwt.NewNumericDate(now.Add(30 * time.Second)),
 					}
 
 					accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, accessTokenClaims)

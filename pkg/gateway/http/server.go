@@ -2,12 +2,13 @@ package http
 
 import (
 	"context"
-	"github.com/rs/zerolog/hlog"
-	"github.com/rs/zerolog/log"
 	"net/http"
 	"os"
 	"os/signal"
 	"time"
+
+	"github.com/rs/zerolog/hlog"
+	"github.com/rs/zerolog/log"
 )
 
 // StartServer runs the server

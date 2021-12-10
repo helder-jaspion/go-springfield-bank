@@ -5,13 +5,15 @@ import (
 	"crypto/sha1"
 	"encoding/hex"
 	"encoding/json"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/appcontext"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
-	"github.com/pkg/errors"
-	"github.com/rs/zerolog/hlog"
 	"net/http"
 	"net/http/httptest"
 	"time"
+
+	"github.com/pkg/errors"
+	"github.com/rs/zerolog/hlog"
+
+	"github.com/helder-jaspion/go-springfield-bank/pkg/appcontext"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
 )
 
 const (

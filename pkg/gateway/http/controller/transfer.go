@@ -1,17 +1,19 @@
 package controller
 
 import (
+	"net/http"
+
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/hlog"
+
 	"github.com/helder-jaspion/go-springfield-bank/pkg/appcontext"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http/io"
-	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/hlog"
-	"net/http"
 )
 
-// TransferController is the interface that wraps http handle methods related to transfers.
+// TransferController is the interface that wraps http handle methods related to the transfers.
 type TransferController interface {
 	Create(w http.ResponseWriter, r *http.Request)
 	Fetch(w http.ResponseWriter, r *http.Request)

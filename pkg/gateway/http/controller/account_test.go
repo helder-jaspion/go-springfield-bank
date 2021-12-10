@@ -5,15 +5,17 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase/mock"
-	"github.com/kinbiko/jsonassert"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
+
+	"github.com/kinbiko/jsonassert"
+
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase/mock"
 )
 
 func Test_accountController_Create(t *testing.T) {

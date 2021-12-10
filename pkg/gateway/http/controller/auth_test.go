@@ -5,12 +5,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase/mock"
-	"github.com/kinbiko/jsonassert"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/kinbiko/jsonassert"
+
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase/mock"
 )
 
 func Test_authController_Login(t *testing.T) {

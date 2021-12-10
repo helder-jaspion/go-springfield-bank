@@ -1,17 +1,19 @@
 package controller
 
 import (
+	"net/http"
+
+	"github.com/julienschmidt/httprouter"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/hlog"
+
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http/io"
-	"github.com/julienschmidt/httprouter"
-	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/hlog"
-	"net/http"
 )
 
-// AccountController is the interface that wraps http handle methods related to accounts.
+// AccountController is the interface that wraps http handle methods related to the accounts.
 type AccountController interface {
 	Create(w http.ResponseWriter, r *http.Request)
 	Fetch(w http.ResponseWriter, r *http.Request)

@@ -2,10 +2,11 @@ package redis
 
 import (
 	"context"
-	"github.com/go-redis/redis"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/go-redis/redis"
 )
 
 func Test_idempotencyRepository_Get(t *testing.T) {

@@ -1,12 +1,14 @@
 package middleware
 
 import (
+	"net/http"
+	"strings"
+
+	"github.com/rs/zerolog/hlog"
+
 	"github.com/helder-jaspion/go-springfield-bank/pkg/appcontext"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/usecase"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http/io"
-	"github.com/rs/zerolog/hlog"
-	"net/http"
-	"strings"
 )
 
 // BearerAuth get Bearer Authorization header, parses and validate.

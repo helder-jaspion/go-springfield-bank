@@ -3,19 +3,21 @@ package e2e
 import (
 	"context"
 	"fmt"
-	"github.com/go-redis/redis"
-	"github.com/google/uuid"
-	"github.com/helder-jaspion/go-springfield-bank/config"
-	httpGateway "github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http"
-	"github.com/jackc/pgx/v4/pgxpool"
-	"github.com/kinbiko/jsonassert"
-	"golang.org/x/crypto/bcrypt"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/go-redis/redis"
+	"github.com/google/uuid"
+	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/kinbiko/jsonassert"
+	"golang.org/x/crypto/bcrypt"
+
+	"github.com/helder-jaspion/go-springfield-bank/config"
+	httpGateway "github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http"
 )
 
 func Test_Login(t *testing.T) {

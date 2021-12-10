@@ -2,13 +2,15 @@ package postgres
 
 import (
 	"context"
-	"github.com/helder-jaspion/go-springfield-bank/config"
-	"github.com/jackc/pgx/v4/pgxpool"
-	"github.com/ory/dockertest/v3"
-	"github.com/rs/zerolog/log"
 	"os"
 	"testing"
 	"time"
+
+	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/ory/dockertest/v3"
+	"github.com/rs/zerolog/log"
+
+	"github.com/helder-jaspion/go-springfield-bank/config"
 )
 
 var testDbPool *pgxpool.Pool
