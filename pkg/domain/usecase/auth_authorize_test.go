@@ -2,11 +2,13 @@ package usecase
 
 import (
 	"context"
-	"github.com/dgrijalva/jwt-go"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/golang-jwt/jwt"
+
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
 )
 
 func Test_authUseCase_Authorize(t *testing.T) {

@@ -3,9 +3,10 @@ package usecase
 import (
 	"context"
 	"errors"
-	"github.com/dgrijalva/jwt-go"
-	"github.com/rs/zerolog/log"
 	"time"
+
+	"github.com/golang-jwt/jwt"
+	"github.com/rs/zerolog/log"
 )
 
 var (

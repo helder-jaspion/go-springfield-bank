@@ -3,19 +3,21 @@ package e2e
 import (
 	"context"
 	"fmt"
-	"github.com/dgrijalva/jwt-go"
-	"github.com/go-redis/redis"
-	"github.com/google/uuid"
-	"github.com/helder-jaspion/go-springfield-bank/config"
-	httpGateway "github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http"
-	"github.com/jackc/pgx/v4/pgxpool"
-	"github.com/kinbiko/jsonassert"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/go-redis/redis"
+	"github.com/golang-jwt/jwt"
+	"github.com/google/uuid"
+	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/kinbiko/jsonassert"
+
+	"github.com/helder-jaspion/go-springfield-bank/config"
+	httpGateway "github.com/helder-jaspion/go-springfield-bank/pkg/gateway/http"
 )
 
 func Test_transfers_Fetch(t *testing.T) {

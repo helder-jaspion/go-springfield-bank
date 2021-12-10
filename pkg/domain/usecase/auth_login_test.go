@@ -4,14 +4,16 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/dgrijalva/jwt-go"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository/mock"
-	"golang.org/x/crypto/bcrypt"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/golang-jwt/jwt"
+	"golang.org/x/crypto/bcrypt"
+
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository/mock"
 )
 
 func Test_authUseCase_Login(t *testing.T) {

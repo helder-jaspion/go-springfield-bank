@@ -3,11 +3,13 @@ package usecase
 import (
 	"context"
 	"errors"
-	"github.com/dgrijalva/jwt-go"
+	"time"
+
+	"github.com/golang-jwt/jwt"
+	"github.com/rs/zerolog/log"
+
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
-	"github.com/rs/zerolog/log"
-	"time"
 )
 
 var (

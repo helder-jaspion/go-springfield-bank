@@ -2,9 +2,11 @@ package usecase
 
 import (
 	"context"
-	"github.com/dgrijalva/jwt-go"
-	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
 	"time"
+
+	"github.com/golang-jwt/jwt"
+
+	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
 )
 
 // AuthUseCase is the interface that wraps all business logic methods related to authentication.
