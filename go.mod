@@ -22,7 +22,7 @@ require (
 	github.com/onsi/gomega v1.10.4 // indirect
 	github.com/ory/dockertest/v3 v3.8.1
 	github.com/pkg/errors v0.9.1
-	github.com/prometheus/client_golang v1.9.0
+	github.com/prometheus/client_golang v1.11.0
 	github.com/rs/zerolog v1.26.0
 	github.com/swaggo/http-swagger v1.0.0
 	github.com/swaggo/swag v1.7.0
