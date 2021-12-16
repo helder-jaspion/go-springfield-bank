@@ -18,10 +18,10 @@ require (
 	github.com/ory/dockertest/v3 v3.8.1
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.11.0
-	github.com/rs/zerolog v1.26.0
+	github.com/rs/zerolog v1.26.1
 	github.com/swaggo/http-swagger v1.1.2
 	github.com/swaggo/swag v1.7.6
-	golang.org/x/crypto v0.0.0-20211209193657-4570a0811e8b
+	golang.org/x/crypto v0.0.0-20211215165025-cf75a172585e
 )
 
 require (
