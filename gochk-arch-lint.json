@@ -1,4 +1,9 @@
 {
+  "dependencyOrders": [
+    "pkg/gateway",
+    "pkg/domain/usecase",
+    "pkg/domain/model"
+  ],
   "ignore": [
     ".git",
     "test"
