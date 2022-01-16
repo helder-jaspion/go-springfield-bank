@@ -8,24 +8,15 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint:
+  golangci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - uses: yokawasa/action-sqlcheck@v1.3.0
-        id: sqlcheck
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v2
         with:
-          post-comment: true
-          risk-level: 1
-          verbose: true
-          token: ${{ secrets.GITHUB_TOKEN }}
-          directories: |
-            pkg/gateway/datasource/postgres/migrations
-
-      - name: Get output
-        run: echo "Issues found in previous step"
-        if: steps.sqlcheck.outputs.issue-found
+          version: v1.43
   test:
     runs-on: ubuntu-latest
     steps:
