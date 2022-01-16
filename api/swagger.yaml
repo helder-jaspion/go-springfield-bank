@@ -130,7 +130,6 @@ definitions:
     type: object
 info:
   contact:
-    email: helder.jaspion@gmail.com
     name: Helder Alves
     url: https://github.com/helder-jaspion/go-springfield-bank/
   description: |-

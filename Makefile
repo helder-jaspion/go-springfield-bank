@@ -27,7 +27,6 @@ stop:
 setup:
 	@go mod download
 	@echo "Installing tools"
-	@go install github.com/kevinburke/go-bindata/go-bindata@latest
 	@go install github.com/swaggo/swag/cmd/swag@latest
 	@go install github.com/rakyll/gotest@latest
 	@go install github.com/resotto/gochk/cmd/gochk@latest

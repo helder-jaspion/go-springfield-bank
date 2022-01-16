@@ -1,39 +1,39 @@
 package postgres
 
-//go:generate go-bindata -prefix migrations/ -o migrations.gen.go -pkg postgres migrations
-
 import (
 	"context"
+	"embed"
+	"net/http"
 
 	"github.com/golang-migrate/migrate/v4"
-	pgxDriver "github.com/golang-migrate/migrate/v4/database/postgres"
-	bindata "github.com/golang-migrate/migrate/v4/source/go_bindata"
-	"github.com/pkg/errors"
-
-	// migrate using sql files
-	//_ "github.com/golang-migrate/migrate/v4/source/file"
-	"github.com/jackc/pgx/v4"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	"github.com/golang-migrate/migrate/v4/source/httpfs"
 	"github.com/jackc/pgx/v4/log/zerologadapter"
 	"github.com/jackc/pgx/v4/pgxpool"
-	"github.com/jackc/pgx/v4/stdlib"
+	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
+
+	"github.com/helder-jaspion/go-springfield-bank/config"
 )
 
+//go:embed migrations
+var migrationsFS embed.FS //nolint:gochecknoglobals
+
 // ConnectPool connects do Postgres and returns a *pgxPool.Pool.
-func ConnectPool(dbURL string, runMigrations bool) (*pgxpool.Pool, error) {
-	config, err := pgxpool.ParseConfig(dbURL)
+func ConnectPool(conf config.ConfPostgres) (*pgxpool.Pool, error) {
+	pgxConfig, err := pgxpool.ParseConfig(conf.GetDSN())
 	if err != nil {
 		return nil, errors.Wrap(err, "error configuring the database")
 	}
-	config.ConnConfig.Logger = zerologadapter.NewLogger(log.Logger)
+	pgxConfig.ConnConfig.Logger = zerologadapter.NewLogger(log.Logger)
 
-	dbPool, err := pgxpool.ConnectConfig(context.Background(), config)
+	dbPool, err := pgxpool.ConnectConfig(context.Background(), pgxConfig)
 	if err != nil {
 		return nil, errors.Wrap(err, "Unable to connect to database")
 	}
 
-	if runMigrations {
-		err = RunMigrations(config.ConnConfig)
+	if conf.Migrate {
+		err = RunMigrations(conf.GetURL())
 		if err != nil {
 			return nil, errors.Wrap(err, "error migrating postgres database")
 		}
@@ -43,31 +43,13 @@ func ConnectPool(dbURL string, runMigrations bool) (*pgxpool.Pool, error) {
 }
 
 // RunMigrations executes the database migrations all the way up.
-func RunMigrations(connConfig *pgx.ConnConfig) error {
-	db := stdlib.OpenDB(*connConfig)
-	defer func() {
-		if err := db.Close(); err != nil {
-			log.Error().Stack().Err(err).Msg("error closing db connection from migration")
-		}
-	}()
-
-	dbDrv, err := pgxDriver.WithInstance(db, &pgxDriver.Config{})
+func RunMigrations(connURL string) error {
+	source, err := httpfs.New(http.FS(migrationsFS), "migrations")
 	if err != nil {
 		return err
 	}
 
-	// wrap assets into Resource
-	s := bindata.Resource(AssetNames(),
-		func(name string) ([]byte, error) {
-			return Asset(name)
-		})
-
-	srcDrv, err := bindata.WithInstance(s)
-	if err != nil {
-		return err
-	}
-	m, err := migrate.NewWithInstance("go-bindata", srcDrv, "postgres", dbDrv)
-	//m, err := migrate.NewWithDatabaseInstance("file://migrations", "postgres", dbDrv)
+	m, err := migrate.NewWithSourceInstance("httpfs", source, connURL)
 	if err != nil {
 		return err
 	}

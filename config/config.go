@@ -43,7 +43,7 @@ type ConfPostgres struct {
 	DbName              string        `env:"DB_NAME" env-default:"springfield-bank-dev"`
 	User                string        `env:"DB_USER" env-default:"postgres"`
 	Password            string        `env:"DB_PASSWORD" env-default:"postgres"`
-	SslMode             string        `env:"DB_SSL_MODE" env-default:"prefer"`
+	SslMode             string        `env:"DB_SSL_MODE" env-default:"disable"`
 	URL                 string        `env:"DATABASE_URL" env-default:""`
 	PoolMaxConn         int32         `env:"DB_POOL_MAX_CONN" env-default:"5"`
 	PoolMaxConnLifetime time.Duration `env:"DB_POOL_MAX_CONN_LIFETIME" env-default:"5m"`
@@ -76,6 +76,22 @@ func (c ConfPostgres) GetDSN() string {
 		c.Password,
 		c.PoolMaxConn,
 		c.PoolMaxConnLifetime,
+		c.SslMode,
+	)
+}
+
+func (c ConfPostgres) GetURL() string {
+	if c.URL != "" {
+		return c.URL
+	}
+
+	return fmt.Sprintf(
+		"postgres://%s:%s@%s:%s/%s?sslmode=%s",
+		c.User,
+		c.Password,
+		c.Host,
+		c.Port,
+		c.DbName,
 		c.SslMode,
 	)
 }

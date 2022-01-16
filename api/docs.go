@@ -19,8 +19,7 @@ var doc = `{
         "title": "{{.Title}}",
         "contact": {
             "name": "Helder Alves",
-            "url": "https://github.com/helder-jaspion/go-springfield-bank/",
-            "email": "helder.jaspion@gmail.com"
+            "url": "https://github.com/helder-jaspion/go-springfield-bank/"
         },
         "license": {
             "name": "MIT",

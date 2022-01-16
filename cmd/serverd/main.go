@@ -8,7 +8,6 @@
 // @description If you send the `X-Idempotency-Key` header along with a request, that request's response will be cached. So, if you send the same request with the same `X-Idempotency-Key` again, the server will respond the cached response, so no processing will be done twice.
 
 // @contact.name Helder Alves
-// @contact.email helder.jaspion@gmail.com
 // @contact.url https://github.com/helder-jaspion/go-springfield-bank/
 
 // @license.name MIT
@@ -40,7 +39,7 @@ func main() {
 
 	logging.InitZeroLog(conf.Log.Level, conf.Log.Encoding)
 
-	dbPool, err := postgres.ConnectPool(conf.Postgres.GetDSN(), conf.Postgres.Migrate)
+	dbPool, err := postgres.ConnectPool(conf.Postgres)
 	if err != nil {
 		log.Fatal().Stack().Err(err).Msg("error connecting to db")
 	}

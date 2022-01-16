@@ -62,7 +62,7 @@ func getPostgresConn(dockerPool *dockertest.Pool) *dockertest.Resource {
 		DbName:              "postgres_test",
 		User:                "postgres_test",
 		Password:            "secret",
-		SslMode:             "prefer",
+		SslMode:             "disable",
 		PoolMaxConn:         5,
 		PoolMaxConnLifetime: 5 * time.Minute,
 		Migrate:             true,
@@ -86,7 +86,7 @@ func getPostgresConn(dockerPool *dockertest.Pool) *dockertest.Resource {
 	confPostgres.Port = resource.GetPort("5432/tcp")
 
 	if err = dockerPool.Retry(func() error {
-		testDbPool, err = postgres.ConnectPool(confPostgres.GetDSN(), confPostgres.Migrate)
+		testDbPool, err = postgres.ConnectPool(confPostgres)
 		return err
 	}); err != nil {
 		log.Logger.Fatal().Stack().Err(err).Msg("Could not connect to docker")

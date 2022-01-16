@@ -17,7 +17,7 @@ services:
       "DB_NAME": springfield-bank
       "DB_USER": postgres
       "DB_PASSWORD": postgres
-      "DB_SSL_MODE": prefer # default: prefer
+      "DB_SSL_MODE": disable # default: disable
       "DATABASE_URL": # Takes precedence over separated DB_* vars. https://www.postgresql.org/docs/10/libpq-connect.html#id-1.7.3.8.3.6. default: ""
       "DB_POOL_MAX_CONN": 5 # Max opened connections. default: 5
       "DB_POOL_MAX_CONN_LIFETIME": 5m # Max time a DB connection can live. default: 5m
