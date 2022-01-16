@@ -27,8 +27,7 @@ services:
     ports:
       - "16543:80"
     depends_on:
-      postgres:
-        condition: service_healthy
+      - postgres
 
   redis:
     image: redis:6-alpine

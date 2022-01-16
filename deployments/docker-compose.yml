@@ -26,8 +26,8 @@ services:
       "AUTH_SECRET_KEY": "CHANGE-IT" # The secret key used to generate and validate JWT tokens. default: YOU-SHOULD-CHANGE-ME
       "AUTH_ACCESS_TOKEN_DURATION": 15m # How long the JWT access token is valid after issuing. default: 15m
     ports:
-      - 8080:8080
-      - 8086:8086
+      - "8080:8080"
+      - "8086:8086"
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8086/live" ]
       interval: 5s
@@ -35,10 +35,8 @@ services:
       retries: 3
       start_period: 5s
     depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+      - postgres
+      - redis
 
   postgres:
     image: "postgres:12-alpine"
@@ -49,7 +47,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: springfield-bank
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -62,7 +60,7 @@ services:
     image: redis:6-alpine
     command: redis-server --requirepass Redis2021!
     ports:
-      - 6379:6379
+      - "6379:6379"
     healthcheck:
       test: [ "CMD", "redis-cli","ping" ]
       interval: 5s
