@@ -18,7 +18,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.11.0
 	github.com/rs/zerolog v1.26.1
-	github.com/swaggo/http-swagger v1.1.2
+	github.com/swaggo/http-swagger v1.2.0
 	github.com/swaggo/swag v1.7.9
 	golang.org/x/crypto v0.0.0-20220112180741-5e0467b6c7ce
 )
