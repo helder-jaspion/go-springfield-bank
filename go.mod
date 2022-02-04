@@ -3,7 +3,6 @@ module github.com/helder-jaspion/go-springfield-bank
 go 1.17
 
 require (
-	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/golang-jwt/jwt/v4 v4.2.0
 	github.com/golang-migrate/migrate/v4 v4.15.1
@@ -20,7 +19,7 @@ require (
 	github.com/prometheus/client_golang v1.11.0
 	github.com/rs/zerolog v1.26.1
 	github.com/swaggo/http-swagger v1.1.2
-	github.com/swaggo/swag v1.7.8
+	github.com/swaggo/swag v1.7.9
 	golang.org/x/crypto v0.0.0-20220112180741-5e0467b6c7ce
 )
 
@@ -60,7 +59,6 @@ require (
 	github.com/jackc/puddle v1.2.1 // indirect
 	github.com/joho/godotenv v1.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
-	github.com/kevinburke/go-bindata v3.22.0+incompatible // indirect
 	github.com/lib/pq v1.10.4 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.2-0.20181231171920-c182affec369 // indirect
