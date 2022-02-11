@@ -9,8 +9,8 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/heptiolabs/healthcheck v0.0.0-20211123025425-613501dd5deb
 	github.com/ilyakaznacheev/cleanenv v1.2.6
-	github.com/jackc/pgtype v1.9.1
-	github.com/jackc/pgx/v4 v4.14.1
+	github.com/jackc/pgtype v1.10.0
+	github.com/jackc/pgx/v4 v4.15.0
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/justinas/alice v1.2.0
 	github.com/kinbiko/jsonassert v1.1.0
@@ -51,7 +51,7 @@ require (
 	github.com/hashicorp/go-multierror v1.1.1 // indirect
 	github.com/imdario/mergo v0.3.12 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
-	github.com/jackc/pgconn v1.10.1 // indirect
+	github.com/jackc/pgconn v1.11.0 // indirect
 	github.com/jackc/pgio v1.0.0 // indirect
 	github.com/jackc/pgpassfile v1.0.0 // indirect
 	github.com/jackc/pgproto3/v2 v2.2.0 // indirect
