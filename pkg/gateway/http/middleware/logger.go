@@ -4,10 +4,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/rs/zerolog/log"
-
 	"github.com/justinas/alice"
 	"github.com/rs/zerolog/hlog"
+	"github.com/rs/zerolog/log"
 )
 
 // NewLoggerHandlerFunc returns a http.Handler that adds log related middlewares.

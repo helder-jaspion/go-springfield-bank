@@ -9,10 +9,8 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-var (
-	// ErrAuthInvalidAccessToken happens when the JWT token is invalid or expired.
-	ErrAuthInvalidAccessToken = errors.New("invalid access token")
-)
+// ErrAuthInvalidAccessToken happens when the JWT token is invalid or expired.
+var ErrAuthInvalidAccessToken = errors.New("invalid access token")
 
 // Authorize parses and verifies JWT token.
 func (authUC authUseCase) Authorize(ctx context.Context, accessToken string) (*jwt.RegisteredClaims, error) {

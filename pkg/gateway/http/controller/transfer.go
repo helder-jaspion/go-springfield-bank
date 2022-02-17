@@ -24,7 +24,7 @@ type transferController struct {
 	authUC usecase.AuthUseCase
 }
 
-//NewTransferController instantiates a new transfer controller.
+// NewTransferController instantiates a new transfer controller.
 func NewTransferController(trfUC usecase.TransferUseCase, authUC usecase.AuthUseCase) TransferController {
 	return &transferController{
 		trfUC:  trfUC,

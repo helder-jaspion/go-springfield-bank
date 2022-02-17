@@ -40,7 +40,7 @@ type ConfMonitoring struct {
 type ConfPostgres struct {
 	Host                string        `env:"DB_HOST" env-default:"localhost"`
 	Port                string        `env:"DB_PORT" env-default:"5432"`
-	DbName              string        `env:"DB_NAME" env-default:"springfield-bank-dev"`
+	DBName              string        `env:"DB_NAME" env-default:"springfield-bank-dev"`
 	User                string        `env:"DB_USER" env-default:"postgres"`
 	Password            string        `env:"DB_PASSWORD" env-default:"postgres"`
 	SslMode             string        `env:"DB_SSL_MODE" env-default:"disable"`
@@ -71,7 +71,7 @@ func (c ConfPostgres) GetDSN() string {
 		"host=%s port=%s dbname=%s user=%s password=%s pool_max_conns=%d pool_max_conn_lifetime=%s sslmode=%s",
 		c.Host,
 		c.Port,
-		c.DbName,
+		c.DBName,
 		c.User,
 		c.Password,
 		c.PoolMaxConn,
@@ -91,7 +91,7 @@ func (c ConfPostgres) GetURL() string {
 		c.Password,
 		c.Host,
 		c.Port,
-		c.DbName,
+		c.DBName,
 		c.SslMode,
 	)
 }

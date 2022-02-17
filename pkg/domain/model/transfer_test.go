@@ -51,7 +51,10 @@ func TestNewTransfer(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			got := NewTransfer(tt.args.accountOriginID, tt.args.accountDestinationID, tt.args.amount)
 			if len(got.ID) <= 0 {
 				t.Errorf("NewTransfer() = %v, ID should not be empty", got)

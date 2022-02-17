@@ -37,7 +37,10 @@ func TestNewCPF(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			if got := NewCPF(tt.c); got != tt.want {
 				t.Errorf("NewCPF() = %v, want %v", got, tt.want)
 			}
@@ -85,7 +88,10 @@ func TestCPF_String(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			if got := tt.c.String(); got != tt.want {
 				t.Errorf("String() = %v, want %v", got, tt.want)
 			}

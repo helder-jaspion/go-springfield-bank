@@ -82,7 +82,10 @@ func TestConnect(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			got, err := Connect(tt.args.url)
 			defer func() {
 				if got != nil {

@@ -142,6 +142,7 @@ func Test_transferRepository_Create(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.runBefore != nil {
 				tt.runBefore(tt.args)
@@ -406,6 +407,7 @@ func Test_transferRepository_Fetch(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			want := tt.want(tt.args)
 			if tt.runBefore != nil {
@@ -567,6 +569,7 @@ func Test_transferRepository_WithinTransaction(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.runBefore != nil {
 				tt.runBefore()

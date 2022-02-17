@@ -56,7 +56,10 @@ func Test_idempotencyRepository_Get(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			if tt.runBefore != nil {
 				tt.runBefore(tt.args)
 			}
@@ -119,7 +122,10 @@ func Test_idempotencyRepository_Set(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			idpRepo := NewIdempotencyRepository(tt.fields.client)
 
 			if err := idpRepo.Set(tt.args.ctx, tt.args.key, tt.args.value, tt.args.duration); (err != nil) != tt.wantErr {

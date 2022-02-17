@@ -37,7 +37,10 @@ func TestFloat64ToMoney(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			if got := Float64ToMoney(tt.f); got != tt.want {
 				t.Errorf("Float64ToMoney() = %v, want %v", got, tt.want)
 			}
@@ -80,7 +83,10 @@ func TestMoney_Float64(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			if got := tt.m.Float64(); got != tt.want {
 				t.Errorf("Float64() = %v, want %v", got, tt.want)
 			}
@@ -123,7 +129,10 @@ func TestMoney_Int64(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			if got := tt.m.Int64(); got != tt.want {
 				t.Errorf("Int64() = %v, want %v", got, tt.want)
 			}

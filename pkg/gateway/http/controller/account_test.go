@@ -213,7 +213,10 @@ func Test_accountController_Create(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			a := NewAccountController(tt.fields.accUC)
 
 			a.Create(tt.args.w, tt.args.r)
@@ -320,7 +323,10 @@ func Test_accountController_Fetch(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			a := NewAccountController(tt.fields.accUC)
 
 			a.Fetch(tt.args.w, tt.args.r)
@@ -441,7 +447,10 @@ func Test_accountController_GetBalance(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			a := NewAccountController(tt.fields.accountUC)
 
 			a.GetBalance(tt.args.w, tt.args.r)

@@ -126,6 +126,7 @@ func Test_accountRepository_Create(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.runBefore != nil {
 				tt.runBefore(tt.args)
@@ -200,6 +201,7 @@ func Test_accountRepository_ExistsByCPF(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.runBefore != nil {
 				tt.runBefore(tt.args)
@@ -362,6 +364,7 @@ func Test_accountRepository_Fetch(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.runBefore != nil {
 				tt.runBefore(tt.args, tt.want)
@@ -466,6 +469,7 @@ func Test_accountRepository_GetBalance(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.runBefore != nil {
 				tt.runBefore(tt.args)
@@ -561,7 +565,7 @@ func Test_accountRepository_GetByCPF(t *testing.T) {
 					CPF:       "12345678901",
 					Secret:    "any secret",
 					Balance:   1050,
-					CreatedAt: time.Date(2021, 01, 04, 11, 51, 59, 0, time.Local),
+					CreatedAt: time.Date(2021, 0o1, 0o4, 11, 51, 59, 0, time.Local),
 				}
 			},
 			wantErr: false,
@@ -569,7 +573,7 @@ func Test_accountRepository_GetByCPF(t *testing.T) {
 				truncateDatabase(t)
 
 				_, err := testDbPool.Exec(backgroundCtx, "INSERT INTO accounts (id, name, cpf, secret, balance, created_at) VALUES ($1, $2, $3, $4, $5, $6)",
-					args.genID, "Bart Simpson 001", "12345678901", "any secret", 1050, time.Date(2021, 01, 04, 11, 51, 59, 0, time.Local))
+					args.genID, "Bart Simpson 001", "12345678901", "any secret", 1050, time.Date(2021, 0o1, 0o4, 11, 51, 59, 0, time.Local))
 				if err != nil {
 					t.Errorf("Fetch() error on runBefore = %v", err)
 				}
@@ -577,6 +581,7 @@ func Test_accountRepository_GetByCPF(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.runBefore != nil {
 				tt.runBefore(tt.args)
@@ -653,6 +658,7 @@ func Test_accountRepository_UpdateBalance(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.runBefore != nil {
 				tt.runBefore(tt.args)

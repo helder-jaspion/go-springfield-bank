@@ -7,10 +7,8 @@ import (
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 )
 
-var (
-	// ErrAccountNotFound happens when the account was not found based on search params.
-	ErrAccountNotFound = errors.New("account not found")
-)
+// ErrAccountNotFound happens when the account was not found based on search params.
+var ErrAccountNotFound = errors.New("account not found")
 
 // AccountRepository is the interface that wraps account datasource methods.
 type AccountRepository interface {

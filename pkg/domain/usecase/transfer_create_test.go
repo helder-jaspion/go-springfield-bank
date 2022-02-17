@@ -79,7 +79,10 @@ func TestTransferCreateInput_Validate(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			input := &TransferCreateInput{
 				AccountOriginID:      tt.fields.AccountOriginID,
 				AccountDestinationID: tt.fields.AccountDestinationID,
@@ -351,7 +354,10 @@ func Test_transferUseCase_Create(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			trfUC := NewTransferUseCase(tt.fields.trfRepo, tt.fields.accRepo)
 
 			got, err := trfUC.Create(tt.args.ctx, tt.args.transferInput)

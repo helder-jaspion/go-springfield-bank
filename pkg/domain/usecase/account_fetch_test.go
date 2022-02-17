@@ -145,7 +145,10 @@ func Test_accountUseCase_Fetch(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			accountUC := NewAccountUseCase(tt.fields.accRepo)
 
 			got, err := accountUC.Fetch(tt.args.ctx)

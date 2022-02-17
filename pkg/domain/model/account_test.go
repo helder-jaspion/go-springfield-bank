@@ -43,7 +43,10 @@ func TestAccount_HashSecret(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			a := &Account{
 				Secret: tt.fields.Secret,
 			}
@@ -159,7 +162,10 @@ func TestNewAccount(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			got := NewAccount(tt.args.name, tt.args.cpf, tt.args.secret, tt.args.balance)
 
 			if len(got.ID) <= 0 {
@@ -222,7 +228,10 @@ func TestAccount_CompareSecrets(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			a := &Account{
 				Secret: tt.fields.Secret,
 			}

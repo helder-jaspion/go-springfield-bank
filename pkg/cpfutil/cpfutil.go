@@ -22,10 +22,7 @@ func Clean(cpf string) string {
 
 // Format returns a formatted CPF (000.000.000-00).
 func Format(cpf string) string {
-	expr, err := regexp.Compile(`^([\d]{3})([\d]{3})([\d]{3})([\d]{2})$`)
-	if err != nil {
-		return cpf
-	}
+	expr := regexp.MustCompile(`^([\d]{3})([\d]{3})([\d]{3})([\d]{2})$`)
 
 	return expr.ReplaceAllString(cpf, "$1.$2.$3-$4")
 }

@@ -195,7 +195,10 @@ func Test_accountUseCase_GetBalance(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			accountUC := NewAccountUseCase(tt.fields.accountRepo)
 
 			got, err := accountUC.GetBalance(tt.args.ctx, tt.args.id)

@@ -220,7 +220,10 @@ func Test_transfers_Fetch(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			if tt.runBefore != nil {
 				tt.runBefore(tt.args)
 			}
@@ -228,7 +231,7 @@ func Test_transfers_Fetch(t *testing.T) {
 			ts := httptest.NewServer(httpGateway.GetHTTPHandler(tt.fields.dbPool, tt.fields.redisClient, tt.fields.authConf))
 			defer ts.Close()
 
-			req, err := http.NewRequest(http.MethodGet, ts.URL+tt.args.path, nil)
+			req, err := http.NewRequestWithContext(context.Background(), http.MethodGet, ts.URL+tt.args.path, nil)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -719,7 +722,10 @@ func Test_transfers_Create(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			if tt.runBefore != nil {
 				tt.runBefore(tt.args)
 			}
@@ -729,7 +735,7 @@ func Test_transfers_Create(t *testing.T) {
 
 			reqHeader, reqBody := tt.args.headerAndBody()
 
-			req, err := http.NewRequest(http.MethodPost, ts.URL+tt.args.path, strings.NewReader(reqBody))
+			req, err := http.NewRequestWithContext(context.Background(), http.MethodPost, ts.URL+tt.args.path, strings.NewReader(reqBody))
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -844,7 +850,10 @@ func Test_transfers_Create_Idempotent(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			if tt.runBefore != nil {
 				tt.runBefore(tt.args)
 			}
@@ -855,7 +864,7 @@ func Test_transfers_Create_Idempotent(t *testing.T) {
 				ts := httptest.NewServer(httpGateway.GetHTTPHandler(tt.fields.dbPool, tt.fields.redisClient, tt.fields.authConf))
 				defer ts.Close()
 
-				req, err := http.NewRequest(http.MethodPost, ts.URL+tt.args.path, strings.NewReader(reqBody))
+				req, err := http.NewRequestWithContext(context.Background(), http.MethodPost, ts.URL+tt.args.path, strings.NewReader(reqBody))
 				if err != nil {
 					t.Fatal(err)
 				}

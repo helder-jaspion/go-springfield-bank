@@ -27,7 +27,7 @@ type Account struct {
 }
 
 // NewAccount returns a new Account filled with the corresponding arguments with generated values for id and createdAt.
-func NewAccount(name string, cpf string, secret string, balance float64) *Account {
+func NewAccount(name, cpf, secret string, balance float64) *Account {
 	return &Account{
 		ID:        NewAccountID(),
 		Name:      strings.TrimSpace(name),

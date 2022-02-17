@@ -143,7 +143,10 @@ func Test_transferController_Create(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			trfCtrl := NewTransferController(tt.fields.trfUC, tt.fields.authUC)
 
 			trfCtrl.Create(tt.args.w, tt.args.r)
@@ -273,7 +276,9 @@ func Test_transferController_Fetch(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			trfCtrl := NewTransferController(tt.fields.trfUC, tt.fields.authUC)
 
 			trfCtrl.Fetch(tt.args.w, tt.args.r)

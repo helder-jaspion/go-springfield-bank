@@ -22,8 +22,10 @@ const (
 	jsonContentType = "application/json"
 )
 
-var testDbPool *pgxpool.Pool
-var testRedisClient *redis.Client
+var (
+	testDbPool      *pgxpool.Pool
+	testRedisClient *redis.Client
+)
 
 func TestMain(m *testing.M) {
 	dockerPool, err := dockertest.NewPool("")
@@ -59,7 +61,7 @@ func TestMain(m *testing.M) {
 func getPostgresConn(dockerPool *dockertest.Pool) *dockertest.Resource {
 	confPostgres := config.ConfPostgres{
 		Host:                "localhost",
-		DbName:              "postgres_test",
+		DBName:              "postgres_test",
 		User:                "postgres_test",
 		Password:            "secret",
 		SslMode:             "disable",
@@ -74,7 +76,7 @@ func getPostgresConn(dockerPool *dockertest.Pool) *dockertest.Resource {
 		Env: []string{
 			"POSTGRES_USER=" + confPostgres.User,
 			"POSTGRES_PASSWORD=" + confPostgres.Password,
-			"POSTGRES_DB=" + confPostgres.DbName,
+			"POSTGRES_DB=" + confPostgres.DBName,
 		},
 	}
 
@@ -119,6 +121,8 @@ func getRedisConn(dockerPool *dockertest.Pool) *dockertest.Resource {
 }
 
 func truncateDatabase(t *testing.T) {
+	t.Helper()
+
 	backgroundCtx := context.Background()
 
 	_, err := testDbPool.Exec(backgroundCtx, "DELETE FROM transfers")

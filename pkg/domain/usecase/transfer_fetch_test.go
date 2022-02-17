@@ -144,7 +144,10 @@ func Test_transferUseCase_Fetch(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			trfUC := &transferUseCase{
 				trfRepo: tt.fields.trfRepo,
 				accRepo: tt.fields.accRepo,

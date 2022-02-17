@@ -130,7 +130,10 @@ func Test_accounts_Fetch(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			if tt.runBefore != nil {
 				tt.runBefore(tt.args)
 			}
@@ -334,7 +337,10 @@ func Test_accounts_Create(t *testing.T) {
 	}
 	// {"code":400,"message":"'secret' must be between 6 and 100 characters in length"}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			if tt.runBefore != nil {
 				tt.runBefore(tt.args)
 			}
@@ -410,7 +416,10 @@ func Test_accounts_Create_Idempotent(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			if tt.runBefore != nil {
 				tt.runBefore(tt.args)
 			}
@@ -419,7 +428,7 @@ func Test_accounts_Create_Idempotent(t *testing.T) {
 				ts := httptest.NewServer(httpGateway.GetHTTPHandler(tt.fields.dbPool, tt.fields.redisClient, tt.fields.authConf))
 				defer ts.Close()
 
-				req, err := http.NewRequest(http.MethodPost, ts.URL+tt.args.path, strings.NewReader(tt.args.body))
+				req, err := http.NewRequestWithContext(context.Background(), http.MethodPost, ts.URL+tt.args.path, strings.NewReader(tt.args.body))
 				if err != nil {
 					t.Fatal(err)
 				}
@@ -540,7 +549,10 @@ func Test_accounts_GetBalance(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			if tt.runBefore != nil {
 				tt.runBefore(tt.args)
 			}

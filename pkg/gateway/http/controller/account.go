@@ -24,7 +24,7 @@ type accountController struct {
 	accUC usecase.AccountUseCase
 }
 
-//NewAccountController instantiates a new account controller.
+// NewAccountController instantiates a new account controller.
 func NewAccountController(accUC usecase.AccountUseCase) AccountController {
 	return &accountController{
 		accUC: accUC,

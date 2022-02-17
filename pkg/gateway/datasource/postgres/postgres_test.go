@@ -19,7 +19,7 @@ var testDbPool *pgxpool.Pool
 func TestMain(m *testing.M) {
 	confPostgres := config.ConfPostgres{
 		Host:                "localhost",
-		DbName:              "postgres_test",
+		DBName:              "postgres_test",
 		User:                "postgres_test",
 		Password:            "secret",
 		SslMode:             "disable",
@@ -43,7 +43,7 @@ func TestMain(m *testing.M) {
 		Env: []string{
 			"POSTGRES_USER=" + confPostgres.User,
 			"POSTGRES_PASSWORD=" + confPostgres.Password,
-			"POSTGRES_DB=" + confPostgres.DbName,
+			"POSTGRES_DB=" + confPostgres.DBName,
 		},
 	}
 
@@ -57,7 +57,7 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		log.Logger.Fatal().Stack().Err(err).Msg("Could not start resource")
 	}
-	//_ = resource.Expire(60) // Tell docker to hard kill the container in 60 seconds
+	_ = resource.Expire(60) // Tell docker to hard kill the container in 60 seconds
 	confPostgres.Port = resource.GetPort("5432/tcp")
 
 	if err = dockerPool.Retry(func() error {
@@ -66,24 +66,6 @@ func TestMain(m *testing.M) {
 	}); err != nil {
 		log.Logger.Fatal().Stack().Err(err).Msg("Could not connect to docker")
 	}
-
-	//if err = dockerPool.Retry(func() error {
-	//	pgxConfig, err := pgx.ParseConfig(confPostgres.GetURL())
-	//	if err != nil {
-	//		return err
-	//	}
-	//
-	//	conn, err := pgx.ConnectConfig(context.Background(), pgxConfig)
-	//	if err != nil {
-	//		return err
-	//	}
-	//
-	//	defer conn.Close(context.Background())
-	//
-	//	return conn.Ping(context.Background())
-	//}); err != nil {
-	//	log.Logger.Fatal().Stack().Err(err).Msg("Could not connect to docker")
-	//}
 
 	defer func() {
 		testDbPool.Close()

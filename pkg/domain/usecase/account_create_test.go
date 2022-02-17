@@ -149,7 +149,10 @@ func TestAccountCreateInput_Validate(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			input := AccountCreateInput{
 				Name:    tt.fields.Name,
 				CPF:     tt.fields.CPF,
@@ -296,7 +299,10 @@ func Test_accountUseCase_Create(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			accountUC := NewAccountUseCase(tt.fields.accRepo)
 
 			got, err := accountUC.Create(tt.args.ctx, tt.args.accountInput)

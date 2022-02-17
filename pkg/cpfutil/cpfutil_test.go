@@ -42,7 +42,10 @@ func TestClean(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			if got := Clean(tt.cpf); got != tt.want {
 				t.Errorf("Clean() = %v, want %v", got, tt.want)
 			}
@@ -90,7 +93,10 @@ func TestFormat(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			if got := Format(tt.cpf); got != tt.want {
 				t.Errorf("Format() = %v, want %v", got, tt.want)
 			}
@@ -153,7 +159,10 @@ func TestIsValid(t *testing.T) {
 		},
 	}
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+
 			if got := IsValid(tt.cpf); got != tt.want {
 				t.Errorf("IsValid() = %v, want %v", got, tt.want)
 			}

@@ -8,10 +8,8 @@ import (
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/model"
 )
 
-var (
-	// ErrTransferFetch happens when an error occurred while fetching the transfers.
-	ErrTransferFetch = errors.New("could not fetch transfers")
-)
+// ErrTransferFetch happens when an error occurred while fetching the transfers.
+var ErrTransferFetch = errors.New("could not fetch transfers")
 
 // TransferFetchOutput represents the output data of the fetch method.
 type TransferFetchOutput struct {
@@ -19,7 +17,7 @@ type TransferFetchOutput struct {
 }
 
 func newTransferFetchOutputList(transfers []model.Transfer) []TransferFetchOutput {
-	var outputs = make([]TransferFetchOutput, 0)
+	outputs := make([]TransferFetchOutput, 0)
 
 	for _, transfer := range transfers {
 		outputs = append(outputs, TransferFetchOutput{

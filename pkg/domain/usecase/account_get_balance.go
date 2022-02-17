@@ -9,10 +9,8 @@ import (
 	"github.com/helder-jaspion/go-springfield-bank/pkg/domain/repository"
 )
 
-var (
-	// ErrAccountGetBalance happens when an error occurred while getting the account balance.
-	ErrAccountGetBalance = errors.New("could not get account balance")
-)
+// ErrAccountGetBalance happens when an error occurred while getting the account balance.
+var ErrAccountGetBalance = errors.New("could not get account balance")
 
 // AccountBalanceOutput represents the output data of the GetBalance method.
 type AccountBalanceOutput struct {

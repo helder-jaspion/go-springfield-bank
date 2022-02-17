@@ -1,4 +1,5 @@
 NAME = go-springfield-bank
+PROJECT_PATH ?= github.com/helder-jaspion/go-springfield-bank
 COMMAND_HANDLER ?= serverd
 VERSION ?= dev
 OS ?= linux
@@ -62,16 +63,24 @@ build: clean
 	@echo "Building Docker image"
 	docker build -t ${NAME}-${COMMAND_HANDLER}:${VERSION} build -f build/Dockerfile
 
+.PHONY: goformat
+goformat:
+	go mod tidy
+	gci -local ${PROJECT_PATH} -w .
+	gofumpt -w -extra .
+	go fmt ./...
+
 .PHONY: generate
 generate:
 	@echo "Generating Go files"
 	go generate ./...
 	swag init -g cmd/${COMMAND_HANDLER}/main.go -o api
+	$(MAKE) goformat
 
 .PHONY: lint
 lint:
 	@echo "Running golangci-lint"
-	golangci-lint run --fix ./...
+	golangci-lint run ./...
 
 .PHONY: archlint
 archlint:

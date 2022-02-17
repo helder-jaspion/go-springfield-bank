@@ -19,7 +19,7 @@ func NewTransferRepository(db *pgxpool.Pool) repository.TransferRepository {
 }
 
 func (trfRepo transferRepository) Create(ctx context.Context, transfer *model.Transfer) error {
-	var query = `
+	query := `
 		INSERT INTO
 			transfers (id, account_origin_id, account_destination_id, amount, created_at)
 		VALUES
@@ -43,7 +43,7 @@ func (trfRepo transferRepository) Create(ctx context.Context, transfer *model.Tr
 }
 
 func (trfRepo transferRepository) Fetch(ctx context.Context, accountID model.AccountID) ([]model.Transfer, error) {
-	var query = `
+	query := `
 		SELECT
 			id, account_origin_id, account_destination_id, amount, created_at
 		FROM transfers
@@ -57,7 +57,7 @@ func (trfRepo transferRepository) Fetch(ctx context.Context, accountID model.Acc
 	}
 	defer rows.Close()
 
-	var transfers = make([]model.Transfer, 0)
+	transfers := make([]model.Transfer, 0)
 	for rows.Next() {
 		var transfer model.Transfer
 		err := rows.Scan(&transfer.ID, &transfer.AccountOriginID, &transfer.AccountDestinationID, &transfer.Amount, &transfer.CreatedAt)

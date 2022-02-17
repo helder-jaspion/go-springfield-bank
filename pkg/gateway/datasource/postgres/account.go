@@ -20,7 +20,7 @@ func NewAccountRepository(db *pgxpool.Pool) repository.AccountRepository {
 }
 
 func (accRepo accountRepository) Create(ctx context.Context, account *model.Account) error {
-	var query = `
+	query := `
 		INSERT INTO
 			accounts (id, name, cpf, secret, balance, created_at)
 		VALUES
@@ -45,7 +45,7 @@ func (accRepo accountRepository) Create(ctx context.Context, account *model.Acco
 }
 
 func (accRepo accountRepository) ExistsByCPF(ctx context.Context, cpf model.CPF) (bool, error) {
-	var query = `SELECT EXISTS(SELECT id FROM accounts WHERE cpf = $1)`
+	query := `SELECT EXISTS(SELECT id FROM accounts WHERE cpf = $1)`
 
 	accountExists := false
 	err := getConnFromCtx(ctx, accRepo.db).QueryRow(ctx, query, cpf).Scan(&accountExists)
@@ -53,7 +53,7 @@ func (accRepo accountRepository) ExistsByCPF(ctx context.Context, cpf model.CPF)
 }
 
 func (accRepo accountRepository) GetByCPF(ctx context.Context, cpf model.CPF) (*model.Account, error) {
-	var query = "SELECT id, name, cpf, secret, balance, created_at FROM accounts WHERE cpf = $1"
+	query := "SELECT id, name, cpf, secret, balance, created_at FROM accounts WHERE cpf = $1"
 
 	account := new(model.Account)
 	err := getConnFromCtx(ctx, accRepo.db).QueryRow(ctx, query, cpf).Scan(&account.ID, &account.Name, &account.CPF, &account.Secret, &account.Balance, &account.CreatedAt)
@@ -68,7 +68,7 @@ func (accRepo accountRepository) GetByCPF(ctx context.Context, cpf model.CPF) (*
 }
 
 func (accRepo accountRepository) Fetch(ctx context.Context) ([]model.Account, error) {
-	var query = `
+	query := `
 		SELECT
 			id, name, cpf, secret, balance, created_at
 		FROM accounts
@@ -81,7 +81,7 @@ func (accRepo accountRepository) Fetch(ctx context.Context) ([]model.Account, er
 	}
 	defer rows.Close()
 
-	var accounts = make([]model.Account, 0)
+	accounts := make([]model.Account, 0)
 	for rows.Next() {
 		var account model.Account
 		err := rows.Scan(&account.ID, &account.Name, &account.CPF, &account.Secret, &account.Balance, &account.CreatedAt)
@@ -99,7 +99,7 @@ func (accRepo accountRepository) Fetch(ctx context.Context) ([]model.Account, er
 }
 
 func (accRepo accountRepository) GetBalance(ctx context.Context, id model.AccountID) (*model.Account, error) {
-	var query = "SELECT balance FROM accounts WHERE id = $1"
+	query := "SELECT balance FROM accounts WHERE id = $1"
 
 	account := new(model.Account)
 	account.ID = id
