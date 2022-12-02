@@ -9,7 +9,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/heptiolabs/healthcheck v0.0.0-20211123025425-613501dd5deb
 	github.com/ilyakaznacheev/cleanenv v1.2.6
-	github.com/jackc/pgtype v1.10.0
+	github.com/jackc/pgtype v1.13.0
 	github.com/jackc/pgx/v4 v4.15.0
 	github.com/julienschmidt/httprouter v1.3.0
 	github.com/justinas/alice v1.2.0
