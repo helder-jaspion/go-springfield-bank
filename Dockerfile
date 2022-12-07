@@ -1,4 +1,4 @@
-FROM golang:1.17.7-alpine AS builder
+FROM golang:1.19.4-alpine AS builder
 
 ARG COMMAND_HANDLER=serverd
 
