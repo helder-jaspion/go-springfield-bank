@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/go-redis/redis v6.15.9+incompatible
-	github.com/golang-jwt/jwt/v4 v4.3.0
+	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/golang-migrate/migrate/v4 v4.15.1
 	github.com/google/uuid v1.3.0
 	github.com/heptiolabs/healthcheck v0.0.0-20211123025425-613501dd5deb
